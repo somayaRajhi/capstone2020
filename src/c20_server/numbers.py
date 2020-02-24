@@ -1,3 +1,4 @@
+
 class Numbers:
 
 	def get_value(self):
