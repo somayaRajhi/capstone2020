@@ -1,3 +1,4 @@
-pytest
-python-dotenv
 pylint
+pytest
+pytest-cov
+python-dotenv
