@@ -52,10 +52,3 @@ class Tests(unittest.TestCase):
             assert response == 'non-document ID response'
             assert id_response == 'document ID response'
 
-'''
-    def test_bad_URL(self):
-        with requests_mock.Mocker() as m:
-            m.get(URL + api_key + "documentId=" + document_Id, exc=customError.BadURL)
-            with pytest.raises(customError.BadURL):
-                file_download.download_file("This is a bad URL", api_key, document_Id)
-'''
