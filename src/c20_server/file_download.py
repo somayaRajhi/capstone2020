@@ -1,4 +1,4 @@
-from cs334demo import customError
+from src.c20_server import customError
 from dotenv import load_dotenv, find_dotenv
 import os
 import requests
