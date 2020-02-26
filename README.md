@@ -19,6 +19,8 @@
 
 5. Create the file `.env` containing our sensitive data (that should never go in the repo)
 
+	 `API_KEY=<your api key>`
+	 
     `secret=42`
 
 Once you have completed these steps you should be able to:
