@@ -1,3 +1,8 @@
+"""
+a set of custom errors
+"""
+
+
 class IncorrectApiKey(Exception):
     pass
 
