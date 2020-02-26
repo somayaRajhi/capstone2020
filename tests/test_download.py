@@ -1,6 +1,6 @@
 from dotenv import load_dotenv, find_dotenv
-from src.c20_server import file_download
-from src.c20_server import customError
+from c20_server import file_download
+from c20_server import customError
 import os
 import pytest
 import requests_mock
