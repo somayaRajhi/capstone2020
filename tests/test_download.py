@@ -47,10 +47,10 @@ class Tests(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.get(URL + api_key + "documentId=" + document_Id, json='document ID response')
             m.get(URL+api_key+'&rpp=1', json='non-document ID response')
-            ID_response = file_download.download_file(URL, api_key, document_Id)
+            id_response = file_download.download_file(URL, api_key, document_Id)
             response = file_download.download_file(URL, api_key)
             assert response == 'non-document ID response'
-            assert ID_response == 'document ID response'
+            assert id_response == 'document ID response'
 
 '''
     def test_bad_URL(self):
