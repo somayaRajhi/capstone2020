@@ -1,6 +1,4 @@
-from src.c20_server import customError
-from dotenv import load_dotenv, find_dotenv
-import os
+from c20_server import customError
 import requests
 
 
@@ -22,12 +20,4 @@ def download_file(url, api_key, document_id=""):
     return document
 
 
-def main():
-    load_dotenv(find_dotenv())
-    api_key = os.getenv("API_KEY")
-    result = download_file('https://api.data.gov:443/regulations/v3/documents.json?', 'api_key=' + api_key)
-    print(result)
 
-
-if __name__ == "__main__":
-    main()
