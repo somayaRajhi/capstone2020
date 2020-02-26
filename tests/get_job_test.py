@@ -1,4 +1,4 @@
-from getJob import app
+from c20_server.get_job import app
 
 response = app.test_client().get('/')
 
