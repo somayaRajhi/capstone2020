@@ -1,10 +1,28 @@
 from src.c20_server.POST_request import app
+import pytest
 
-result = app.test_client().get('/json')
 
 
-def test_json():
+@pytest.fixture
+def client():
+    app.config['TESTING'] = True
+    client = app.test_client()
+    yield client
 
-    assert 200 in result.data
+
+
+
+
+def test_empty_json(client):
+    result = client.get('/empty_json')
+    assert result.status_code == 200
+
+def test_get_job_success(client):
+    result = client.get('/get_job')
+    assert result.status_code == 200
+
+def test_get_job_unsuccess(client):
+        result = client.get('/get_job')
+        assert result.status_code == 404
 
 
