@@ -1,13 +1,13 @@
 from c20_server.get_job import app
 
-response = app.test_client().get('/')
-
 
 def test_connection():
+    response = app.test_client().get('/')
     assert response.status_code == 200
 
 
 def test_getJob():
+    response = app.test_client().get('/')
     assert response.data == b'{"docketId":"CMS-2014-0115"}\n'
 
 
