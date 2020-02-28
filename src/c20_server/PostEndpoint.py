@@ -14,3 +14,11 @@ def get_job():
     if clinet_id != 'soma':
         return {},403
     return {},200
+
+
+@app.route('/return_result', methods=['POST'])
+def return_result():
+    json_data=request.form['json_data']
+    if json_data is None:
+        return {},403
+    return {},200
