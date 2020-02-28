@@ -1,5 +1,5 @@
 """
-a set of custom errors
+a set of custom errors specific to the regulations.gov api
 """
 
 
