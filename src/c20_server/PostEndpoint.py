@@ -8,17 +8,21 @@ app = Flask(__name__)
 def empty_json():
     return json.dumps({})
 
+
+
 @app.route('/get_job')
 def get_job():
-    clinet_id=request.args['clinet_id']
-    if clinet_id != 'soma':
-        return {},403
-    return {},200
+    client_id = request.args['client_id']
+    if client_id != 'soma':
+        return {}, 403
+    return {}, 200
 
 
 @app.route('/return_result', methods=['POST'])
 def return_result():
-    json_data=request.form['json_data']
+    json_data = request.form['json_data']
     if json_data is None:
-        return {},403
-    return {},200
+        return {}, 400
+    return {}, 200
+
+
