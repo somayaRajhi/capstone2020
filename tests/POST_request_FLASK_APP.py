@@ -1,15 +1,10 @@
-from flask import Flask, request
+from src.c20_server.POST_request import app
 
-app = Flask(__name__)
+result = app.test_client().get('/json')
 
 
-@app.route('/json', methods=['POST'])
 def test_json():
-	
-    app.config['TESTING'] = True
-    client = app.test_client()
 
-    result = client.get('/json')
-    assert '200' in result.data
+    assert 200 in result.data
 
 
