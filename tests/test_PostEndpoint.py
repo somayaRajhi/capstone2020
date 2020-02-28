@@ -22,3 +22,12 @@ def test_get_job_success(client):
 def test_get_job_unsuccess(client):
         result = client.get('/get_job?clinet_id=bas_id')
         assert result.status_code == 403
+
+
+def test_return_result_success(client):
+        result = client.get('get_job?clinet_id=soma')
+        assert result.status_code == 200
+
+def test_return_result_unsuccess(client):
+        result = client.get('/get_job?clinet_id=bas_id')
+        assert result.status_code == 403
