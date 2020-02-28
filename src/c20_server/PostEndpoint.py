@@ -13,17 +13,12 @@ def empty_json():
 def get_job(clinet_id):
   if len(clinet_id) == 0:
         return 'Bad Parameter', 400
-  return clinet_id
-
-
-  
-
-
+  return json.dumps({"clinet_id":clinet_id})
 
 
 @app.route('/post', methods=['POST'])
 def post(clinet_id):
-    json_data=rerequest.form['json_data']
+    json_data=request.form['json_data']
     if json_data is None:
             return 'PAGE NOT FOUND', 400
 
