@@ -1,6 +1,6 @@
 from dotenv import load_dotenv, find_dotenv
 from c20_server import document_download
-from  c20_server import regulations_api_errors
+from c20_server import regulations_api_errors
 import os
 import pytest
 import requests_mock
