@@ -1,21 +1,30 @@
-from flask import Flask, abort, request #import objects from the Flask model
+from flask import Flask, abort, request
 import json
 
-
-app = Flask(__name__) #define app using Flask
+app = Flask(__name__)
 
 
 @app.route('/empty_json')
 def empty_json():
-        if not request.json:
-            abort(400)
-    return json.dumps({}),200
+    return json.dumps({})
 
-@app.route('/get_job', methods=['POST'])
-def get_work():
-    json_data=rerequest.form['json']
-    ##json_data=request.args.get['json_data']////
+@app.route('/get_job/<clinet_id>')
+
+def get_job(clinet_id):
+  if len(clinet_id) == 0:
+        return 'Bad Parameter', 400
+  return clinet_id
+
+
+  
+
+
+
+
+@app.route('/post', methods=['POST'])
+def post(clinet_id):
+    json_data=rerequest.form['json_data']
     if json_data is None:
-        return abort(400)
+            return 'PAGE NOT FOUND', 400
 
-    return json.dumps({json_data}), 200
+    return 'Successful!',200
