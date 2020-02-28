@@ -6,14 +6,15 @@ import pytest
 import requests_mock
 
 URL = "https://api.data.gov:443/regulations/v3/documents.json?"
-load_dotenv(find_dotenv())
-api_key = os.getenv("API_KEY")
+# load_dotenv(find_dotenv())
+# api_key = os.getenv("API_KEY")
 document_id = "EPA-HQ-OAR-2011-0028-0108"
+api_key = "12345"
 
 
 def test_mock_response():
     with requests_mock.Mocker() as m:
-        m.get(URL + api_key + '&rpp=1', json='document received')
+        m.get(URL + "12345" + '&rpp=1', json='document received')
         response = document_download.download_document(api_key)
         assert response == 'document received'
 
