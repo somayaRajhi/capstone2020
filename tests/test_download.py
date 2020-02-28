@@ -1,6 +1,6 @@
 from dotenv import load_dotenv, find_dotenv
 from c20_server import document_download
-from c20_server import regulations_api_errors
+from  c20_server import regulations_api_errors
 import os
 import pytest
 import requests_mock
@@ -20,14 +20,14 @@ def test_mock_response():
 
 def test_no_api_key():
     with requests_mock.Mocker() as m:
-        m.get(URL + '' + '&rpp=1', exc=regulations_api_errors.IncorrectApiKey)
+        m.get(URL + '' + '&rpp=1', json={'a': 'b'}, status_code=403)
         with pytest.raises(regulations_api_errors.IncorrectApiKey):
             document_download.download_document("")
 
 
 def test_1000_calls():
     with requests_mock.Mocker() as m:
-        m.get(URL + api_key + '&rpp=1', exc=regulations_api_errors.ThousandCalls)
+        m.get(URL + api_key + '&rpp=1', json={'a': 'b'}, status_code=429)
         with pytest.raises(regulations_api_errors.ThousandCalls):
             document_download.download_document(api_key)
 
@@ -41,7 +41,7 @@ def test_document_id():
 
 def test_bad_document_id():
     with requests_mock.Mocker() as m:
-        m.get(URL + api_key + "documentId=" + document_id, exc=regulations_api_errors.BadID)
+        m.get(URL + api_key + "documentId=" + document_id, json={'a': 'b'}, status_code=404)
         with pytest.raises(regulations_api_errors.BadID):
             document_download.download_document(api_key, document_id)
 
