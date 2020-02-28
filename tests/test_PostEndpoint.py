@@ -28,7 +28,8 @@ def test_return_result_success(client):
     result = client.post('/return_result', data={'name': 'foo'})
     assert result.status_code == 200
 
-
+      
 def test_return_result_fail(client):
     result = client.post('/return_result')
     assert result.status_code == 400
+
