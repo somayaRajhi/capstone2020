@@ -13,7 +13,3 @@ class ThousandCalls(Exception):
 
 class BadID(Exception):
     pass
-
-
-class BadURL(Exception):
-    pass
