@@ -8,18 +8,9 @@ app = Flask(__name__)
 def empty_json():
     return json.dumps({})
 
-@app.route('/get_job/<clinet_id>')
-
-def get_job(clinet_id):
-  if len(clinet_id) == 0:
-        return 'Bad Parameter', 400
-  return json.dumps({"clinet_id":clinet_id})
-
-
-@app.route('/post', methods=['POST'])
-def post(clinet_id):
-    json_data=request.form['json_data']
-    if json_data is None:
-            return 'PAGE NOT FOUND', 400
-
-    return 'Successful!',200
+@app.route('/get_job')
+def get_job():
+    clinet_id=request.args['clinet_id']
+    if clinet_id != 'soma':
+        return {},403
+    return {},200
