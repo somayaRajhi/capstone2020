@@ -6,28 +6,21 @@ import json
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
-    client = app.test_client()
-    yield client
-
-
-
-def test_empty_json(client):
-    result = client.get('/empty_json')
-    assert result.status_code == 200
-
-def test_get_job_success(client):
-        result = client.get('get_job?clinet_id=soma')
-        assert result.status_code == 200
-
-def test_get_job_unsuccess(client):
-        result = client.get('/get_job?clinet_id=bas_id')
-        assert result.status_code == 403
-
+    return app.test_client()
 
 def test_return_result_success(client):
-        result = client.get('get_job?clinet_id=soma')
+        json_data = {'title': u'foo'}
+        result = client.post('/return_result', data=json.dumps(json_data), content_type='application/json')
         assert result.status_code == 200
 
-def test_return_result_unsuccess(client):
-        result = client.get('/get_job?clinet_id=bas_id')
-        assert result.status_code == 403
+def test_return_result_empty_paramete(client):
+        result = client.post('/return_result',data={})
+        assert result.status_code == 400
+
+def test_return_result_wrong_parameter(client):
+    result = client.post('/return_results/sooo', data={})
+    assert result.status_code == 400
+
+def test_return_result_Right_parameter(client):
+    result = client.post('/return_results/soma', data={})
+    assert result.status_code == 200
