@@ -17,7 +17,7 @@ def return_result():
 def return_results(username):
     json_data = request.json
     if json_data is None:
-        if username != 'soma' :
+        if username != 'FMCSA' :
 
              return{},400
 
