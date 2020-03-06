@@ -1,5 +1,5 @@
-from c20_server import regulations_api_errors
 import requests
+from c20_server import regulations_api_errors
 
 
 def download_document(api_key, document_id=""):
