@@ -19,8 +19,3 @@ def download_document(api_key, document_id=""):
         raise regulations_api_errors.BadID
     document = data.json()
     return document
-
-
-
-
-
