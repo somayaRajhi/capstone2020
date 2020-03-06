@@ -23,12 +23,26 @@ pipeline {
           pytest --cov=c20_server --cov-fail-under=95 tests/
         '''
       }
+      post {
+        always {
+          publishHTML target: [
+            allowMissing: true,
+            alwaysLinkToLastBuild: false,
+            keepAll: true,
+            reportDir: 'htmlcov',
+            reportFiles: 'index.html',
+            reportName: 'UT Coverage'
+          ]
+          junit 'unit-python.xml'
+        }
+      }
+
     }
     stage('Static Analysis') {
       steps {
         sh '''
           . .venv/bin/activate
-          pylint src/c20_server/*.py tests/*.py
+          pylint src tests
         '''
       }
     }
