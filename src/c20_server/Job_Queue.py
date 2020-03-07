@@ -11,7 +11,7 @@ class JobQueue:
     """
     unsigned_jobs_list = []
 
-    def add_job(self,job_id):
+    def add_job(self, job_id):
         """
         add a new job to the unsigned_jobs_list.
         """

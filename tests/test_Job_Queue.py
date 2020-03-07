@@ -24,4 +24,3 @@ def test_get_job_():
     job_queue = JobQueue()
     assert job_queue.get_job() == 6032020
     assert job_queue.get_num_unsigned_jobs() == 0
-
