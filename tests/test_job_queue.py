@@ -2,7 +2,7 @@
 """
 Test class for Job-Queue Class.
 """
-from c20_server.Job_Queue import JobQueue
+from c20_server.job_queue import JobQueue
 
 
 def test_add_job_():
