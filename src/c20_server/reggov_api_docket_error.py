@@ -1,5 +1,5 @@
 """
-Errors for retriving a docket using regulation.gov api
+Errors for retrieving a docket using regulation.gov api
 """
 
 

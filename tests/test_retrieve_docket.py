@@ -49,7 +49,7 @@ def test_bad_docket_id_pattern():
             get_docket(API_KEY, bad_docket)
 
 
-def test_bad_API_KEY():
+def test_bad_api_key():
     with requests_mock.Mocker() as mock:
         mock.get(URL + 'INVALID' + "&docketID=" + DOCKET_ID,
                  json='The test yields a bad api key', status_code=403)
@@ -58,7 +58,7 @@ def test_bad_API_KEY():
             get_docket('INVALID', DOCKET_ID)
 
 
-def test_no_API_KEY():
+def test_no_api_key():
     with requests_mock.Mocker() as mock:
         mock.get(URL + "&docketID=" + DOCKET_ID,
                  json='The test yields a bad api key', status_code=403)
@@ -67,7 +67,7 @@ def test_no_API_KEY():
             get_docket('', DOCKET_ID)
 
 
-def test_maxed_API_KEY():
+def test_maxed_api_key():
     with requests_mock.Mocker() as mock:
         mock.get(URL + API_KEY + "&docketID=" + DOCKET_ID,
                  json='The test yields a overused api key', status_code=429)
