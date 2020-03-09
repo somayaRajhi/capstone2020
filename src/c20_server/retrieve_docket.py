@@ -25,12 +25,12 @@ def get_docket(api_key, docket_id):
                             docket_id)
 
     if response.status_code == 400:
-        raise reggov_api_docket_error.IncorrectIDPattern
+        raise reggov_api_docket_error.IncorrectIDPatternException
     if response.status_code == 403:
-        raise reggov_api_docket_error.IncorrectApiKey
+        raise reggov_api_docket_error.IncorrectApiKeyException
     if response.status_code == 404:
-        raise reggov_api_docket_error.BadDocketID
+        raise reggov_api_docket_error.BadDocIDException
     if response.status_code == 429:
-        raise reggov_api_docket_error.ExceedCallLimit
+        raise reggov_api_docket_error.ExceedCallLimitException
 
     return jformat(response.json())
