@@ -5,6 +5,7 @@ import json
 import requests
 from c20_server import reggov_api_docket_error
 
+
 def jformat(obj):
     """
     Create formatted string of JSON object
@@ -17,7 +18,8 @@ def get_docket(api_key, docket_id):
     """
     Makes call to regulations.gov and retrieves the docket
     """
-    response = requests.get("https://api.data.gov:443/regulations/v3/docket.json?api_key=" +
+    response = requests.get("https://api.data.gov:443/" +
+                            "regulations/v3/docket.json?api_key=" +
                             api_key +
                             "&docketId=" +
                             docket_id)

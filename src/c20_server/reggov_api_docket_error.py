@@ -2,17 +2,26 @@
 Errors for retriving a docket using regulation.gov api
 """
 
+
 class IncorrectApiKey(Exception):
-    pass
+    """
+    Thrown exception for an incorrectly entered reg gov api key
+    """
 
 
 class ExceedCallLimit(Exception):
-    pass
+    """
+    Thrown exception for overuse of a reg gov api key
+    """
 
 
 class BadDocketID(Exception):
-    pass
+    """
+    Thrown exception for a docket id that does not exist
+    """
 
 
 class IncorrectIDPattern(Exception):
-    pass
+    """
+    Thrown exception for a incorrect docket id pattern
+    """
