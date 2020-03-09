@@ -23,6 +23,7 @@ def get_docket(api_key, docket_id):
                             api_key +
                             "&docketId=" +
                             docket_id)
+
     if response.status_code == 400:
         raise reggov_api_docket_error.IncorrectIDPattern
     if response.status_code == 403:
