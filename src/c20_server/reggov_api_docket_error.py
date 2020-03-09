@@ -15,7 +15,7 @@ class ExceedCallLimitException(Exception):
     """
 
 
-class BadDocketIDException(Exception):
+class BadDocIDException(Exception):
     """
     Thrown exception for a docket id that does not exist
     """

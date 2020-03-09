@@ -26,7 +26,7 @@ def test_bad_docket_id():
         mock.get(URL + API_KEY + "&docketID=" + bad_docket,
                  json='The test yields a bad id', status_code=404)
 
-        with pytest.raises(reggov_api_docket_error.BadDocketID):
+        with pytest.raises(reggov_api_docket_error.BadDocIDException):
             get_docket(API_KEY, bad_docket)
 
 
@@ -35,7 +35,7 @@ def test_no_docket_id():
         mock.get(URL + API_KEY + "&docketID=",
                  json='The test yields a bad id', status_code=404)
 
-        with pytest.raises(reggov_api_docket_error.BadDocketID):
+        with pytest.raises(reggov_api_docket_error.BadDocIDException):
             get_docket(API_KEY, '')
 
 
@@ -45,7 +45,7 @@ def test_bad_docket_id_pattern():
         mock.get(URL + API_KEY + "&docketID=" + bad_docket,
                  json='The test yields a bad id pattern', status_code=400)
 
-        with pytest.raises(reggov_api_docket_error.IncorrectIDPattern):
+        with pytest.raises(reggov_api_docket_error.IncorrectIDPatternException):
             get_docket(API_KEY, bad_docket)
 
 
@@ -54,7 +54,7 @@ def test_bad_api_key():
         mock.get(URL + 'INVALID' + "&docketID=" + DOCKET_ID,
                  json='The test yields a bad api key', status_code=403)
 
-        with pytest.raises(reggov_api_docket_error.IncorrectApiKey):
+        with pytest.raises(reggov_api_docket_error.IncorrectApiKeyException):
             get_docket('INVALID', DOCKET_ID)
 
 
@@ -63,7 +63,7 @@ def test_no_api_key():
         mock.get(URL + "&docketID=" + DOCKET_ID,
                  json='The test yields a bad api key', status_code=403)
 
-        with pytest.raises(reggov_api_docket_error.IncorrectApiKey):
+        with pytest.raises(reggov_api_docket_error.IncorrectApiKeyException):
             get_docket('', DOCKET_ID)
 
 
@@ -72,5 +72,5 @@ def test_maxed_api_key():
         mock.get(URL + API_KEY + "&docketID=" + DOCKET_ID,
                  json='The test yields a overused api key', status_code=429)
 
-        with pytest.raises(reggov_api_docket_error.ExceedCallLimit):
+        with pytest.raises(reggov_api_docket_error.ExceedCallLimitException):
             get_docket(API_KEY, DOCKET_ID)
