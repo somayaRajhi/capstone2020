@@ -3,7 +3,7 @@ Contains class used to retreive dockets from regulations.gov
 """
 import json
 import requests
-from c20_server import reggov_api_docket_error
+from c20_server import reggov_api_doc_error
 
 
 def jformat(obj):
@@ -25,12 +25,12 @@ def get_docket(api_key, docket_id):
                             docket_id)
 
     if response.status_code == 400:
-        raise reggov_api_docket_error.IncorrectIDPatternException
+        raise reggov_api_doc_error.IncorrectIDPatternException
     if response.status_code == 403:
-        raise reggov_api_docket_error.IncorrectApiKeyException
+        raise reggov_api_doc_error.IncorrectApiKeyException
     if response.status_code == 404:
-        raise reggov_api_docket_error.BadDocIDException
+        raise reggov_api_doc_error.BadDocIDException
     if response.status_code == 429:
-        raise reggov_api_docket_error.ExceedCallLimitException
+        raise reggov_api_doc_error.ExceedCallLimitException
 
     return jformat(response.json())
