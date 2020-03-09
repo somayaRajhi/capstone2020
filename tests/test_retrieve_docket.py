@@ -48,6 +48,7 @@ def test_bad_docket_id_pattern():
         with pytest.raises(reggov_api_docket_error.IncorrectIDPattern):
             get_docket(API_KEY, bad_docket)
 
+
 def test_bad_API_KEY():
     with requests_mock.Mocker() as mock:
         mock.get(URL + 'INVALID' + "&docketID=" + DOCKET_ID,
