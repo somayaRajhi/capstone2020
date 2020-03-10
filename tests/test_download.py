@@ -18,14 +18,14 @@ def test_mock_response():
 def test_no_api_key():
     with requests_mock.Mocker() as mock:
         mock.get(URL + '' + '&rpp=1', json={'a': 'b'}, status_code=403)
-        with pytest.raises(regulations_api_errors.IncorrectApiKey):
+        with pytest.raises(regulations_api_errors.InvalidApiKeyException):
             document_download.download_document("")
 
 
 def test_1000_calls():
     with requests_mock.Mocker() as mock:
         mock.get(URL + API_KEY + '&rpp=1', json={'a': 'b'}, status_code=429)
-        with pytest.raises(regulations_api_errors.ThousandCalls):
+        with pytest.raises(regulations_api_errors.RateLimitException):
             document_download.download_document(API_KEY)
 
 
@@ -41,7 +41,7 @@ def test_bad_document_id():
     with requests_mock.Mocker() as mock:
         mock.get(URL + API_KEY + "documentId=" + DOC_ID,
                  json={'a': 'b'}, status_code=404)
-        with pytest.raises(regulations_api_errors.BadID):
+        with pytest.raises(regulations_api_errors.BadDocumentIDException):
             document_download.download_document(API_KEY, DOC_ID)
 
 
