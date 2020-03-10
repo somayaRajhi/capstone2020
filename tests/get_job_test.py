@@ -8,13 +8,9 @@ def client():
     return app.test_client()
 
 
-def test_connection(client):
-    response = client.get('/')
-    assert response.status_code == 200
-
-
 def test_get_job(client):
-    response = client.get('/')
+    response = client.get('/get_job')
+    assert response.status_code == 200
     assert response.data == b'{"docketId":"CMS-2014-0115"}\n'
 
 
