@@ -18,12 +18,3 @@ def test_return_result_empty_data(client):
         result = client.post('/return_result',data={})
         assert result.status_code == 400
 
-
-def test_return_result_wrong_parameter(client):
-    result = client.post('/return_results/FMCSa', data={})
-    assert result.status_code == 400
-
-
-def test_return_result_Right_parameter(client):
-    result = client.post('/return_results/FMCSA', data={})
-    assert result.status_code == 200
