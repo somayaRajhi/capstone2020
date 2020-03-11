@@ -5,8 +5,8 @@ Test class for Job-Queue Class.
 import pytest
 from c20_server.job_queue import JobQueue
 from c20_server.job import Job
-
 from c20_server import job_queue_errors
+
 
 def test_one_job_added_is_returned_by_get_():
     job_queue = JobQueue()
