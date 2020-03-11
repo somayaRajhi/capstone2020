@@ -17,7 +17,8 @@ def test_mock_response():
 
 def test_incorrect_id_pattern():
     with requests_mock.Mocker() as mock:
-        mock.get(URL, json={'a': 'b'}, status_code=400)
+        mock.get(URL, json={'a': 'b'},
+                 status_code=400)
         with pytest.raises(reggov_api_doc_error.IncorrectIDPatternException):
             bad_pattern = 'b4d' + DOC_ID + 'b4d'
             document_download.download_document(API_KEY, bad_pattern)
@@ -25,7 +26,8 @@ def test_incorrect_id_pattern():
 
 def test_incorrect_api_key():
     with requests_mock.Mocker() as mock:
-        mock.get(URL, json={'a': 'b'}, status_code=403)
+        mock.get(URL, json={'a': 'b'},
+                 status_code=403)
         with pytest.raises(reggov_api_doc_error.IncorrectApiKeyException):
             document_download.download_document('INVALID', DOC_ID)
 
@@ -33,13 +35,15 @@ def test_incorrect_api_key():
 def test_bad_document_id():
     with requests_mock.Mocker() as mock:
         bad_id = DOC_ID + "-0101"
-        mock.get(URL, json={'a': 'b'}, status_code=404)
+        mock.get(URL, json={'a': 'b'},
+                 status_code=404)
         with pytest.raises(reggov_api_doc_error.BadDocIDException):
             document_download.download_document(API_KEY, bad_id)
 
 
 def test_exceed_call_limit():
     with requests_mock.Mocker() as mock:
-        mock.get(URL, json={'a': 'b'}, status_code=429)
+        mock.get(URL, json={'a': 'b'},
+                 status_code=429)
         with pytest.raises(reggov_api_doc_error.ExceedCallLimitException):
             document_download.download_document(API_KEY, DOC_ID)
