@@ -3,6 +3,6 @@ pytest
 pytest-cov
 python-dotenv
 requests
-requests_mock
+requests-mock
 pycodestyle
 flake8
