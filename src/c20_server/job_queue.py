@@ -22,8 +22,8 @@ class JobQueue:
 
     def get_job(self):
         """
-        Get a job from the unassigned_jobs_list, and then return it. If there is no jobs available
-        raise an Exception.
+        Get a job from the unassigned_jobs_list, and then return it. If there is no
+         jobs available, raise an Exception.
         """
         if not self.unassigned_jobs_list:
             raise job_queue_errors.NoJobsAvailableException
