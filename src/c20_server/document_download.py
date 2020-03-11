@@ -12,10 +12,10 @@ def download_document(api_key, document_id=""):
     else:
         data = requests.get(url + api_key + "documentId=" + document_id)
     if data.status_code == 403:
-        raise regulations_api_errors.IncorrectApiKey
+        raise regulations_api_errors.InvalidApiKeyException
     if data.status_code == 429:
-        raise regulations_api_errors.ThousandCalls
+        raise regulations_api_errors.RateLimitException
     if data.status_code == 404:
-        raise regulations_api_errors.BadID
+        raise regulations_api_errors.BadDocumentIDException
     document = data.json()
     return document

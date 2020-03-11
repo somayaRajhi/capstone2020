@@ -3,13 +3,13 @@ a set of custom errors specific to the regulations.gov api
 """
 
 
-class IncorrectApiKey(Exception):
+class InvalidApiKeyException(Exception):
     pass
 
 
-class ThousandCalls(Exception):
+class RateLimitException(Exception):
     pass
 
 
-class BadID(Exception):
+class BadDocumentIDException(Exception):
     pass
