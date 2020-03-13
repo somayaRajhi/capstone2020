@@ -2,25 +2,38 @@
 """
 Test class for Job-Queue Class.
 """
+import pytest
 from c20_server.job_queue import JobQueue
+from c20_server.job import Job
+from c20_server import job_queue_errors
 
 
-def test_add_job_():
-    """
-    Test for adding a new Job to the Job_Queue.
-    """
-    job_id = 6032020
+def test_one_job_added_is_returned_by_get_():
     job_queue = JobQueue()
+    job = Job(1234)
 
-    assert job_queue.get_num_unsigned_jobs() == 0
-    job_queue.add_job(job_id)
-    assert job_queue.get_num_unsigned_jobs() == 1
+    assert job_queue.get_num_unassigned_jobs() == 0
+    job_queue.add_job(job)
+    assert job_queue.get_num_unassigned_jobs() == 1
+    assert job_queue.get_job() == job
+    assert job_queue.get_num_unassigned_jobs() == 0
 
 
-def test_get_job_():
-    """
-    Test for getting a Job from the Job_Queue.
-    """
+def test_add_two_jobs_then_remove_them_():
     job_queue = JobQueue()
-    assert job_queue.get_job() == 6032020
-    assert job_queue.get_num_unsigned_jobs() == 0
+    job1 = Job(123411)
+    job2 = Job(56722)
+
+    job_queue.add_job(job1)
+    job_queue.add_job(job2)
+    assert job_queue.get_num_unassigned_jobs() == 2
+
+    assert job_queue.get_job() == job1
+    assert job_queue.get_job() == job2
+    assert job_queue.get_num_unassigned_jobs() == 0
+
+
+def test_get_one_job_from_empty_list_():
+    job_queue = JobQueue()
+    with pytest.raises(job_queue_errors.NoJobsAvailableException):
+        job_queue.get_job()
