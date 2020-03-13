@@ -1,6 +1,5 @@
 from flask import Flask, request
-import json
-from packaging.tags import logger
+
 
 app = Flask(__name__)
 
@@ -9,7 +8,6 @@ app = Flask(__name__)
 def return_result():
     json_data = request.json
     if json_data is None:
-        return{},400
+        return{}, 400
 
-    return {},200
-
+    return {}, 200
