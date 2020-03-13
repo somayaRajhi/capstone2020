@@ -1,12 +1,12 @@
-from c20_server.PostEndpoint import app
-import pytest
 import json
+import pytest
+from c20_server.post_endpoint import APP
 
 
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    return app.test_client()
+@pytest.fixture(name='client')
+def client_fixture():
+    APP.config['TESTING'] = True
+    return APP.test_client()
 
 
 def test_return_result_success(client):
