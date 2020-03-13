@@ -20,7 +20,7 @@ pipeline {
       steps {
         sh '''
           . .venv/bin/activate
-          pytest --cov=c20_server --cov-fail-under=95 tests/
+          make test
         '''
       }
       post {
@@ -42,7 +42,7 @@ pipeline {
       steps {
         sh '''
           . .venv/bin/activate
-          pylint src tests
+          make static
         '''
       }
     }
