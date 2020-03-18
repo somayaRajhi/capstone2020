@@ -7,6 +7,4 @@ from c20_server import reggov_api_doc_error
 URL = "https://api.data.gov:443/regulations/v3/document.json?"
 API_KEY = "12345"
 
-def test_mock_response():
-    response = list_documents.list_documents()
-    assert response == 10
+
