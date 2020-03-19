@@ -57,6 +57,7 @@ def get_job_string(docket_id):
     """
     return jformat(get_job_json(docket_id))
 
+
 def get_job_json(docket_id):
     """
     Returns the current job as a JSON with the keys type and id

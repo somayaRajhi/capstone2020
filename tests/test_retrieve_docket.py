@@ -5,7 +5,7 @@ import requests_mock
 import pytest
 from c20_server.retrieve_docket import (
     jformat,
-    get_docket, 
+    get_docket,
     get_data_json,
     get_data_string,
     get_job_string,
@@ -103,5 +103,7 @@ def test_get_job_information():
         json_response = get_job_json(DOCKET_ID)
         string_response = get_job_string(DOCKET_ID)
 
-        assert json_response == {'job': {'url': 'EPA-HQ-OAR-2011-0028', 'job_type': 'docket'}}
+        assert json_response == {'job':
+                                 {'url': 'EPA-HQ-OAR-2011-0028',
+                                  'job_type': 'docket'}}
         assert string_response == jformat(json_response)
