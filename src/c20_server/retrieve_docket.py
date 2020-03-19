@@ -53,20 +53,21 @@ def get_data_json(api_key, docket_id):
 
 def get_job_string(docket_id):
     """
-    Returns the job as a formatted easy to read string
+    Returns the current job as a formatted easy to read string
     """
     return jformat(get_job_json(docket_id))
 
 def get_job_json(docket_id):
     """
-    Returns the job as a JSON with the keys type and id
+    Returns the current job as a JSON with the keys type and id
     """
     return {"job": {"type": "docket", "id": docket_id}}
 
 
 def get_docket(api_key, docket_id):
     """
-    Returns the docket in the format of a JSON file with the job and the data
+    Returns the docket in the format of a JSON file with the current job
+    and the data for the current job
     """
     job = get_job_string(docket_id)
     data = get_data_string(api_key, docket_id)
