@@ -23,5 +23,6 @@ class JobManager:
     def num_assigned(self):
         return
 
-    def num_unassigned(self):
-        return
+    @staticmethod
+    def num_unassigned():
+        return JobQueue().get_num_unassigned_jobs()
