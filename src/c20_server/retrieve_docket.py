@@ -8,15 +8,15 @@ from c20_server import reggov_api_doc_error
 
 def jformat(obj):
     """
-    Create formatted string of JSON object
+    Create formatted string from a JSON object
     """
     formatted = json.dumps(obj, sort_keys=True, indent=4)
     return formatted
 
 
-def get_docket(api_key, docket_id):
+def get_docket_data(api_key, docket_id):
     """
-    Makes call to regulations.gov and retrieves the docket
+    Makes call to regulations.gov and retrieves the docket data
     """
     response = requests.get("https://api.data.gov:443/" +
                             "regulations/v3/docket.json?api_key=" +
@@ -33,4 +33,42 @@ def get_docket(api_key, docket_id):
     if response.status_code == 429:
         raise reggov_api_doc_error.ExceedCallLimitException
 
-    return jformat(response.json())
+    return response.json()
+
+
+def get_data_string(api_key, docket_id):
+    """
+    Return the JSON object as a easy to read string
+    """
+    return jformat(get_data_json(api_key, docket_id))
+
+
+def get_data_json(api_key, docket_id):
+    """
+    Returns the JSON object under the key job
+    """
+    docket_information = get_docket_data(api_key, docket_id)
+    return {"data": docket_information}
+
+
+def get_job_string(docket_id):
+    """
+    Returns the job as a formatted easy to read string
+    """
+    return jformat(get_job_json(docket_id))
+
+def get_job_json(docket_id):
+    """
+    Returns the job as a JSON with the keys type and id
+    """
+    return {"job": {"type": "docket", "id": docket_id}}
+
+
+def get_docket(api_key, docket_id):
+    """
+    Returns the docket in the format of a JSON file with the job and the data
+    """
+    job = get_job_string(docket_id)
+    data = get_data_string(api_key, docket_id)
+    docket = job[:-1] + ',' + data[1:]
+    return json.loads(docket)
