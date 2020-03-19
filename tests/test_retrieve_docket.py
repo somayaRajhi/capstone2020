@@ -17,7 +17,9 @@ def test_good_response():
                  json='The test is successful')
         response = get_docket(API_KEY, DOCKET_ID)
 
-        assert response == '"The test is successful"'
+        assert (response ==
+                {'data': 'The test is successful',
+                 'job': {'id': 'EPA-HQ-OAR-2011-0028', 'type': 'docket'}})
 
 
 def test_bad_docket_id():
