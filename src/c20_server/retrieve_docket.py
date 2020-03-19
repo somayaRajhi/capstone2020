@@ -61,7 +61,7 @@ def get_job_json(docket_id):
     """
     Returns the current job as a JSON with the keys type and id
     """
-    return {"job": {"type": "docket", "id": docket_id}}
+    return {"job": {"job_type": "docket", "url": docket_id}}
 
 
 def get_docket(api_key, docket_id):

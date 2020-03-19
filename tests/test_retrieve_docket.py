@@ -26,7 +26,7 @@ def test_get_docket():
 
         assert (response ==
                 {'data': {'test': 'The test is successful'},
-                 'job': {'id': 'EPA-HQ-OAR-2011-0028', 'type': 'docket'}})
+                 'job': {'url': 'EPA-HQ-OAR-2011-0028', 'job_type': 'docket'}})
 
 
 def test_bad_docket_id():
@@ -103,5 +103,5 @@ def test_get_job_information():
         json_response = get_job_json(DOCKET_ID)
         string_response = get_job_string(DOCKET_ID)
 
-        assert json_response == {'job': {'id': 'EPA-HQ-OAR-2011-0028', 'type': 'docket'}}
+        assert json_response == {'job': {'url': 'EPA-HQ-OAR-2011-0028', 'job_type': 'docket'}}
         assert string_response == jformat(json_response)
