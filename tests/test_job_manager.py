@@ -35,3 +35,13 @@ def test_request_job():
 
 def test_one_unassigned_job_after_request():
     assert JobManager.num_unassigned() == 1
+
+
+def test_request_second_job():
+    user = 11
+    JobManager.request_job(user)
+    assert JobQueue().get_num_unassigned_jobs() == 0
+
+
+def test_no_unassigned_job_after_second_request():
+    assert JobManager.num_unassigned() == 0
