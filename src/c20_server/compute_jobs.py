@@ -10,7 +10,18 @@ URL = "https://api.data.gov:443/regulations/v3/documents.json?api_key="
 RESULTS_PER_PAGE = 1000
 
 
+def get_number_of_docs(response):
+    '''
+    Return total number of records
+    '''
+    number_of_docs = response.json().get("totalNumRecords")
+    return number_of_docs
+
+
 def compute_jobs(api_key, start_date):
+    '''
+    Computing Jobs for Documents endpoint
+    '''
 
     # Getting current date in mm/dd/yy format
     today = date.today()
@@ -21,11 +32,11 @@ def compute_jobs(api_key, start_date):
     crd = start_date + "-" + date_now
 
     response = requests.get(URL+api_key+"&crd="+crd)
+    # number_of_docs = get_number_of_docs(response)
 
     if response.status_code == 403:
         raise reggov_api_doc_error.IncorrectApiKeyException
     if response.status_code == 429:
         raise reggov_api_doc_error.ExceedCallLimitException
-    print(response.json())
 
     return response.json()
