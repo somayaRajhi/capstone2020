@@ -1,10 +1,10 @@
 
 import pytest
 import requests_mock
-from c20_server.list_documents import list_documents
+from c20_server.list_documents import list_documents, list_docket_ids, list_document_ids
 from c20_server import reggov_api_doc_error
 
-URL = "https://api.data.gov:443/regulations/v3/document.json?api_key="
+URL = "https://api.data.gov:443/regulations/v3/documents.json?api_key="
 API_KEY = "VALID"
 
 
@@ -15,6 +15,16 @@ def test_list_documents():
         response = list_documents(API_KEY)
 
         assert response == 'The test is successful'
+
+
+def test_list_docket_ids():
+    response = list_docket_ids()
+    assert response == 'Successfully got docket IDs'
+
+
+def test_list_document_ids():
+    response = list_document_ids()
+    assert response == 'Successfully got document IDs'
 
 
 def test_bad_api_key():
