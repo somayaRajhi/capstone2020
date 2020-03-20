@@ -21,4 +21,3 @@ def list_documents(api_key):
     #     raise reggov_api_doc_error.IncorrectIDPatternException
     # if response.status_code == 429:
     #     raise reggov_api_doc_error.ExceedCallLimitException
-
