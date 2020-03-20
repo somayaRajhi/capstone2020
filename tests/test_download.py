@@ -75,5 +75,5 @@ def test_multiple_attachments():
     with requests_mock.Mocker() as mock:
         mock.get(URL, json={'attachments': [{'fileFormats': ['file link']}, {'fileFormats': ['file link2']}]})
         response = document_download.download_document(API_KEY, DOC_ID)
-        assert response[1][0] == 'file link'
-        assert response[1][1] == 'file link2'
+        assert response[1][1] == 'file link'
+        assert response[1][2] == 'file link2'
