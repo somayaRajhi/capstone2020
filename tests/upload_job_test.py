@@ -2,8 +2,6 @@ import json
 import pytest
 from c20_server.upload_job import APP
 
-DOCKET_ID = b'{"docketId":"CMS-2014-0115"}\n'
-
 
 @pytest.fixture(name='client')
 def client_fixture():
@@ -14,7 +12,7 @@ def client_fixture():
 def test_get_job(client):
     response = client.get('/get_job')
     assert response.status_code == 200
-    assert response.data == DOCKET_ID
+    assert response.data == b'{"docketId":"CMS-2014-0115"}\n'
 
 
 def test_return_result_success(client):
