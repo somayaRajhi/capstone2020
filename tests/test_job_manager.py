@@ -1,47 +1,70 @@
 from c20_server.job_manager import JobManager
 from c20_server.job import Job
-from c20_server.job_queue import JobQueue
+from c20_server.user import User
+
+
+job1 = Job(1)
+job2 = Job(2)
+user1 = User(5)
+user2 = User(11)
 
 
 def test_no_unassigned_jobs():
-    assert JobManager.num_unassigned() == 0
+    assert JobManager().num_unassigned() == 0
+
+
+def test_no_assigned_jobs():
+    assert JobManager().num_assigned() == 0
 
 
 def test_add_first_job():
-    job1 = Job(1)
-    JobManager.add_job(job1)
-    assert JobQueue().get_num_unassigned_jobs() == 1
-
-
-def test_one_unassigned_job():
-    assert JobManager.num_unassigned() == 1
+    JobManager().add_job(job1)
+    assert JobManager().num_unassigned() == 1
 
 
 def test_add_second_job():
-    job1 = Job(1)
-    JobManager.add_job(job1)
-    assert JobQueue().get_num_unassigned_jobs() == 2
-
-
-def test_two_unassigned_job():
-    assert JobManager.num_unassigned() == 2
+    JobManager().add_job(job2)
+    assert JobManager().num_unassigned() == 2
 
 
 def test_request_job():
-    user = 5
-    JobManager.request_job(user)
-    assert JobQueue().get_num_unassigned_jobs() == 1
+    JobManager().request_job(user1)
+    assert JobManager().num_unassigned() == 1
+
+
+def test_one_in_progress_job():
+    assert JobManager().num_assigned() == 1
 
 
 def test_one_unassigned_job_after_request():
-    assert JobManager.num_unassigned() == 1
+    assert JobManager().num_unassigned() == 1
 
 
 def test_request_second_job():
-    user = 11
-    JobManager.request_job(user)
-    assert JobQueue().get_num_unassigned_jobs() == 0
+    JobManager().request_job(user2)
+    assert JobManager().num_unassigned() == 0
 
 
-def test_no_unassigned_job_after_second_request():
-    assert JobManager.num_unassigned() == 0
+def test_two_assigned_jobs():
+    assert JobManager().num_assigned() == 2
+
+
+def test_one_successful_job():
+    JobManager().report_success(user1, job1)
+    assert JobManager().num_assigned() == 1
+
+
+def test_one_failed_job():
+    JobManager().report_failure(user2, job2)
+    assert JobManager().num_assigned() == 0
+
+
+def test_one_unassigned_job_after_failure():
+    assert JobManager().num_unassigned() == 1
+
+
+def test_no_jobs_after_second_success():
+    JobManager().request_job(user1)
+    JobManager().report_success(user1, job2)
+    assert JobManager().num_unassigned() == 0
+    assert JobManager().num_assigned() == 0

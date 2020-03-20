@@ -1,4 +1,5 @@
 from c20_server.job_queue import JobQueue
+from c20_server.in_progress import InProgress
 
 
 class JobManager:
@@ -9,19 +10,24 @@ class JobManager:
 
     @staticmethod
     def request_job(user):
-        return JobQueue().get_job()
+        job = JobQueue().get_job()
+        InProgress().assign(job, user)
 
-    def report_success(self, user, job):
-        return
+    @staticmethod
+    def report_success(user, job):
+        InProgress().unassign(job, user)
 
-    def report_failure(self, user, job):
-        return
+    @staticmethod
+    def report_failure(user, job):
+        InProgress().unassign(job, user)
+        JobQueue().add_job(job)
 
     def reset_stale_job(self):
         return
 
-    def num_assigned(self):
-        return
+    @staticmethod
+    def num_assigned():
+        return InProgress().get_num_assigned_jobs()
 
     @staticmethod
     def num_unassigned():
