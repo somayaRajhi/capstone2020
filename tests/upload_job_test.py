@@ -1,5 +1,5 @@
-import pytest
 import json
+import pytest
 from c20_server.upload_job import APP
 
 
@@ -25,4 +25,3 @@ def test_return_result_success(client):
 def test_return_result_empty_data(client):
     result = client.post('/return_result', data={})
     assert result.status_code == 400
-
