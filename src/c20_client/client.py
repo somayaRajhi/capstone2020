@@ -15,9 +15,18 @@ def do_job():
         url = job['url']
         job_type = job['job_type']
 
-    except:
+    except Exception:
         raise NoConnectionError
 
+    get_result_for_job(job_type, url)
+
+    requests.post('http://capstone.cs.moravian.edu')
+
+
+def get_result_for_job(job_type, url):
+    """
+    Makes request to correct endpoint at reg.gov
+    """
     if job_type == 'documents':
         requests.get(url)
     elif job_type == 'docket':
@@ -28,12 +37,3 @@ def do_job():
         requests.get(url)
     elif job_type == 'none':
         requests.get(url)
-
-    requests.post('http://capstone.cs.moravian.edu')
-
-
-def main():
-    do_job()
-
-if __name__ == "__main__":
-    main()

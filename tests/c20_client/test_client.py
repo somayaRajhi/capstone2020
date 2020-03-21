@@ -1,5 +1,7 @@
 import requests_mock
-from c20_client.c20_client import do_job
+import pytest
+from c20_client.client import do_job
+from c20_client.connection_error import NoConnectionError
 
 
 def test_client_calls_decuments_endpoint_for_documents_job():
@@ -90,3 +92,12 @@ def test_client_got_bad_job_from_server():
         assert 'capstone' in history[0].url
         assert 'api.data.gov' in history[1].url
         assert 'capstone' in history[2].url
+
+
+def test_no_connection_made_to_server():
+    with requests_mock.Mocker() as mock:
+        mock.get('http://capstone.cs.moravian.edu/get_job',
+                 exc=True)
+
+        with pytest.raises(NoConnectionError):
+            do_job()
