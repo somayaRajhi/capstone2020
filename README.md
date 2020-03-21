@@ -8,6 +8,7 @@
 2. Activate the virtual environment
 
     Linux/mac: `source .venv/bin/activate`
+    
     Windows: `.venv\Scripts\activate`
 
 3. Install required libraries
