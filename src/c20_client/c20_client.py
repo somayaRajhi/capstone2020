@@ -3,15 +3,15 @@ import requests
 
 def do_job():
     try:
-        job = requests.get('http://capstone.cs.moravian.edu/get_job')
+        job=requests.get('http://capstone.cs.moravian.edu/get_job')
         job=job.json()
         url=job['url']
-        job_type =job['job_type']
+        job_type=job['job_type']
 
     except Exception as e:
         print(e)
 
-    if job_type =='documents':
+    if job_type=='documents':
         requests.get(url)
     elif job_type=='docket':
         requests.get(url)
@@ -19,6 +19,6 @@ def do_job():
         requests.get(url)
     elif job_type=='download':
         requests.get(url)
-    elif job_type =='none':
+    elif job_type=='none':
         requests.get(url)
     requests.post('http://capstone.cs.moravian.edu')
