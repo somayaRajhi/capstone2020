@@ -22,7 +22,8 @@ class JobManager:
         InProgress().unassign(job, user)
         JobQueue().add_job(job)
 
-    def reset_stale_job(self):
+    @staticmethod
+    def reset_stale_job():
         return
 
     @staticmethod
