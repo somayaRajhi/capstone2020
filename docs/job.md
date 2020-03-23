@@ -59,7 +59,7 @@ Each job type also includes relevant data.
 ```
 {
   'job_id': 'ABC123`
-  'job_type': 'document',
+  'job_type': 'documents',
   'document_id`: 'EPA-HQ-OAR-2011-0028-0108`
 }  
 ```
