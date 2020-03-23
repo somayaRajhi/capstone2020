@@ -3,14 +3,13 @@
 implementation of Job_Queue class
 
 """
-from c20_server.job import Job
 from c20_server import job_queue_errors
 
 
 class JobQueue:
 
-    unassigned_jobs_list = []
-    job = Job
+    def __init__(self):
+        self.unassigned_jobs_list = []
 
     def add_job(self, job):
         self.unassigned_jobs_list.append(job)
