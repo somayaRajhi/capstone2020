@@ -29,6 +29,7 @@ Data (folder)
 
 ## Example
 
+* Docket
 ```
 {
   'client_id': '123ABC',
@@ -42,17 +43,57 @@ Data (folder)
     'agency': 'EPA',
     'docket_id': 'EPA-HQ-OAR-2011-0028'
     'file_contents' = {
-                      "agency": "Environmental Protection Agency",
-                      "agencyAcronym": "EPA",
-                      "cfrCitation": "40 CFR 98",
-                      ...
+                        "agency": "Environmental Protection Agency",
+                        "agencyAcronym": "EPA",
+                        "cfrCitation": "40 CFR 98",
+                        ...
 
                         "internationalImpacts": {
                         "label": "International Impacts",
                         "value": "No"
+                        }
                       }
-                    }
            }
 
+}
+```
+
+* Document
+```
+{
+  'client_id': '123ABC',
+  'job': 
+    {
+      'job_id': 'ABC123',
+      'job_type': 'document',
+      'document_id': 'EPA-HQ-OAR-2011-0028-0108'
+    },
+  'data': {
+    'agency': 'EPA',
+    'docket_id': 'EPA-HQ-OAR-2011-0028'
+    'document_id': 'EPA-HQ-OAR-2011-0028-0108'
+    'file_contents' = {
+                        "allowLateComment": false,
+                        "commentDueDate": null,
+                        "effectiveDate": "2014-01-01T00:00:00-05:00",
+                        ...
+
+                        "numItemsRecieved": {
+                        "label": "Number of Comments Received",
+                        "value": "0"
+                        },
+                        "agencyAcronym": {
+                          "label": "Agency",
+                          "value": "EPA"
+                        }
+                     }
+          }
+  
+  'jobs': {
+      "fileformats": [
+                        "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf",
+                        "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=html"
+                     ]
+  }
 }
 ```
