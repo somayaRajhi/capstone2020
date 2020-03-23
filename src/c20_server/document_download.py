@@ -11,13 +11,10 @@ def extract_file_formats(document):
 
 def extract_attachments(document):
     attachments = []
-    temp = []
     if 'attachments' in document:
         for i in document['attachments']:
-            attachments.append(i['fileFormats'])
-            for num in attachments:
-                temp += num
-        return temp
+            attachments += i['fileFormats']
+        return attachments
     return None
 
 
