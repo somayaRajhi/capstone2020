@@ -60,7 +60,9 @@ Each job type also includes relevant data.
 {
   'job_id': 'ABC123`
   'job_type': 'documents',
-  'document_id`: 'EPA-HQ-OAR-2011-0028-0108`
+  'page_offset': 3000,
+  'start_date': '12-28-19',
+  'end_date': '1-23-20'
 }  
 ```
 
