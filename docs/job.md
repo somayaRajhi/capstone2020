@@ -41,17 +41,19 @@ Because these URLs are already formed, a `downloadJob` simply holds that URL
 
 ## JSON definition
 
-A job is communicated as a JSON object where key names and values are lower case.  All jobs contain:
+A job is communicated as a JSON object where key names and values are lower case.  
 
-* `job_id`: The id for the job
-* `job_type`: The type of the job.  Possible values are:
+Jobs are identified by the client, but are given a `job_id` by the server.  Therefore, when a job is sent from client to server as a new job, it *does not* contain a `job_id`.
+
+The JSON contains a `job_type` where possible values are:
+
   * `documents`
   * `document`
   * `docket`
   * `download`
   * `none` - used to indicate that there is no work to be done.
 
-Each job type also includes relevant data.
+The JSON also includes relevant data, as defined in the "Job Classes" section, above.
 
 
 ### Example JSON for `documents`
