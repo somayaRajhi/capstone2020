@@ -14,6 +14,20 @@ USER1 = User(1)
 IN_PROGRESS_JOBS = InProgress()
 
 
+@pytest.fixture(name='in_progress')
+def make_in_progress():
+    return InProgress()
+
+
+def test_new_instance_empty(in_progress):
+    assert in_progress.get_num_assigned_jobs() == 0
+
+
+def test_when_job_assigned_it_is_added_to_assigned_jobs(in_progress):
+    in_progress.assign(Job(1), User(100))
+    assert in_progress.get_num_assigned_jobs() == 1
+
+
 def test_no_assigned_jobs():
     assert IN_PROGRESS_JOBS.get_num_assigned_jobs() == 0
 
