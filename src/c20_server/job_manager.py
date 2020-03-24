@@ -14,6 +14,7 @@ class JobManager:
     def request_job(self, user):
         job = self.job_queue.get_job()
         self.in_progress_jobs.assign(job, user)
+        return job
 
     def report_success(self, user, job):
         self.in_progress_jobs.unassign(job, user)
