@@ -6,7 +6,8 @@ from c20_server import job_queue_errors
 
 class InProgress:
 
-    assigned_jobs_list = []
+    def __init__(self):
+        self.assigned_jobs_list = []
 
     def assign(self, job, user):
         self.assigned_jobs_list.append((job, user))

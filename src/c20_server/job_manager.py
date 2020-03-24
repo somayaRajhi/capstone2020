@@ -4,32 +4,30 @@ from c20_server.in_progress import InProgress
 
 class JobManager:
 
-    @staticmethod
-    def add_job(job):
-        JobQueue().add_job(job)
+    def __init__(self):
+        self.job_queue = JobQueue()
+        self.in_progress_jobs = InProgress()
 
-    @staticmethod
-    def request_job(user):
-        job = JobQueue().get_job()
-        InProgress().assign(job, user)
+    def add_job(self, job):
+        self.job_queue.add_job(job)
 
-    @staticmethod
-    def report_success(user, job):
-        InProgress().unassign(job, user)
+    def request_job(self, user):
+        job = self.job_queue.get_job()
+        self.in_progress_jobs.assign(job, user)
 
-    @staticmethod
-    def report_failure(user, job):
-        InProgress().unassign(job, user)
-        JobQueue().add_job(job)
+    def report_success(self, user, job):
+        self.in_progress_jobs.unassign(job, user)
+
+    def report_failure(self, user, job):
+        self.in_progress_jobs.unassign(job, user)
+        self.job_queue.add_job(job)
 
     @staticmethod
     def reset_stale_job():
         return
 
-    @staticmethod
-    def num_assigned():
-        return InProgress().get_num_assigned_jobs()
+    def num_assigned(self):
+        return self.in_progress_jobs.get_num_assigned_jobs()
 
-    @staticmethod
-    def num_unassigned():
-        return JobQueue().get_num_unassigned_jobs()
+    def num_unassigned(self):
+        return self.job_queue.get_num_unassigned_jobs()

@@ -11,31 +11,32 @@ from c20_server.in_progress import InProgress
 
 JOB1 = Job(123)
 USER1 = User(1)
+IN_PROGRESS_JOBS = InProgress()
 
 
 def test_no_assigned_jobs():
-    assert InProgress().get_num_assigned_jobs() == 0
+    assert IN_PROGRESS_JOBS.get_num_assigned_jobs() == 0
 
 
 def test_assign_one_job():
-    assert InProgress().get_num_assigned_jobs() == 0
-    InProgress().assign(JOB1, USER1)
-    assert InProgress().get_num_assigned_jobs() == 1
+    assert IN_PROGRESS_JOBS.get_num_assigned_jobs() == 0
+    IN_PROGRESS_JOBS.assign(JOB1, USER1)
+    assert IN_PROGRESS_JOBS.get_num_assigned_jobs() == 1
 
 
 def test_unassign_invalid_job():
     invalid_job = Job(222)
     with pytest.raises(job_queue_errors.UnassignInvalidDataException):
-        InProgress().unassign(invalid_job, USER1)
+        IN_PROGRESS_JOBS.unassign(invalid_job, USER1)
 
 
 def test_unassign_invalid_user():
     invalid_user = User(66)
     with pytest.raises(job_queue_errors.UnassignInvalidDataException):
-        InProgress().unassign(JOB1, invalid_user)
+        IN_PROGRESS_JOBS.unassign(JOB1, invalid_user)
 
 
 def test_unassign_one_job():
-    assert InProgress().get_num_assigned_jobs() == 1
-    InProgress().unassign(JOB1, USER1)
-    assert InProgress().get_num_assigned_jobs() == 0
+    assert IN_PROGRESS_JOBS.get_num_assigned_jobs() == 1
+    IN_PROGRESS_JOBS.unassign(JOB1, USER1)
+    assert IN_PROGRESS_JOBS.get_num_assigned_jobs() == 0
