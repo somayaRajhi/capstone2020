@@ -23,8 +23,6 @@
 
 	 `API_KEY=<your api key>`
 	 
-    `secret=42`
-
 Once you have completed these steps you should be able to:
 
 * Run `pytest` from the root of the project
