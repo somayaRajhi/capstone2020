@@ -89,11 +89,54 @@ Data (folder)
                      }
           }
   
-  'jobs': {
-      "fileformats": [
-                        "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf",
-                        "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=html"
-                     ]
-  }
+  'jobs': [
+            {
+              'job_type': 'download',
+              'url': 'https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf'
+            },
+            {
+              'job_type': 'download',
+              'url':  'https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=html'
+            }
+          ]
+}
+```
+
+* Documents
+```
+{
+  'client_id': '123ABC',
+  'job': {
+          'job_id': 'ABC123`
+          'job_type': 'documents',
+          'page_offset': 3000,
+          'start_date': '12-28-19',
+          'end_date': '1-23-20'
+        },
+  'data': {
+            "documents": [
+              {
+                "agencyAcronym": "CMS",
+              ...
+            
+                "title": "Comment from Maureen Knutsen, "
+                }
+              ],
+            "totalNumRecords": 14014370
+          }
+
+  
+  'jobs': [
+            {
+              'job_type': 'docket'
+              'docket_id': 'EPA-HQ-OAR-2011-0028'
+            },
+            ...
+
+            {
+              'job_type': 'document',
+              'document_id': 'EPA-HQ-OAR-2011-0028-0108'
+            }
+          ]
 }
 ```
