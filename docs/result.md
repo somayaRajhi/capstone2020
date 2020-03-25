@@ -7,8 +7,8 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 A job is communicated as a simple JSON object where key names and values are lower case:
 
 * `client_id`: A unique identifier of the client returning the result.
-* `job`: Current job object, as defined in job.md.
-* `data`: A collection of the raw JSON data recieved from querying regulations server.
+* `job_id`: ID of the current job object.
+* `data`: A path describing where the raw JSON file recieved from querying regulations, as well as the raw JSON data.
 * `jobs`: A list of new job objects. These job objects omit the job_id field. Jobs are retrieved through the JSON data collected from the regulations server.
 	* Documents have a list of docket and document jobs
   * Document can have a list of download jobs
