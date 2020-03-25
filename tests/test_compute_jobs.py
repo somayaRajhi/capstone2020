@@ -1,23 +1,39 @@
 
 import pytest
 import requests_mock
-from c20_server.compute_jobs import compute_jobs
+from c20_server.compute_jobs import compute_jobs, get_number_of_docs
 
 from c20_client import reggov_api_doc_error
 
 URL = "https://api.data.gov:443/regulations/v3/documents.json?api_key="
-API_KEY = "VALID"
+API_KEY = "Valid"
 START_DATE = "01/01/20"
 
 
-def test_compute_jobs():
+def test_good_response():
     with requests_mock.Mocker() as mock:
         mock.get(URL + API_KEY,
-                 json='The test is successful')
+                 json={"result":"The test is successful", "totalNumRecords":100})
         response = compute_jobs(API_KEY, START_DATE)
 
-        assert response == 'The test is successful'
+        assert response == {"result":"The test is successful", "totalNumRecords":100}
 
+def test_10_number_of_records():
+    with requests_mock.Mocker() as mock:
+        mock.get(URL + API_KEY,
+                 json={"result":"The test is successful", "totalNumRecords":10})
+        response = compute_jobs(API_KEY, START_DATE)
+
+        assert response.get("totalNumRecords") == 10
+
+def test_response_with_num_records():
+    with requests_mock.Mocker() as mock:
+        mock.get(URL + API_KEY,
+                 json={"result":"The test is successful", "totalNumRecords":10})
+        response = compute_jobs(API_KEY, START_DATE)
+        totalNumRecords = get_number_of_docs(response)
+
+        assert totalNumRecords == 10
 
 def test_bad_api_key():
     with requests_mock.Mocker() as mock:
