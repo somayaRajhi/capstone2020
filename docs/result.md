@@ -1,4 +1,4 @@
-#Return_result
+# Return_result
 
 a POST request is invoked by the client to the server. It returns a JSON file with information like client_id, job, data, and jobs.
 
@@ -6,13 +6,13 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 A job is communicated as a simple JSON object where key names and values are lower case:
 
-* `client_id`: a unique identifier of the client returning the result.
-* `job`: A job object, as defined in job.md. This job corresponds to the result. 
-* `data`: data collected from regulations.gov.
-	* how data is transferred has not been defined. 
-* `jobs`: list of job objects, as defined in job.md.
-	* list of new jobs identified with data. 
-
+* `client_id`: A unique identifier of the client returning the result.
+* `job`: Current job object, as defined in job.md.
+* `data`: A collection of the raw JSON data recieved from querying regulations server
+* `jobs`: A list of new job objects. These job objects omit the job_id field. Jobs are retrieved through the JSON data collected from the regulations server.
+	* Documents have a list of docket and document jobs
+  * Document can have a list of download jobs
+  * Docket and downloads will not return any new jobs
 
 ## Data Storage
 
@@ -25,7 +25,6 @@ Data (folder)
         basic_document.json
         document.json
 ```     
-
 
 ## Example
 
@@ -88,7 +87,6 @@ Data (folder)
                         }
                      }
           }
-  
   'jobs': [
             {
               'job_type': 'download',
@@ -124,8 +122,6 @@ Data (folder)
               ],
             "totalNumRecords": 14014370
           }
-
-  
   'jobs': [
             {
               'job_type': 'docket'
