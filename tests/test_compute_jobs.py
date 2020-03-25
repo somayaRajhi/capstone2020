@@ -13,27 +13,34 @@ START_DATE = "01/01/20"
 def test_good_response():
     with requests_mock.Mocker() as mock:
         mock.get(URL + API_KEY,
-                 json={"result":"The test is successful", "totalNumRecords":100})
+                 json={"result": "The test is successful",
+                       "totalNumRecords": 100})
         response = compute_jobs(API_KEY, START_DATE)
 
-        assert response == {"result":"The test is successful", "totalNumRecords":100}
+        assert response == {"result": "The test is successful",
+                            "totalNumRecords": 100}
+
 
 def test_10_number_of_records():
     with requests_mock.Mocker() as mock:
         mock.get(URL + API_KEY,
-                 json={"result":"The test is successful", "totalNumRecords":10})
+                 json={"result": "The test is successful",
+                       "totalNumRecords": 10})
         response = compute_jobs(API_KEY, START_DATE)
 
         assert response.get("totalNumRecords") == 10
 
+
 def test_response_with_num_records():
     with requests_mock.Mocker() as mock:
         mock.get(URL + API_KEY,
-                 json={"result":"The test is successful", "totalNumRecords":10})
+                 json={"result": "The test is successful",
+                       "totalNumRecords": 10})
         response = compute_jobs(API_KEY, START_DATE)
-        totalNumRecords = get_number_of_docs(response)
+        total_num_records = get_number_of_docs(response)
 
-        assert totalNumRecords == 10
+        assert total_num_records == 10
+
 
 def test_bad_api_key():
     with requests_mock.Mocker() as mock:

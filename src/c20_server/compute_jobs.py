@@ -1,7 +1,7 @@
 '''
 Compute Jobs from regulations.api
 '''
-#import json
+# import json
 from datetime import date
 import requests
 from c20_client import reggov_api_doc_error
@@ -41,11 +41,10 @@ def compute_jobs(api_key, start_date):
     response = response.json()
     number_of_docs = get_number_of_docs(response)
 
-    #jobs = []
+    # jobs = []
 
     # for page_offset in range(0, number_of_docs, 1000):
     #     j = DocsJob(crd, page_offset)
     #     jobs.append(j)
 
     return response
-
