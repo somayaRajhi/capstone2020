@@ -35,12 +35,12 @@ def test_when_job_requested_it_moves_to_assigned(job_manager):
     assert job_manager.num_unassigned() == 0
 
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_when_job_reported_as_success_it_is_removed_from_manager(job_manager):
     job_manager.add_job(Job(1))
     user = User(100)
-    j = job_manager.request_job(User(100))
-    job_manager.report_success(user, j)
+    job_manager.request_job(User(100))
+    job_manager.report_success(user)
     assert job_manager.num_assigned() == 0
     assert job_manager.num_unassigned() == 0
 
@@ -84,12 +84,12 @@ def test_two_assigned_jobs():
 
 
 def test_one_successful_job():
-    JOB_MANAGER.report_success(USER1, JOB1)
+    JOB_MANAGER.report_success(USER1)
     assert JOB_MANAGER.num_assigned() == 1
 
 
 def test_one_failed_job():
-    JOB_MANAGER.report_failure(USER2, JOB2)
+    JOB_MANAGER.report_failure(USER2)
     assert JOB_MANAGER.num_assigned() == 0
 
 
@@ -99,6 +99,6 @@ def test_one_unassigned_job_after_failure():
 
 def test_no_jobs_after_second_success():
     JOB_MANAGER.request_job(USER1)
-    JOB_MANAGER.report_success(USER1, JOB2)
+    JOB_MANAGER.report_success(USER1)
     assert JOB_MANAGER.num_unassigned() == 0
     assert JOB_MANAGER.num_assigned() == 0

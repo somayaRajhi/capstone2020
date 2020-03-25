@@ -7,15 +7,17 @@ from c20_server import job_queue_errors
 class InProgress:
 
     def __init__(self):
-        self.assigned_jobs_list = []
+        self.assigned_jobs = {}
 
-    def assign(self, job, user):
-        self.assigned_jobs_list.append((job, user))
+    def assign(self, job, user_id):
+        self.assigned_jobs[user_id] = job
 
-    def unassign(self, job, user):
-        if (job, user) not in self.assigned_jobs_list:
+    def unassign(self, user_id):
+        if user_id not in self.assigned_jobs.keys():
             raise job_queue_errors.UnassignInvalidDataException
-        self.assigned_jobs_list.remove((job, user))
+        job = self.assigned_jobs[user_id]
+        del self.assigned_jobs[user_id]
+        return job
 
     def get_num_assigned_jobs(self):
-        return len(self.assigned_jobs_list)
+        return len(self.assigned_jobs)
