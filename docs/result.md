@@ -8,7 +8,7 @@ A job is communicated as a simple JSON object where key names and values are low
 
 * `client_id`: A unique identifier of the client returning the result.
 * `job_id`: ID of the current job object.
-* `data`: A path describing where the raw JSON file recieved from querying regulations, as well as the raw JSON data.
+* `data`: A list of JSON objects. This object consists of a folder name, file name, and data
   * `folder_name`: The path to the location of where the data should be placed. Check data storage section to see the hierarchy of the path.
   * `file_name`: Name of the file to which the data will be stored. Named after the type of data it is storing.
   * `data`: The raw JSON data recieved from querying regulations.gov.
@@ -47,25 +47,28 @@ File: document.json
 {
   'client_id': 'client14',
   'job_id': 'job33',
-  'data': {
-    'folder_name': 'EPA/EPA-HQ-OAR-2011-0028/'
-    'file_name': 'docket.json'
-    'data': {
-      'agency': 'EPA',
-      'docket_id': 'EPA-HQ-OAR-2011-0028'
-      'file_contents' = {
-        "agency": "Environmental Protection Agency",
-        "agencyAcronym": "EPA",
-        "cfrCitation": "40 CFR 98",
-      
-        ...
+  'data': [
+    {
+      'folder_name': 'EPA/EPA-HQ-OAR-2011-0028/'
+      'file_name': 'docket.json'
+      'data': {
+        'agency': 'EPA',
+        'docket_id': 'EPA-HQ-OAR-2011-0028'
+        'file_contents' = {
+          "agency": "Environmental Protection Agency",
+          "agencyAcronym": "EPA",
+          "cfrCitation": "40 CFR 98",
+        
+          ...
 
-        "internationalImpacts": {
-        "label": "International Impacts",
-        "value": "No"
+          "internationalImpacts": {
+            "label": "International Impacts",
+            "value": "No"
+          }
+        }
       }
     }
-  }
+  ]
 }
 ```
 
@@ -77,31 +80,33 @@ File: document.json
 {
   'client_id': 'client23',
   'job_id': 'job42',
-  'data': {
-    'folder_name': 'EPA/EPA-HQ-OAR-2011-0028/EPA-HQ-OAR-2011-0028-0108/'
-    'file_name': 'document.json'
-    'data': {
-      'agency': 'EPA',
-      'docket_id': 'EPA-HQ-OAR-2011-0028'
-      'document_id': 'EPA-HQ-OAR-2011-0028-0108'
-      'file_contents' = {
-        "allowLateComment": false,
-        "commentDueDate": null,
-        "effectiveDate": "2014-01-01T00:00:00-05:00",
-        
-        ...
+  'data': [
+    {
+      'folder_name': 'EPA/EPA-HQ-OAR-2011-0028/EPA-HQ-OAR-2011-0028-0108/'
+      'file_name': 'document.json'
+      'data': {
+        'agency': 'EPA',
+        'docket_id': 'EPA-HQ-OAR-2011-0028'
+        'document_id': 'EPA-HQ-OAR-2011-0028-0108'
+        'file_contents' = {
+          "allowLateComment": false,
+          "commentDueDate": null,
+          "effectiveDate": "2014-01-01T00:00:00-05:00",
+          
+          ...
 
-        "numItemsRecieved": {
-        "label": "Number of Comments Received",
-        "value": "0"
-        },
-        "agencyAcronym": {
-          "label": "Agency",
-          "value": "EPA"
+          "numItemsRecieved": {
+          "label": "Number of Comments Received",
+          "value": "0"
+          },
+          "agencyAcronym": {
+            "label": "Agency",
+            "value": "EPA"
+          }
         }
       }
     }
-  } 
+  ] 
   'jobs': [
     {
       'job_type': 'download',
