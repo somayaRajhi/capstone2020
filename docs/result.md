@@ -8,7 +8,7 @@ A job is communicated as a simple JSON object where key names and values are low
 
 * `client_id`: A unique identifier of the client returning the result.
 * `job_id`: ID of the current job object.
-* `data`: A path describing where the raw JSON file recieved from querying regulations, as well as the raw JSON data.
+* `data`: The raw JSON data recieved from querying regulations.gov.
 * `jobs`: A list of new job objects. These job objects omit the job_id field. Jobs are retrieved through the JSON data collected from the regulations server.
 	* Documents have a list of docket and document jobs
   * Document can have a list of download jobs
