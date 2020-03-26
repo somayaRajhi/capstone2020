@@ -13,9 +13,6 @@ A job is communicated as a simple JSON object where key names and values are low
   * `file_name`: Name of the file to which the data will be stored. Named after the type of data it is storing.
   * `data`: The raw JSON data recieved from querying regulations.gov.
 * `jobs`: A list of new job objects. These job objects omit the job_id field. Jobs are retrieved through the JSON data collected from the regulations server.
-	* Documents have a list of docket and document jobs
-  * Document can have a list of download jobs
-  * Docket and downloads will not return any new jobs
 
 ## Data Storage
 
@@ -43,6 +40,9 @@ File: document.json
 ## Examples
 
 * Docket
+  * Returns data concerning a docket
+  * Placed as a json file in the DocketID folder
+  * Does not contain a `jobs` field
 ```
 {
   'client_id': 'client14',
@@ -70,6 +70,9 @@ File: document.json
 ```
 
 * Document
+  * Returns data concerning a document
+  * Placed as a json file in the DocumentID folder
+  * `jobs` field can contain a list of download jobs
 ```
 {
   'client_id': 'client23',
@@ -113,6 +116,9 @@ File: document.json
 ```
 
 * Documents
+  * Returns basic data concerning a document
+  * Placed as a json file in the DocumentID folder
+  * `jobs` field contains a list of document and docket jobs
 ```
 {
   'client_id': 'client1',
