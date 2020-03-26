@@ -13,6 +13,8 @@ A job is communicated as a simple JSON object where key names and values are low
 	* Documents have a list of docket and document jobs
   * Document can have a list of download jobs
   * Docket and downloads will not return any new jobs
+* `folder_name`: The path to the location of where the data should be placed. Check data storage section to see the hierarchy of the path.
+* `file_name`: Name of the file to which the data will be stored. Named after the type of data it is storing.
 
 ## Data Storage
 
@@ -25,8 +27,19 @@ Data (folder)
         basic_document.json
         document.json
 ```     
+* Data can be considered the root
 
-## Example
+```
+EPA/EPA-HQ-OAR-2011-0028/EPA-HQ-OAR-2011-0028-0108/document.json
+
+Agency: EPA
+DocketID: EPA-HQ-OAR-2011-0028
+DocumentID: EPA-HQ-OAR-2011-0028-0108
+File: document.json
+```
+
+
+## Examples
 
 * Docket
 ```
