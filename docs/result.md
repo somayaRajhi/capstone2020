@@ -46,21 +46,23 @@ File: document.json
 {
   'client_id': 'client14',
   'job_id': 'job33',
-  'folder_name': 'EPA/EPA-HQ-OAR-2011-0028/'
-  'file_name': 'docket.json'
   'data': {
-    'agency': 'EPA',
-    'docket_id': 'EPA-HQ-OAR-2011-0028'
-    'file_contents' = {
-      "agency": "Environmental Protection Agency",
-      "agencyAcronym": "EPA",
-      "cfrCitation": "40 CFR 98",
-    
-      ...
+    'folder_name': 'EPA/EPA-HQ-OAR-2011-0028/'
+    'file_name': 'docket.json'
+    'data': {
+      'agency': 'EPA',
+      'docket_id': 'EPA-HQ-OAR-2011-0028'
+      'file_contents' = {
+        "agency": "Environmental Protection Agency",
+        "agencyAcronym": "EPA",
+        "cfrCitation": "40 CFR 98",
+      
+        ...
 
-      "internationalImpacts": {
-      "label": "International Impacts",
-      "value": "No"
+        "internationalImpacts": {
+        "label": "International Impacts",
+        "value": "No"
+      }
     }
   }
 }
@@ -71,26 +73,28 @@ File: document.json
 {
   'client_id': 'client23',
   'job_id': 'job42',
-  'folder_name': 'EPA/EPA-HQ-OAR-2011-0028/EPA-HQ-OAR-2011-0028-0108/'
-  'file_name': 'document.json'
   'data': {
-    'agency': 'EPA',
-    'docket_id': 'EPA-HQ-OAR-2011-0028'
-    'document_id': 'EPA-HQ-OAR-2011-0028-0108'
-    'file_contents' = {
-      "allowLateComment": false,
-      "commentDueDate": null,
-      "effectiveDate": "2014-01-01T00:00:00-05:00",
-      
-      ...
+    'folder_name': 'EPA/EPA-HQ-OAR-2011-0028/EPA-HQ-OAR-2011-0028-0108/'
+    'file_name': 'document.json'
+    'data': {
+      'agency': 'EPA',
+      'docket_id': 'EPA-HQ-OAR-2011-0028'
+      'document_id': 'EPA-HQ-OAR-2011-0028-0108'
+      'file_contents' = {
+        "allowLateComment": false,
+        "commentDueDate": null,
+        "effectiveDate": "2014-01-01T00:00:00-05:00",
+        
+        ...
 
-      "numItemsRecieved": {
-      "label": "Number of Comments Received",
-      "value": "0"
-      },
-      "agencyAcronym": {
-        "label": "Agency",
-        "value": "EPA"
+        "numItemsRecieved": {
+        "label": "Number of Comments Received",
+        "value": "0"
+        },
+        "agencyAcronym": {
+          "label": "Agency",
+          "value": "EPA"
+        }
       }
     }
   } 
