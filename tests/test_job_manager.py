@@ -72,9 +72,9 @@ def test_adding_multiple_jobs_into_unassigned(job_manager, job1, job2):
     assert job_manager.num_unassigned() == 2
 
 
-def test_multiple_jobs_move_to_assigned(job_manager, job1, job2, user1, user2):
+def test_multiple_jobs_move_to_assigned(job_manager, job1, user1, user2):
     job_manager.add_job(job1)
-    job_manager.add_job(job2)
+    job_manager.add_job(Job(2))
     job_manager.request_job(user1)
     job_manager.request_job(user2)
     assert job_manager.num_assigned() == 2
