@@ -29,4 +29,4 @@ def get_result_for_job(job_type, url):
     """
     job_types = ['documents', 'docket', 'document', 'download', 'none']
     if job_type in job_types:
-    requests.get(url)
+        requests.get(url)
