@@ -27,13 +27,6 @@ def get_result_for_job(job_type, url):
     """
     Makes request to correct endpoint at reg.gov
     """
-    if job_type == 'documents':
-        requests.get(url)
-    elif job_type == 'docket':
-        requests.get(url)
-    elif job_type == 'document':
-        requests.get(url)
-    elif job_type == 'download':
-        requests.get(url)
-    elif job_type == 'none':
-        requests.get(url)
+job_types = ['documents', 'docket', 'document', 'download', 'none']
+if job_type in job_types:
+    requests.get(url)
