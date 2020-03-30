@@ -4,7 +4,7 @@ from c20_client.client import do_job
 from c20_client.connection_error import NoConnectionError
 
 
-def test_client_calls_decuments_endpoint_for_documents_job():
+def test_client_calls_documents_endpoint_for_documents_job():
     with requests_mock.Mocker() as mock:
         mock.get('http://capstone.cs.moravian.edu/get_job',
                  json={'job_type': 'documents',
@@ -22,7 +22,7 @@ def test_client_calls_decuments_endpoint_for_documents_job():
         assert 'capstone' in history[2].url
 
 
-def test_client_calls_decument_endpoint_for_document_job():
+def test_client_calls_document_endpoint_for_document_job():
     with requests_mock.Mocker() as mock:
         mock.get('http://capstone.cs.moravian.edu/get_job',
                  json={'job_type': 'document',
