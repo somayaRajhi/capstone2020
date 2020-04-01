@@ -1,6 +1,6 @@
 
 import requests_mock
-from c20_client.c20_client import do_job
+from c20_client.client import do_job
 
 
 def test_client_calls_server_regulations_server():
