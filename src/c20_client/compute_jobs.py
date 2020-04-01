@@ -39,12 +39,5 @@ def compute_jobs(api_key, start_date):
         raise reggov_api_doc_error.ExceedCallLimitException
 
     response = response.json()
-    number_of_docs = get_number_of_docs(response)
-
-    # jobs = []
-
-    # for page_offset in range(0, number_of_docs, 1000):
-    #     j = DocsJob(crd, page_offset)
-    #     jobs.append(j)
 
     return response
