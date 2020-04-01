@@ -7,7 +7,9 @@
 
 2. Activate the virtual environment
 
-    `source .venv/bin/activate`
+    Linux/mac: `source .venv/bin/activate`
+    
+    Windows: `.venv\Scripts\activate`
 
 3. Install required libraries
 
@@ -21,8 +23,6 @@
 
 	 `API_KEY=<your api key>`
 	 
-    `secret=42`
-
 Once you have completed these steps you should be able to:
 
 * Run `pytest` from the root of the project

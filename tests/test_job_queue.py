@@ -8,8 +8,12 @@ from c20_server.job import Job
 from c20_server import job_queue_errors
 
 
-def test_one_job_added_is_returned_by_get():
-    job_queue = JobQueue()
+@pytest.fixture(name='job_queue')
+def make_job_queue():
+    return JobQueue()
+
+
+def test_one_job_added_is_returned_by_get(job_queue):
     job = Job(1234)
 
     assert job_queue.get_num_unassigned_jobs() == 0
@@ -19,8 +23,7 @@ def test_one_job_added_is_returned_by_get():
     assert job_queue.get_num_unassigned_jobs() == 0
 
 
-def test_add_two_jobs_then_remove_them():
-    job_queue = JobQueue()
+def test_add_two_jobs_then_remove_them(job_queue):
     job1 = Job(123411)
     job2 = Job(56722)
 
@@ -33,7 +36,6 @@ def test_add_two_jobs_then_remove_them():
     assert job_queue.get_num_unassigned_jobs() == 0
 
 
-def test_get_one_job_from_empty_list():
-    job_queue = JobQueue()
+def test_get_one_job_from_empty_list(job_queue):
     with pytest.raises(job_queue_errors.NoJobsAvailableException):
         job_queue.get_job()
