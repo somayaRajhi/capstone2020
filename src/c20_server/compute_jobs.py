@@ -17,19 +17,9 @@ def get_number_of_docs(response):
     number_of_docs = response.get("totalNumRecords")
     return number_of_docs
 
+def get_response_from_API(api_key, start_date, end_date):
 
-def compute_jobs(api_key, start_date):
-    '''
-    Computing Jobs for Documents endpoint
-    '''
-
-    # Getting current date in mm/dd/yy format
-    today = date.today()
-    date_now = today.strftime("%m/%d/%y")
-
-    # Test to see if start_date is valid
-
-    crd = start_date + "-" + date_now
+    crd = start_date + "-" + end_date
 
     response = requests.get(URL+api_key+"&crd="+crd)
 
@@ -38,6 +28,16 @@ def compute_jobs(api_key, start_date):
     if response.status_code == 429:
         raise reggov_api_doc_error.ExceedCallLimitException
 
-    response = response.json()
+    return response.json()
+
+
+def compute_jobs(api_key, start_date, end_date):
+    '''
+    Computing Jobs for Documents endpoint
+    '''
+
+    response = get_response_from_API(api_key, start_date, end_date)
+
+    number_of_docs = get_number_of_docs(response)
 
     return response
