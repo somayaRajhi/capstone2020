@@ -1,10 +1,9 @@
 '''
 Compute Jobs from regulations.api
 '''
-# import json
 from datetime import date
 import requests
-from c20_client import reggov_api_doc_error
+from c20_client import reggov_api_doc_error, documents_packager
 
 URL = "https://api.data.gov:443/regulations/v3/documents.json?api_key="
 RESULTS_PER_PAGE = 1000
@@ -40,4 +39,5 @@ def compute_jobs(api_key, start_date):
 
     response = response.json()
 
+    #documents_packager.package_documents(response)
     return response
