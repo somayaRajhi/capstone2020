@@ -1,8 +1,6 @@
 '''
 Compute Jobs from regulations.api
 '''
-# import json
-from datetime import date
 import requests
 from c20_client import reggov_api_doc_error
 
@@ -17,7 +15,7 @@ def get_number_of_docs(response):
     number_of_docs = response.get("totalNumRecords")
     return number_of_docs
 
-def get_response_from_API(api_key, start_date, end_date):
+def get_response_from_api(api_key, start_date, end_date):
 
     crd = start_date + "-" + end_date
 
@@ -36,8 +34,14 @@ def compute_jobs(api_key, start_date, end_date):
     Computing Jobs for Documents endpoint
     '''
 
-    response = get_response_from_API(api_key, start_date, end_date)
+    response = get_response_from_api(api_key, start_date, end_date)
 
     number_of_docs = get_number_of_docs(response)
 
-    return response
+    jobs = []
+
+    for page_offset in range(0, number_of_docs, 1000):
+        job = page_offset # Line will be used to create DocsJob object
+        jobs.append(job)
+
+    return jobs
