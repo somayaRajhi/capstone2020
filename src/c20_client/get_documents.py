@@ -20,7 +20,7 @@ def get_documents_data(api_key, offset, date):
     """
     response = requests.get('https://api.data.gov:443/regulations' +
                             '/v3/documents.json?api_key=' + api_key +
-                            '&po=' + offset + '&crd=' + date)
+                            '&po=' + str(offset) + '&crd=' + date)
 
     if response.status_code == 400:
         raise reggov_api_doc_error.IncorrectIDPatternException
