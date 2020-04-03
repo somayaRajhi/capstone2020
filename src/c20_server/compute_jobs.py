@@ -6,7 +6,6 @@ from c20_client import reggov_api_doc_error
 from c20_server.job import DocumentsJob
 
 URL = "https://api.data.gov:443/regulations/v3/documents.json?api_key="
-JOBS = []
 
 
 def get_number_of_docs(response):
@@ -40,8 +39,10 @@ def compute_jobs(api_key, start_date, end_date):
 
     number_of_docs = get_number_of_docs(response)
 
+    jobs = []
+
     for page_offset in range(0, number_of_docs, 1000):
         job_id = "DocsJob" + str(page_offset)
-        JOBS.append(DocumentsJob(job_id, page_offset, start_date, end_date))
+        jobs.append(DocumentsJob(job_id, page_offset, start_date, end_date))
 
-    return JOBS
+    return jobs
