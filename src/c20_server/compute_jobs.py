@@ -42,7 +42,6 @@ def compute_jobs(api_key, start_date, end_date):
 
     for page_offset in range(0, number_of_docs, 1000):
         job_id = "DocsJob" + str(page_offset)
-        job = DocumentsJob(job_id, page_offset, start_date, end_date)
-        JOBS.append(job)
+        JOBS.append(DocumentsJob(job_id, page_offset, start_date, end_date))
 
     return JOBS
