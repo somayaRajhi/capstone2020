@@ -1,7 +1,6 @@
 '''
 Compute Jobs from regulations.api
 '''
-from datetime import date
 import requests
 from c20_client import reggov_api_doc_error
 
@@ -17,18 +16,9 @@ def get_number_of_docs(response):
     return number_of_docs
 
 
-def compute_jobs(api_key, start_date):
-    '''
-    Computing Jobs for Documents endpoint
-    '''
+def get_response_from_api(api_key, start_date, end_date):
 
-    # Getting current date in mm/dd/yy format
-    today = date.today()
-    date_now = today.strftime("%m/%d/%y")
-
-    # Test to see if start_date is valid
-
-    crd = start_date + "-" + date_now
+    crd = start_date + "-" + end_date
 
     response = requests.get(URL+api_key+"&crd="+crd)
 
@@ -37,6 +27,22 @@ def compute_jobs(api_key, start_date):
     if response.status_code == 429:
         raise reggov_api_doc_error.ExceedCallLimitException
 
-    response = response.json()
+    return response.json()
 
-    return response
+
+def compute_jobs(api_key, start_date, end_date):
+    '''
+    Computing Jobs for Documents endpoint
+    '''
+
+    response = get_response_from_api(api_key, start_date, end_date)
+
+    number_of_docs = get_number_of_docs(response)
+
+    jobs = []
+
+    for page_offset in range(0, number_of_docs, 1000):
+        job = page_offset  # Line will be used to create DocsJob object
+        jobs.append(job)
+
+    return jobs
