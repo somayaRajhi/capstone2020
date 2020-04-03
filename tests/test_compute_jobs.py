@@ -35,6 +35,7 @@ def test_valid_jobs_list():
 
         assert job_list == [0, 1000]
 
+
 def test_response_with_num_records():
     with requests_mock.Mocker() as mock:
         mock.get(URL + API_KEY,

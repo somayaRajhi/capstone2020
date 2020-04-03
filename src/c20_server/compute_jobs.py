@@ -15,6 +15,7 @@ def get_number_of_docs(response):
     number_of_docs = response.get("totalNumRecords")
     return number_of_docs
 
+
 def get_response_from_api(api_key, start_date, end_date):
 
     crd = start_date + "-" + end_date
@@ -41,7 +42,7 @@ def compute_jobs(api_key, start_date, end_date):
     jobs = []
 
     for page_offset in range(0, number_of_docs, 1000):
-        job = page_offset # Line will be used to create DocsJob object
+        job = page_offset  # Line will be used to create DocsJob object
         jobs.append(job)
 
     return jobs
