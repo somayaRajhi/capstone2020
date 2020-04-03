@@ -6,7 +6,6 @@ from c20_client import reggov_api_doc_error
 from c20_server.job import DocumentsJob
 
 URL = "https://api.data.gov:443/regulations/v3/documents.json?api_key="
-RESULTS_PER_PAGE = 100
 JOBS = []
 
 
