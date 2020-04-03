@@ -10,13 +10,14 @@ def package_documents(documents_list):
     """
     Packages the documents endpoint match RESULTS.md
     """
+    return_documents = []
     for documents in documents_list['documents']:
         agency = documents['agencyAcronym']
         docket_id = documents['docketId']
         document_id = documents['documentId']
         folder_name = agency + "/" + docket_id + "/" + document_id + "/"
 
-        return_documents = {
+        return_documents.append({
             'client_id': CLIENT_ID,
             'data': [
                 {
@@ -25,5 +26,5 @@ def package_documents(documents_list):
                     'data': documents
                 }
             ]
-        }
+        })
     return return_documents
