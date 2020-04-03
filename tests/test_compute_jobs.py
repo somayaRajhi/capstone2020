@@ -2,7 +2,7 @@
 import pytest
 import requests_mock
 
-from c20_server.compute_jobs import (
+from c20_client.compute_jobs import (
     reggov_api_doc_error,
     compute_jobs,
     get_number_of_docs,
