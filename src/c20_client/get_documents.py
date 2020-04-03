@@ -18,17 +18,10 @@ def get_documents_data(api_key, offset, date):
     return response.json()
 
 
-def get_data_json(api_key, offset, date):
-    """
-    Returns the JSON object under the key job
-    """
-    return get_documents_data(api_key, offset, date)
-
-
 def get_documents(api_key, offset, start_date, end_date):
     """
     Returns the docket in the format of a JSON file with the current job
     and the data for the current job
     """
     date = start_date + '-' + end_date
-    return get_data_json(api_key, offset, date)
+    return get_documents_data(api_key, offset, date)
