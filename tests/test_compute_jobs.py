@@ -33,7 +33,7 @@ def test_valid_jobs_list():
                        "totalNumRecords": 2000})
         job_list = compute_jobs(API_KEY, START_DATE, END_DATE)
 
-        assert job_list == [0, 1000]
+        assert job_list == ["0: DocsJob1", "1000: DocsJob2"]
 
 
 def test_response_with_num_records():

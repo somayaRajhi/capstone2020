@@ -41,8 +41,12 @@ def compute_jobs(api_key, start_date, end_date):
 
     jobs = []
 
+    docs_id = 1
+
     for page_offset in range(0, number_of_docs, 1000):
-        job = page_offset  # Line will be used to create DocsJob object
+        job_id = "DocsJob" + str(docs_id)
+        job = str(page_offset) + ": " + job_id   # Line will be used to create DocsJob object
         jobs.append(job)
+        docs_id += 1
 
     return jobs
