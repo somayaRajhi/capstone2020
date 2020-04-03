@@ -1,18 +1,23 @@
 import requests_mock
+import json
 import pytest
 from c20_client.client import do_job
 from c20_client.connection_error import NoConnectionError
+from c20_client.get_documents import get_documents
+
 
 
 def test_client_calls_documents_endpoint_for_documents_job():
     with requests_mock.Mocker() as mock:
         mock.get('http://capstone.cs.moravian.edu/get_job',
                  json={'job_type': 'documents',
-                       "url": "https://api.data.gov/json?documents=abc"})
-        mock.get('https://api.data.gov/json?documents=abc',
-                 json={'documents': 'abc'})
+                       "url": 'https://api.data.gov:443/regulations/v3/documents=abc'})
+        documents_response=get_documents('VALID KEY', '1000', '11/06/13', "03/06/14")
+        mock.get('https://api.data.gov:443/regulations/v3/documents.json?api_key=',
+                 json={"result":json.dumps()})
         mock.post('http://capstone.cs.moravian.edu',
-                  json={})
+                  data={})
+
         do_job()
         history = mock.request_history
 
