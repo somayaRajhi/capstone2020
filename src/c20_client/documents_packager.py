@@ -18,7 +18,6 @@ def package_documents(documents_list):
 
         return_documents = {
             'client_id': CLIENT_ID,
-            # 'job_id': 'job1',
             'data': [
                 {
                     'folder_name': folder_name,
