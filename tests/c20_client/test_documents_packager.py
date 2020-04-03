@@ -25,14 +25,14 @@ TEST_JSON2 = {
 }
 
 
-@pytest.fixture
-def single_documents():
+@pytest.fixture(name='single_documents')
+def fixture_single_documents():
     response = documents_packager.package_documents(TEST_JSON)
     return response
 
 
-@pytest.fixture
-def multiple_documents():
+@pytest.fixture(name='multiple_documents')
+def fixture_multiple_documents():
     response = documents_packager.package_documents(TEST_JSON2)
     return response
 
