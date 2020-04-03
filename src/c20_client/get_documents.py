@@ -54,4 +54,4 @@ def get_documents(api_key, offset, start_date, end_date):
     and the data for the current job
     """
     date = start_date + '-' + end_date
-    return get_data_json(api_key, docket_id)
+    return get_data_json(api_key, offset, date)
