@@ -34,7 +34,8 @@ def test_client_id():
 
 def test_folder_name():
     response = documents_packager.package_documents(TEST_JSON)
-    assert response['data'][0]['folder_name'] == 'test/docket-number-3/document-number-15/'
+    assert response['data'][0]['folder_name'] ==\
+        'test/docket-number-3/document-number-15/'
 
 
 def test_file_name():
@@ -60,4 +61,3 @@ def test_docket_id():
 def test_document_id():
     response = documents_packager.package_documents(TEST_JSON)
     assert response['data'][0]['data']['documentId'] == 'document-number-15'
-
