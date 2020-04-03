@@ -33,7 +33,7 @@ def test_valid_jobs_list():
                  json={"result": "The test is successful",
                        "totalNumRecords": 1000})
         job_list = compute_jobs(API_KEY, START_DATE, END_DATE)
-        job = DocumentsJob("DocsJob1", 0, START_DATE, END_DATE)
+        job = DocumentsJob("DocsJob0", 0, START_DATE, END_DATE)
 
         assert job_list == [job]
 
