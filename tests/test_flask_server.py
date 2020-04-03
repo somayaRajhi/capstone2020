@@ -12,7 +12,7 @@ def client_fixture():
 def test_get_job(client):
     response = client.get('/get_job')
     assert response.status_code == 200
-    assert response.data == b'{"docketId":"CMS-2014-0115"}\n'
+    assert response.data == b'{"end_date":"04-01-2020","job_id":"1","page_offset":"0","start_date":"04-01-2020"}\n'
 
 
 def test_return_result_success(client):
