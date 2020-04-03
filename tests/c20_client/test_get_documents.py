@@ -3,7 +3,7 @@ Test the retrieve_docket.py file
 """
 import requests_mock
 import pytest
-from c20_client.get_documents import get_documents, get_data_json
+from c20_client.get_documents import get_documents
 from c20_client import reggov_api_doc_error
 
 URL = 'https://api.data.gov:443/regulations/v3/documents.json?api_key='
@@ -61,14 +61,3 @@ def test_maxed_api_key():
 
         with pytest.raises(reggov_api_doc_error.ExceedCallLimitException):
             get_documents(API_KEY, OFFSET, START_DATE, END_DATE)
-
-
-def test_get_document_data():
-    with requests_mock.Mocker() as mock:
-        mock.get(URL + API_KEY + "&po=" + OFFSET +
-                 '&crd=' + START_DATE + '-' + END_DATE,
-                 json={'test': 'The test is successful'})
-        date = START_DATE + '-' + END_DATE
-        json_response = get_data_json(API_KEY, OFFSET, date)
-
-        assert json_response == {'test': 'The test is successful'}
