@@ -1,17 +1,8 @@
 """
 Contains class used to retreive documents from regulations.gov
 """
-import json
 import requests
 from c20_client.status_code_check import check_status
-
-
-def jformat(obj):
-    """
-    Create formatted string from a JSON object
-    """
-    formatted = json.dumps(obj, sort_keys=True, indent=4)
-    return formatted
 
 
 def get_documents_data(api_key, offset, date):
@@ -25,13 +16,6 @@ def get_documents_data(api_key, offset, date):
     check_status(response.status_code)
 
     return response.json()
-
-
-def get_data_string(api_key, offset, date):
-    """
-    Return the JSON object as a easy to read string
-    """
-    return jformat(get_data_json(api_key, offset, date))
 
 
 def get_data_json(api_key, offset, date):

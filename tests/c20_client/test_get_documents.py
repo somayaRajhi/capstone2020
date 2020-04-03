@@ -3,12 +3,7 @@ Test the retrieve_docket.py file
 """
 import requests_mock
 import pytest
-from c20_client.get_documents import (
-    jformat,
-    get_documents,
-    get_data_json,
-    get_data_string
-)
+from c20_client.get_documents import get_documents, get_data_json
 from c20_client import reggov_api_doc_error
 
 URL = 'https://api.data.gov:443/regulations/v3/documents.json?api_key='
@@ -75,7 +70,5 @@ def test_get_document_data():
                  json={'test': 'The test is successful'})
         date = START_DATE + '-' + END_DATE
         json_response = get_data_json(API_KEY, OFFSET, date)
-        string_response = get_data_string(API_KEY, OFFSET, date)
 
         assert json_response == {'test': 'The test is successful'}
-        assert string_response == jformat(json_response)
