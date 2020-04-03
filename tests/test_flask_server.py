@@ -1,6 +1,6 @@
 import json
 import pytest
-from c20_server.upload_job import APP
+from c20_server.flask_server import APP
 
 
 @pytest.fixture(name='client')
