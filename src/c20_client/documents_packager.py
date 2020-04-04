@@ -16,13 +16,13 @@ def package_documents(documents_list, client_id, job_id):
         document_id = documents['documentId']
         folder_name = agency + "/" + docket_id + "/" + document_id + "/"
 
-        documents_data_list.append([
+        documents_data_list.append(
             {
                 'folder_name': folder_name,
                 'file_name': 'basic_documents.json',
                 'data': documents
             }
-        ])
+        )
 
     documents = {
         'client_id': client_id,
@@ -31,4 +31,5 @@ def package_documents(documents_list, client_id, job_id):
         'jobs': 'jobs'
     }
 
-    requests.post('http://capstone.cs.moravian.edu')
+    requests.post('http://capstone.cs.moravian.edu', documents)
+    return documents
