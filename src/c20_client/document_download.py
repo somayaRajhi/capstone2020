@@ -18,7 +18,7 @@ def extract_attachments(document):
     return None
 
 
-def download_document(api_key, document_id=""):
+def download_document(api_key, document_id):
     """
     downloads a file based on a url, api key and document_id (if given)
     """

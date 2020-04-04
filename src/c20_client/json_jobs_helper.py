@@ -9,7 +9,6 @@ def get_docket_from_documents(document):
     Get the docket job from a single piece of
     the overall data in the documents endpoint
     """
-
     job = {
         'job_type': 'docket',
         'docket_id': document['docketId']
