@@ -1,10 +1,13 @@
 """
-Returns a single job for the various endpoints of the JSON from regulations.gov
+Returns a single job for the various
+endpoints of the JSON from regulations.gov
 """
+
 
 def get_docket_from_documents(document):
     """
-    Get the docket job from a single piece of the overall data in the documents endpoint
+    Get the docket job from a single piece of
+    the overall data in the documents endpoint
     """
 
     job = {
@@ -14,9 +17,11 @@ def get_docket_from_documents(document):
 
     return job
 
+
 def get_document_from_documents(document):
     """
-    Get the document job from a single piece of the overall data in the documents endpoint
+    Get the document job from a single piece of
+    the overall data in the documents endpoint
     """
     job = {
         'job_type': 'document',
@@ -25,14 +30,14 @@ def get_document_from_documents(document):
 
     return job
 
+
 def get_download_from_document(document):
     """
     Get the download job from the data in the document endpoint
     """
-    jobs = document
     jobs = {
         'job_type': 'download',
-        "fileFormats": ['urls']
+        "fileFormats": document['fileFormats']
     }
 
     return jobs
