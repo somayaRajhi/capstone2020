@@ -32,4 +32,5 @@ def package_documents(documents_list, client_id, job_id):
     }
 
     requests.post('http://capstone.cs.moravian.edu', documents)
+    # Necessary for tests
     return documents

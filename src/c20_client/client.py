@@ -9,6 +9,7 @@ from c20_client.documents_packager import package_documents
 CLIENT_ID = 1
 API_KEY = ""
 
+
 def do_job():
     """
     Gets a job from the server and handles the job based on the type of job
@@ -31,5 +32,9 @@ def get_result_for_job(job):
     job_type = job['job_type']
 
     if job_type == 'documents':
-        data = get_documents(API_KEY, job["page_offset"], job["start_date"], job["end_date"])
+        data = get_documents(
+            API_KEY,
+            job["page_offset"],
+            job["start_date"],
+            job["end_date"])
         package_documents(data, CLIENT_ID, job_id)

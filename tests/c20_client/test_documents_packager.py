@@ -37,7 +37,9 @@ def fixture_single_documents():
                         'job_id': JOB_ID,
                         'data': TEST_JSON,
                         'jobs': 'jobs'})
-        response = documents_packager.package_documents(TEST_JSON, CLIENT_ID, JOB_ID)
+        response = documents_packager.package_documents(TEST_JSON,
+                                                        CLIENT_ID,
+                                                        JOB_ID)
         history = mock.request_history
 
         assert len(history) == 1
@@ -53,7 +55,9 @@ def fixture_multiple_documents():
                         'job_id': JOB_ID,
                         'data': TEST_JSON2,
                         'jobs': 'jobs'})
-        response = documents_packager.package_documents(TEST_JSON2, CLIENT_ID, JOB_ID)
+        response = documents_packager.package_documents(TEST_JSON2,
+                                                        CLIENT_ID,
+                                                        JOB_ID)
         history = mock.request_history
 
         assert len(history) == 1

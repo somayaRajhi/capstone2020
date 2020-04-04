@@ -1,9 +1,8 @@
 import requests_mock
-import json
+
 import pytest
 from c20_client.client import do_job
 from c20_client.connection_error import NoConnectionError
-from c20_client.get_documents import get_documents
 
 CLIENT_ID = 1
 JOB_ID = 1
@@ -12,6 +11,7 @@ OFFSET = '1000'
 START_DATE = '11/06/13'
 END_DATE = '03/06/14'
 DATE = START_DATE + '-' + END_DATE
+
 
 def test_do_job_documents_endpoint_call():
     with requests_mock.Mocker() as mock:
@@ -121,10 +121,10 @@ def test_do_job_documents_endpoint_call():
 #         assert 'capstone' in history[2].url
 
 
-# def test_no_connection_made_to_server():
-#     with requests_mock.Mocker() as mock:
-#         mock.get('http://capstone.cs.moravian.edu/get_job',
-#                  exc=True)
+def test_no_connection_made_to_server():
+    with requests_mock.Mocker() as mock:
+        mock.get('http://capstone.cs.moravian.edu/get_job',
+                 exc=True)
 
-#         with pytest.raises(NoConnectionError):
-#             do_job()
+        with pytest.raises(NoConnectionError):
+            do_job()
