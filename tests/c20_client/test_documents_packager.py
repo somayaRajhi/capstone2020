@@ -201,5 +201,6 @@ def test_many_document_id(multiple_documents):
     assert multiple_documents['data'][1]['data']['documentId'] == \
         'document-number-16'
 
+
 def test_multiple_documents_jobs(multiple_documents):
     assert multiple_documents['jobs'] == JOB2
