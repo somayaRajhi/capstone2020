@@ -3,7 +3,7 @@ Packages the documents endpoint to return
 to the server as defined in the RESULTS.md
 """
 import requests
-from c20_client.json_jobs_helper import get_jobs_from_documents
+from c20_client.json_jobs_helper import get_docket_from_documents, get_document_from_documents
 
 
 def package_documents(documents_list, client_id, job_id):
@@ -26,7 +26,8 @@ def package_documents(documents_list, client_id, job_id):
             }
         )
 
-        jobs_list.append(get_jobs_from_documents(documents))
+        jobs_list.append(get_document_from_documents(documents))
+        jobs_list.append(get_docket_from_documents(documents))
 
     documents = {
         'client_id': client_id,

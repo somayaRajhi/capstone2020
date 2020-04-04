@@ -28,6 +28,36 @@ TEST_JSON2 = {
     }]
 }
 
+JOB1 = [
+        {
+            'job_type': 'document',
+            'document_id': 'document-number-15'
+        },
+        {
+            'job_type': 'docket',
+            'docket_id': 'docket-number-3'
+        },
+    ]
+
+JOB2 = [
+        {
+            'job_type': 'document',
+            'document_id': 'document-number-15'
+        },
+        {
+            'job_type': 'docket',
+            'docket_id': 'docket-number-3'
+        },
+        {
+            'job_type': 'document',
+            'document_id': 'document-number-16'
+        },
+        {
+            'job_type': 'docket',
+            'docket_id': 'docket-number-4'
+        }
+    ]
+
 
 @pytest.fixture(name='single_documents')
 def fixture_single_documents():
@@ -36,7 +66,7 @@ def fixture_single_documents():
                   json={'client_id': CLIENT_ID,
                         'job_id': JOB_ID,
                         'data': TEST_JSON,
-                        'jobs': 'jobs'})
+                        'jobs': JOB1})
         response = documents_packager.package_documents(TEST_JSON,
                                                         CLIENT_ID,
                                                         JOB_ID)
@@ -54,7 +84,7 @@ def fixture_multiple_documents():
                   json={'client_id': CLIENT_ID,
                         'job_id': JOB_ID,
                         'data': TEST_JSON2,
-                        'jobs': 'jobs'})
+                        'jobs': JOB2})
         response = documents_packager.package_documents(TEST_JSON2,
                                                         CLIENT_ID,
                                                         JOB_ID)
@@ -79,7 +109,7 @@ def test_get_documents(single_documents):
                 'documentId': 'document-number-15'
             }
         }],
-        'jobs': 'jobs'
+        'jobs': JOB1
     }
 
 
@@ -170,3 +200,6 @@ def test_many_document_id(multiple_documents):
         'document-number-15'
     assert multiple_documents['data'][1]['data']['documentId'] == \
         'document-number-16'
+
+def test_multiple_documents_jobs(multiple_documents):
+    assert multiple_documents['jobs'] == JOB2
