@@ -101,7 +101,7 @@ def test_get_documents(single_documents):
         'job_id': JOB_ID,
         'data': [{
             'folder_name': 'test/docket-number-3/document-number-15/',
-            'file_name': 'basic_documents.json',
+            'file_name': 'basic_document.json',
             'data': {
                 'agencyAcronym': 'test',
                 'data': 'test Documents',
@@ -124,7 +124,7 @@ def test_folder_name(single_documents):
 
 def test_file_name(single_documents):
     assert single_documents['data'][0]['file_name'] == \
-           'basic_documents.json'
+           'basic_document.json'
 
 
 def test_agency_acronym(single_documents):
@@ -150,7 +150,7 @@ def test_document_id(single_documents):
 def test_get_many_documents(multiple_documents):
     assert multiple_documents['data'][1] == {
         'folder_name': 'test/docket-number-4/document-number-16/',
-        'file_name': 'basic_documents.json',
+        'file_name': 'basic_document.json',
         'data': {
             'agencyAcronym': 'test',
             'data': 'test Documents 2',
@@ -169,9 +169,9 @@ def test_many_folder_name(multiple_documents):
 
 def test_many_file_name(multiple_documents):
     assert multiple_documents['data'][0]['file_name'] == \
-        'basic_documents.json'
+        'basic_document.json'
     assert multiple_documents['data'][1]['file_name'] == \
-        'basic_documents.json'
+        'basic_document.json'
 
 
 def test_many_agency_acronym(multiple_documents):

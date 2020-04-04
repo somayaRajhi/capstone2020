@@ -24,7 +24,7 @@ def package_documents(documents_list, client_id, job_id):
         documents_data_list.append(
             {
                 'folder_name': folder_name,
-                'file_name': 'basic_documents.json',
+                'file_name': 'basic_document.json',
                 'data': documents
             }
         )
