@@ -1,4 +1,3 @@
-import requests_mock
 import pytest
 from c20_client import documents_packager
 
@@ -61,38 +60,18 @@ JOB2 = [
 
 @pytest.fixture(name='single_documents')
 def fixture_single_documents():
-    with requests_mock.Mocker() as mock:
-        mock.post('http://capstone.cs.moravian.edu',
-                  json={'client_id': CLIENT_ID,
-                        'job_id': JOB_ID,
-                        'data': TEST_JSON,
-                        'jobs': JOB1})
-        response = documents_packager.package_documents(TEST_JSON,
-                                                        CLIENT_ID,
-                                                        JOB_ID)
-        history = mock.request_history
-
-        assert len(history) == 1
-        assert 'capstone' in history[0].url
-        return response
+    response = documents_packager.package_documents(TEST_JSON,
+                                                    CLIENT_ID,
+                                                    JOB_ID)
+    return response
 
 
 @pytest.fixture(name='multiple_documents')
 def fixture_multiple_documents():
-    with requests_mock.Mocker() as mock:
-        mock.post('http://capstone.cs.moravian.edu',
-                  json={'client_id': CLIENT_ID,
-                        'job_id': JOB_ID,
-                        'data': TEST_JSON2,
-                        'jobs': JOB2})
-        response = documents_packager.package_documents(TEST_JSON2,
-                                                        CLIENT_ID,
-                                                        JOB_ID)
-        history = mock.request_history
-
-        assert len(history) == 1
-        assert 'capstone' in history[0].url
-        return response
+    response = documents_packager.package_documents(TEST_JSON2,
+                                                    CLIENT_ID,
+                                                    JOB_ID)
+    return response
 
 
 def test_get_documents(single_documents):

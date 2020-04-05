@@ -39,18 +39,22 @@ def get_result_for_job(job):
             job["page_offset"],
             job["start_date"],
             job["end_date"])
-        package_documents(data, CLIENT_ID, job_id)
+        results = package_documents(data, CLIENT_ID, job_id)
 
     elif job_type == 'document':
         data = download_document(
             API_KEY,
             job['document_id']
         )
-        # package_document(data, CLIENT_ID, job_id)
+        results = ""
+        # results = package_document(data, CLIENT_ID, job_id)
 
     elif job_type == 'docket':
         data = get_docket(
             API_KEY,
             job['docket_id']
         )
-        # package_docket(data, CLIENT_ID, job_id)
+        results = ""
+        # results = package_docket(data, CLIENT_ID, job_id)
+
+    requests.post('http://capstone.cs.moravian.edu', results)

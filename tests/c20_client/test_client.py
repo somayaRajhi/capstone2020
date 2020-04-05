@@ -70,29 +70,27 @@ def test_do_job_document_endpoint_call():
                      "agencyAcronym": 'NBA',
                      'fileFormats': 'url'}]
                       })
-        # UNCOMMENT WHEN PACKAGER IS MADE, CHANGE HISTORY LENGTH == 3
-        # data = [{
-        #     'folder_name': 'NBA/NBA-ABC/NBA-ABC-123',
-        #     'file_name': 'document.json',
-        #     'data': {"agencyAcronym": 'NBA',
-        #              'fileFormats': 'url'}
-        #     }]
-        # jobs = [
-        #     'url'
-        # ]
-        # mock.post('http://capstone.cs.moravian.edu',
-        #           json={'client_id': CLIENT_ID,
-        #                 'job_id': JOB_ID,
-        #                 'data': data,
-        #                 'jobs': jobs})
+        data = [{
+            'folder_name': 'NBA/NBA-ABC/NBA-ABC-123',
+            'file_name': 'document.json',
+            'data': {"agencyAcronym": 'NBA',
+                     'fileFormats': 'url'}
+            }]
+        jobs = [
+            'url'
+        ]
+        mock.post('http://capstone.cs.moravian.edu',
+                  json={'client_id': CLIENT_ID,
+                        'job_id': JOB_ID,
+                        'data': data,
+                        'jobs': jobs})
 
         do_job()
         history = mock.request_history
 
-        assert len(history) == 2
+        assert len(history) == 3
         assert 'capstone' in history[0].url
         assert 'api.data.gov' in history[1].url
-        # assert 'capstone' in history[2].url
 
 
 def test_do_job_docket_endpoint_call():
@@ -107,25 +105,24 @@ def test_do_job_docket_endpoint_call():
                      "agencyAcronym": 'NBA',
                      'information': 'some data'}]
                       })
-        # UNCOMMENT WHEN PACKAGER IS MADE, CHANGE HISTORY LENGTH == 3
-        # data = [{
-        #     'folder_name': 'NBA/NBA-ABC/',
-        #     'file_name': 'docket.json',
-        #     'data': {"agencyAcronym": 'NBA',
-        #              'information': 'some data'}
-        #     }]
-        # mock.post('http://capstone.cs.moravian.edu',
-        #           json={'client_id': CLIENT_ID,
-        #                 'job_id': JOB_ID,
-        #                 'data': data})
+        data = [{
+            'folder_name': 'NBA/NBA-ABC/',
+            'file_name': 'docket.json',
+            'data': {"agencyAcronym": 'NBA',
+                     'information': 'some data'}
+            }]
+        mock.post('http://capstone.cs.moravian.edu',
+                  json={'client_id': CLIENT_ID,
+                        'job_id': JOB_ID,
+                        'data': data})
 
         do_job()
         history = mock.request_history
 
-        assert len(history) == 2
+        assert len(history) == 3
         assert 'capstone' in history[0].url
         assert 'api.data.gov' in history[1].url
-        # assert 'capstone' in history[2].url
+        assert 'capstone' in history[2].url
 
 
 def test_no_connection_made_to_server():
