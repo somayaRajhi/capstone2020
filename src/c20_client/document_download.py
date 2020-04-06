@@ -37,8 +37,5 @@ def download_document(api_key, document_id):
     if data.status_code == 429:
         raise reggov_api_doc_error.ExceedCallLimitException
     document = data.json()
-    file_formats = extract_file_formats(document)
-    file_attachments = extract_attachments(document)
-    if file_formats:
-        return document, file_formats
-    return document, file_attachments
+
+    return document

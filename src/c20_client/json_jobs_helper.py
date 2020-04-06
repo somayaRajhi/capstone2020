@@ -34,9 +34,20 @@ def get_download_from_document(document):
     """
     Get the download job from the data in the document endpoint
     """
+    file_formats = find_formats(document)
+
     jobs = {
         'job_type': 'download',
-        "fileFormats": document['fileFormats']
+        'fileFormats': file_formats
     }
-
     return jobs
+
+
+def find_formats(document):
+    if 'attachments' in document:
+        file_formats = []
+        for formats in document['attachments']:
+            file_formats += formats['fileFormats']
+    else:
+        file_formats = document['fileFormats']
+    return file_formats
