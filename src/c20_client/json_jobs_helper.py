@@ -22,7 +22,6 @@ def get_document_from_documents(document):
     Get the document job from a single piece of
     the overall data in the documents endpoint
     """
-    
     job = {
         'job_type': 'document',
         'document_id': document['documentId']
