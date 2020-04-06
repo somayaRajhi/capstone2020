@@ -29,8 +29,7 @@ def test_get_docket(get_docket):
                     "data": "STUFF"
                 }
             }
-        }
-        ]
+        }]
     }]
 
 
