@@ -4,6 +4,8 @@
 #
 # In PyCharm, you can install a plugin for Makefile support that
 # will use tabs
+all: test static
+
 test:
 	pytest
 
