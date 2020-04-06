@@ -47,19 +47,22 @@ def test_single_job():
         "start_date": "this_is_a_start_date",
         "end_date": "this_is_an_end_date"
     }
-    document_job = job.DocumentsJob("this_is_a_job_id",
+    test_job = job_translator.json_to_job(json_example)
+    print(test_job[0])
+    document_job = job.DocumentsJob(test_job[0],
                                     "this_is_a_page_offset",
                                     "this_is_a_start_date",
                                     "this_is_an_end_date")
-    assert job_translator.json_to_job(json_example) == document_job
+    assert test_job == document_job
 
 
 def test_handle_single_job():
+    test_job = job_translator.handle_jobs(JSON_RESULT_EXAMPLE)
     job_list = [
         job.DocumentsJob(
-            job_id='this_is_a_job_id',
+            job_id=test_job[0][0],
             page_offset='this_is_a_page_offset',
             start_date='this_is_a_start_date',
             end_date='this_is_an_end_date')
     ]
-    assert job_translator.handle_jobs(JSON_RESULT_EXAMPLE) == job_list
+    assert test_job == job_list
