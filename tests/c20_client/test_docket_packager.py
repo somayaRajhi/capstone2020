@@ -49,7 +49,7 @@ def test_agency(get_docket):
     assert get_docket[0]['data'][0]['data']['agency'] == 'test'
 
 
-def test_docketId(get_docket):
+def test_docket_id(get_docket):
     assert get_docket[0]['data'][0]['data']['docketId'] == '123'
 
 
