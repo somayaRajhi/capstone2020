@@ -12,7 +12,7 @@ def test_mock_response():
     with requests_mock.Mocker() as mock:
         mock.get(URL, json='document received')
         response = document_download.download_document(API_KEY, DOC_ID)
-        assert response[0] == 'document received'
+        assert response == 'document received'
 
 
 def test_incorrect_id_pattern():
@@ -47,34 +47,3 @@ def test_exceed_call_limit():
                  status_code=429)
         with pytest.raises(reggov_api_doc_error.ExceedCallLimitException):
             document_download.download_document(API_KEY, DOC_ID)
-
-
-def test_file_formats():
-    with requests_mock.Mocker() as mock:
-        mock.get(URL, json={'fileFormats': ['file link']})
-        response = document_download.download_document(API_KEY, DOC_ID)
-        assert response[1][0] == 'file link'
-
-
-def test_multiple_file_formats():
-    with requests_mock.Mocker() as mock:
-        mock.get(URL, json={'fileFormats': ['file link', 'file link2']})
-        response = document_download.download_document(API_KEY, DOC_ID)
-        assert response[1][0] == 'file link'
-        assert response[1][1] == 'file link2'
-
-
-def test_attachments():
-    with requests_mock.Mocker() as mock:
-        mock.get(URL, json={'attachments': [{'fileFormats': ['file link']}]})
-        response = document_download.download_document(API_KEY, DOC_ID)
-        assert response[1][0] == 'file link'
-
-
-def test_multiple_attachments():
-    with requests_mock.Mocker() as mock:
-        mock.get(URL, json={'attachments': [{'fileFormats': ['file link']},
-                                            {'fileFormats': ['file link2']}]})
-        response = document_download.download_document(API_KEY, DOC_ID)
-        assert response[1][0] == 'file link'
-        assert response[1][1] == 'file link2'
