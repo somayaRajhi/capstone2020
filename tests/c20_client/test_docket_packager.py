@@ -8,8 +8,8 @@ TEST_JSON = [{
 }]
 
 
-@pytest.fixture()
-def get_docket():
+@pytest.fixture(name='get_docket')
+def fixture_get_docket():
     response = docket_packager.package_docket(TEST_JSON)
     return response
 
