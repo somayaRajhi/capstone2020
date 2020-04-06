@@ -18,7 +18,7 @@ def test_get_docket():
         response = get_docket(API_KEY, DOCKET_ID)
 
         assert (response ==
-                {'data': {'test': 'The test is successful'}})
+                {'test': 'The test is successful'})
 
 
 def test_bad_docket_id():

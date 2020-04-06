@@ -3,10 +3,14 @@ Gets a job from the server and handles the job based on the type of job
 """
 import requests
 from c20_client.connection_error import NoConnectionError
+
 from c20_client.get_documents import get_documents
-from c20_client.documents_packager import package_documents
 from c20_client.document_download import download_document
 from c20_client.retrieve_docket import get_docket
+
+from c20_client.documents_packager import package_documents
+from c20_client.docket_packager import package_docket
+from c20_client.document_packager import package_document
 
 CLIENT_ID = 1
 API_KEY = ""
@@ -46,15 +50,13 @@ def get_result_for_job(job):
             API_KEY,
             job['document_id']
         )
-        results = ""
-        # results = package_document(data, CLIENT_ID, job_id)
+        results = package_document(data, CLIENT_ID, job_id)
 
     elif job_type == 'docket':
         data = get_docket(
             API_KEY,
             job['docket_id']
         )
-        results = ""
-        # results = package_docket(data, CLIENT_ID, job_id)
+        results = package_docket(data, CLIENT_ID, job_id)
 
     requests.post('http://capstone.cs.moravian.edu', results)

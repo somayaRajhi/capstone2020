@@ -26,4 +26,4 @@ def get_docket(api_key, docket_id):
     and the data for the current job
     """
     docket = get_docket_data(api_key, docket_id)
-    return {"data": docket}
+    return docket
