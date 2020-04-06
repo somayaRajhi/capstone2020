@@ -5,15 +5,13 @@ def package_document(document, client_id, job_id):
     folder_name = (document['agencyName']['value'] + "/" +
                    document['docketId']['value'] + "/" +
                    document['documentId']['value'] + "/")
-    data = {
+    data = [{
         'folder_name': folder_name,
         'file_name': 'basic_document.json',
         'data': document
-    }
+    }]
 
-    jobs_list = []
-    if 'fileFormats' in document or 'attachments' in document:
-        jobs_list = json_jobs_helper.get_download_from_document(document)
+    jobs_list = get_jobs_list(document)
 
     return_document = {
         'client_id': client_id,
@@ -23,3 +21,19 @@ def package_document(document, client_id, job_id):
     }
 
     return return_document
+
+
+def get_jobs_list(document):
+    jobs_list = []
+    if 'fileFormats' in document:
+        for files in document['fileFormats']:
+            jobs_list.append(
+                json_jobs_helper.get_download_from_document(files))
+
+    if 'attachments' in document:
+        for attachment in document['attachments']:
+            for files in attachment['fileFormats']:
+                jobs_list.append(
+                    json_jobs_helper.get_download_from_document(files))
+
+    return jobs_list
