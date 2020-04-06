@@ -1,6 +1,7 @@
+import json
 from c20_server import job_translator_errors
 from c20_server.job import DocumentsJob
-import json
+
 
 DOCUMENTS = 'documents'
 DOCUMENT = 'document'
@@ -14,23 +15,31 @@ into multiple json objects that get sent to json_to_job
 
 
 def handle_jobs(json_data):
+    job_list = []
+
     try:
         json_data = json.loads(json_data)
     except TypeError:
         return {}
+
     json_jobs = json_data['jobs']
-    for index in range(len(json_jobs)):
-        json_to_job(json_jobs[index])
+    index = 0
+
+    while index < len(json_jobs):
+        job = json_to_job(json_jobs[index])
+        job_list.append(job)
+        index += 1
+    return job_list
 
 
 def json_to_job(json_job):
     job_type = json_job['job_type']
     job_id = json_job['job_id']
+
     if job_type == DOCUMENTS:
         page_offset = json_job['page_offset']
         start_date = json_job['start_date']
         end_date = json_job['end_date']
         return DocumentsJob(job_id, page_offset, start_date, end_date)
-    else:
-        raise job_translator_errors.UnrecognizedJobTypeException
 
+    raise job_translator_errors.UnrecognizedJobTypeException
