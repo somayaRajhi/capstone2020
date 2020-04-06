@@ -8,6 +8,7 @@ DOCUMENTS = 'documents'
 DOCUMENT = 'document'
 DOCKET = 'docket'
 DOWNLOAD = 'download'
+NONE = 'none'
 
 """
 handle_jobs will take the return result json from client and split it up
