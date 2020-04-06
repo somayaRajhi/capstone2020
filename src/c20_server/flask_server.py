@@ -25,5 +25,5 @@ def create_app():
         json_data = request.json
         if json_data is None:
             return{}, 400
-        return {}, 200
+        return json_data, 200
     return app
