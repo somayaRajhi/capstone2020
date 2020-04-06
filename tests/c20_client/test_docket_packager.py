@@ -49,3 +49,10 @@ def test_agency(get_docket):
 
 def test_docket_id(get_docket):
     assert get_docket['data'][0]['data']['docketId'] == '123'
+
+
+def test_file_contents(get_docket):
+    assert get_docket['data'][0]['data']['file_contents'] == {
+        "agencyAcronym": "test",
+        "docketId": "123"
+    }
