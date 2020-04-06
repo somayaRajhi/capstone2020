@@ -49,5 +49,3 @@ def test_agency(get_docket):
 
 def test_docket_id(get_docket):
     assert get_docket['data'][0]['data']['docketId'] == '123'
-
-
