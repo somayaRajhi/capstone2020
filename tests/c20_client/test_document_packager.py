@@ -5,7 +5,7 @@ CLIENT_ID = 1
 JOB_ID = 1
 
 TEST_JSON = {
-    'agencyName': {'value': 'test'},
+    'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
     'documentId': {'value': 'document-number-10'}
 }
@@ -22,7 +22,7 @@ ONE_FILE_FORMAT_JSON = {
     'fileFormats': [
         'URL'
     ],
-    'agencyName': {'value': 'test'},
+    'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
     'documentId': {'value': 'document-number-10'}
 }
@@ -40,7 +40,7 @@ MANY_FILE_FORMAT_JSON = {
         'URL',
         'URL2'
     ],
-    'agencyName': {'value': 'test'},
+    'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
     'documentId': {'value': 'document-number-10'}
 }
@@ -60,7 +60,7 @@ ONE_ATTACHMENT_JSON = {
             'URL'
         ]
     }],
-    'agencyName': {'value': 'test'},
+    'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
     'documentId': {'value': 'document-number-10'}
 }
@@ -81,7 +81,7 @@ ATTACHMENT_MANY_FILES_JSON = {
             'URL2'
         ]
     }],
-    'agencyName': {'value': 'test'},
+    'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
     'documentId': {'value': 'document-number-10'}
 }
@@ -106,7 +106,7 @@ MANY_ATTACHMENTS_JSON = {
             'URL2',
         ]
     }],
-    'agencyName': {'value': 'test'},
+    'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
     'documentId': {'value': 'document-number-10'}
 }

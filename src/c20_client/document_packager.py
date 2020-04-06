@@ -2,7 +2,7 @@ from c20_client import json_jobs_helper
 
 
 def package_document(document, client_id, job_id):
-    folder_name = (document['agencyName']['value'] + "/" +
+    folder_name = (document['agencyAcronym']['value'] + "/" +
                    document['docketId']['value'] + "/" +
                    document['documentId']['value'] + "/")
     data = [{

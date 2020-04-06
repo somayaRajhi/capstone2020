@@ -34,7 +34,6 @@ def get_download_from_document(file):
     """
     Get the download job from the data in the document endpoint
     """
-
     jobs = {
         'job_type': 'download',
         'url': file

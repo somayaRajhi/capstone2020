@@ -63,13 +63,14 @@ def test_do_job_document_endpoint_call():
     with requests_mock.Mocker() as mock:
         mock.get('http://capstone.cs.moravian.edu/get_job',
                  json={'job_type': 'document', 'job_id': JOB_ID,
-                       'document_id': 'abc-123'})
+                       'document_id': 'NBA-ABC-123'})
         mock.get('https://api.data.gov:443/regulations/v3/document.json?' +
-                 'api_key=' + API_KEY + "&documentId=abc-123",
-                 json={'documents': [{
-                     "agencyAcronym": 'NBA',
-                     'fileFormats': 'url'}]
-                      })
+                 '&api_key=' + API_KEY + "&documentId=NBA-ABC-123",
+                 json={
+                     "agencyAcronym": {'value': 'NBA'},
+                     'fileFormats': 'url',
+                     'docketId': {'value': 'NBA-ABC'},
+                     'documentId': {'value': 'NBA-ABC-123'}})
         data = [{
             'folder_name': 'NBA/NBA-ABC/NBA-ABC-123',
             'file_name': 'document.json',
@@ -102,10 +103,10 @@ def test_do_job_docket_endpoint_call():
         mock.get("https://api.data.gov:443/" +
                  "regulations/v3/docket.json?api_key=" +
                  API_KEY + "&docketId=ABC",
-                 json={'documents': [{
+                 json={
                      "agencyAcronym": 'NBA',
-                     'information': 'some data'}]
-                      })
+                     'information': 'some data',
+                     'docketId': 'NBA-ABC'})
         data = [{
             'folder_name': 'NBA/NBA-ABC/',
             'file_name': 'docket.json',
