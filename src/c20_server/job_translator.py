@@ -1,4 +1,5 @@
 import json
+import uuid
 from c20_server import job_translator_errors
 from c20_server.job import DocumentsJob
 
@@ -23,8 +24,8 @@ def handle_jobs(json_data):
         return {}
 
     json_jobs = json_data['jobs']
-    index = 0
 
+    index = 0
     while index < len(json_jobs):
         job = json_to_job(json_jobs[index])
         job_list.append(job)
@@ -33,8 +34,9 @@ def handle_jobs(json_data):
 
 
 def json_to_job(json_job):
+    job_id = str(uuid.uuid4())
+    json_job['job_id'] = job_id
     job_type = json_job['job_type']
-    job_id = json_job['job_id']
 
     if job_type == DOCUMENTS:
         page_offset = json_job['page_offset']
