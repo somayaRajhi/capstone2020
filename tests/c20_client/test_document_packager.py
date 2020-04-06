@@ -128,38 +128,38 @@ def test_job_id(document):
 
 
 def test_folder_name(document):
-    assert document['data']['folder_name'] == \
+    assert document['data'][0]['folder_name'] == \
            'test/docket-number-5/document-number-10/'
 
 
 def test_file_name(document):
-    assert document['data']['file_name'] == \
+    assert document['data'][0]['file_name'] == \
            'basic_document.json'
 
 
 def test_document_data(document):
-    assert document['data']['data'] == TEST_JSON
+    assert document['data'][0]['data'] == TEST_JSON
 
 
 def test_one_job(one_downloads_document):
-    assert one_downloads_document['jobs']['fileFormats'][0] == 'URL'
+    assert one_downloads_document['jobs'][0]['url'] == 'URL'
 
 
 def test_multiple_fileformats(many_downloads_document):
-    assert many_downloads_document['jobs']['fileFormats'][0] == 'URL'
-    assert many_downloads_document['jobs']['fileFormats'][1] == 'URL2'
+    assert many_downloads_document['jobs'][0]['url'] == 'URL'
+    assert many_downloads_document['jobs'][1]['url'] == 'URL2'
 
 
 def test_one_attachment(one_attachment_document):
-    assert one_attachment_document['jobs']['fileFormats'][0] == 'URL'
+    assert one_attachment_document['jobs'][0]['url'] == 'URL'
 
 
 def test_one_attachment_many_fileformats(one_attachment_many_file_document):
-    assert one_attachment_many_file_document['jobs']['fileFormats'][0] == 'URL'
-    assert one_attachment_many_file_document['jobs']['fileFormats'][1] == \
+    assert one_attachment_many_file_document['jobs'][0]['url'] == 'URL'
+    assert one_attachment_many_file_document['jobs'][1]['url'] == \
         'URL2'
 
 
 def test_many_attachments(many_attachments_document):
-    assert many_attachments_document['jobs']['fileFormats'][0] == 'URL'
-    assert many_attachments_document['jobs']['fileFormats'][1] == 'URL2'
+    assert many_attachments_document['jobs'][0]['url'] == 'URL'
+    assert many_attachments_document['jobs'][1]['url'] == 'URL2'

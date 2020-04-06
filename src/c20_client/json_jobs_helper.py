@@ -22,6 +22,7 @@ def get_document_from_documents(document):
     Get the document job from a single piece of
     the overall data in the documents endpoint
     """
+    
     job = {
         'job_type': 'document',
         'document_id': document['documentId']
@@ -30,15 +31,14 @@ def get_document_from_documents(document):
     return job
 
 
-def get_download_from_document(document):
+def get_download_from_document(file):
     """
     Get the download job from the data in the document endpoint
     """
-    file_formats = find_formats(document)
 
     jobs = {
         'job_type': 'download',
-        'fileFormats': file_formats
+        'url': file
     }
     return jobs
 
