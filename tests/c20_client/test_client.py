@@ -91,6 +91,7 @@ def test_do_job_document_endpoint_call():
         assert len(history) == 3
         assert 'capstone' in history[0].url
         assert 'api.data.gov' in history[1].url
+        assert 'capstone' in history[2].url
 
 
 def test_do_job_docket_endpoint_call():
