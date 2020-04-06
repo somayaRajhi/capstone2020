@@ -7,16 +7,14 @@ to the server as defined in the RESULTS.md
 CLIENT_ID = 1
 
 
-def package_docket(docket_list):
+def package_docket(docket):
     """
     Packages the docket endpoint match RESULTS.md
     """
-    return_docket = []
-    for docket in docket_list:
-        agency = docket['agencyAcronym']
-        docket_id = docket['docketId']
-        folder_name = agency + "/" + docket_id + "/"
-        return_docket.append({
+    agency = docket['agencyAcronym']
+    docket_id = docket['docketId']
+    folder_name = agency + "/" + docket_id + "/"
+    return({
             'client_id': CLIENT_ID,
             'data': [
                 {
@@ -29,7 +27,5 @@ def package_docket(docket_list):
                             'file_contents': docket
 
                         }
-                }
-            ]
-        })
-    return return_docket
+                }]
+            })
