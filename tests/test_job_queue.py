@@ -98,7 +98,7 @@ def test_one_docket_job_added_is_returned_by_get(job_queue, docket_job):
 def test_one_download_job_added_is_returned_by_get(job_queue, download_job):
     job_queue.add_job(download_job)
     assert job_queue.get_num_unassigned_jobs() == 1
-    requested_docket_job = job_queue.get_job()
+    requested_download_job = job_queue.get_job()
     url = "https://.../download?documentId=...&contentType=pdf"
-    assert requested_docket_job.job_id == 'job01'
-    assert requested_docket_job.url == url
+    assert requested_download_job.job_id == 'job01'
+    assert requested_download_job.url == url
