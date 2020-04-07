@@ -3,14 +3,7 @@ Test the retrieve_docket.py file
 """
 import requests_mock
 import pytest
-from c20_client.retrieve_docket import (
-    jformat,
-    get_docket,
-    get_data_json,
-    get_data_string,
-    get_job_string,
-    get_job_json
-)
+from c20_client.retrieve_docket import get_docket
 from c20_client import reggov_api_doc_error
 
 URL = "https://api.data.gov:443/regulations/v3/docket.json?api_key="
@@ -25,8 +18,7 @@ def test_get_docket():
         response = get_docket(API_KEY, DOCKET_ID)
 
         assert (response ==
-                {'data': {'test': 'The test is successful'},
-                 'job': {'url': 'EPA-HQ-OAR-2011-0028', 'job_type': 'docket'}})
+                {'test': 'The test is successful'})
 
 
 def test_bad_docket_id():
@@ -83,27 +75,3 @@ def test_maxed_api_key():
 
         with pytest.raises(reggov_api_doc_error.ExceedCallLimitException):
             get_docket(API_KEY, DOCKET_ID)
-
-
-def test_get_docket_data():
-    with requests_mock.Mocker() as mock:
-        mock.get(URL + API_KEY + "&docketID=" + DOCKET_ID,
-                 json={'test': 'The test is successful'})
-        json_response = get_data_json(API_KEY, DOCKET_ID)
-        string_response = get_data_string(API_KEY, DOCKET_ID)
-
-        assert json_response == {'data': {'test': 'The test is successful'}}
-        assert string_response == jformat(json_response)
-
-
-def test_get_job_information():
-    with requests_mock.Mocker() as mock:
-        mock.get(URL + API_KEY + "&docketID=" + DOCKET_ID,
-                 json={'test': 'The test is successful'})
-        json_response = get_job_json(DOCKET_ID)
-        string_response = get_job_string(DOCKET_ID)
-
-        assert json_response == {'job':
-                                 {'url': 'EPA-HQ-OAR-2011-0028',
-                                  'job_type': 'docket'}}
-        assert string_response == jformat(json_response)
