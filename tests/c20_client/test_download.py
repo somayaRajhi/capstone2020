@@ -3,8 +3,10 @@ import requests_mock
 from c20_client import get_download
 from c20_client import reggov_api_doc_error
 
-URL = "https://api.data.gov:443/regulations/v3/download.json?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf"
-BAD_URL = "https://api.data.gov:443/regulations/v3/download.json?documentId=EPA-HQ-OAR-2011-0000-0108&contentType=pdf"
+URL = "https://api.data.gov:443/regulations/v3/download.json?" \
+      "documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf"
+BAD_URL = "https://api.data.gov:443/regulations/v3/download.json?" \
+          "documentId=EPA-HQ-OAR-2011-0000-0108&contentType=pdf"
 API_KEY = "12345"
 
 
