@@ -1,10 +1,10 @@
-
 """
 Test class for Job-Queue Class.
 """
 import pytest
 from c20_server.job_queue import JobQueue
-from c20_server.job import Job, DocumentsJob, DocumentJob, DocketJob
+from c20_server.job \
+    import Job, DocumentsJob, DocumentJob, DocketJob, DownloadJob
 from c20_server import job_queue_errors
 
 
@@ -26,6 +26,12 @@ def make_first_document_job():
 @pytest.fixture(name='docket_job')
 def make_first_docket_job():
     return DocketJob('job01', 'EPA-HQ-OAR-2011-0028')
+
+
+@pytest.fixture(name='download_job')
+def make_first_download_job():
+    url = "https://.../download?documentId=...&contentType=pdf"
+    return DownloadJob('job01', url)
 
 
 def test_one_job_added_is_returned_by_get(job_queue):
@@ -57,7 +63,6 @@ def test_get_one_job_from_empty_list(job_queue):
 
 
 def test_one_documents_job_added_is_returned_by_get(job_queue, documents_job):
-
     job_queue.add_job(documents_job)
     assert job_queue.get_num_unassigned_jobs() == 1
 
@@ -71,7 +76,6 @@ def test_one_documents_job_added_is_returned_by_get(job_queue, documents_job):
 
 
 def test_one_document_job_added_is_returned_by_get(job_queue, document_job):
-
     job_queue.add_job(document_job)
     assert job_queue.get_num_unassigned_jobs() == 1
 
@@ -83,10 +87,18 @@ def test_one_document_job_added_is_returned_by_get(job_queue, document_job):
 
 
 def test_one_docket_job_added_is_returned_by_get(job_queue, docket_job):
-
     job_queue.add_job(docket_job)
     assert job_queue.get_num_unassigned_jobs() == 1
 
     requested_docket_job = job_queue.get_job()
     assert requested_docket_job.job_id == 'job01'
     assert requested_docket_job.docket_id == 'EPA-HQ-OAR-2011-0028'
+
+
+def test_one_download_job_added_is_returned_by_get(job_queue, download_job):
+    job_queue.add_job(download_job)
+    assert job_queue.get_num_unassigned_jobs() == 1
+    requested_docket_job = job_queue.get_job()
+    url = "https://.../download?documentId=...&contentType=pdf"
+    assert requested_docket_job.job_id == 'job01'
+    assert requested_docket_job.url == url
