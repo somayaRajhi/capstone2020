@@ -20,3 +20,9 @@ class DocumentJob(namedtuple('DocumentJob',
                              ['job_id',
                               'document_id'])):
     pass
+
+
+class DocketJob(namedtuple('DocketJob',
+                           ['job_id',
+                            'docket_id'])):
+    pass
