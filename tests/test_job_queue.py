@@ -4,7 +4,7 @@ Test class for Job-Queue Class.
 """
 import pytest
 from c20_server.job_queue import JobQueue
-from c20_server.job import Job, DocumentsJob
+from c20_server.job import Job, DocumentsJob, DocumentJob
 from c20_server import job_queue_errors
 
 
@@ -16,6 +16,11 @@ def make_job_queue():
 @pytest.fixture(name='documents_job')
 def make_first_documents_job():
     return DocumentsJob('job01', 1000, '2020-1-28', '2020-5-6')
+
+
+@pytest.fixture(name='document_job')
+def make_first_document_job():
+    return DocumentJob('job01', 'EPA-HQ-OAR-2011-0028-0108')
 
 
 def test_one_job_added_is_returned_by_get(job_queue):
@@ -58,3 +63,15 @@ def test_one_documents_job_added_is_returned_by_get(job_queue, documents_job):
     assert requested_job.page_offset == 1000
     assert requested_job.start_date == '2020-1-28'
     assert requested_job.end_date == '2020-5-6'
+
+
+def test_one_document_job_added_is_returned_by_get(job_queue, document_job):
+
+    job_queue.add_job(document_job)
+    assert job_queue.get_num_unassigned_jobs() == 1
+
+    requested_job = job_queue.get_job()
+    assert job_queue.get_num_unassigned_jobs() == 0
+
+    assert requested_job.job_id == 'job01'
+    assert requested_job.document_id == 'EPA-HQ-OAR-2011-0028-0108'

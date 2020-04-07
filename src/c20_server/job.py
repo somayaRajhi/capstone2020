@@ -14,3 +14,9 @@ class DocumentsJob(namedtuple('DocumentsJob',
                                'end_date']
                               )):
     pass
+
+
+class DocumentJob(namedtuple('DocumentJob',
+                             ['job_id',
+                              'document_id'])):
+    pass
