@@ -3,31 +3,23 @@ import pytest
 from c20_server import job
 from c20_server import job_translator
 from c20_server import job_translator_errors
-from c20_server.job import DocumentsJob
+from c20_server.job import DocumentsJob, DocumentJob, DocketJob, DownloadJob
 
-JSON_RESULT_EXAMPLE = \
-    {
-        "Data": [
-            {
-                "folder_name": "this_is_a_folder_name",
-                "file_name": "this_is_a_file_name",
-                "contents": {}
-            }
-        ],
-        "jobs": [
-            {
-                "job_type": "documents",
-                "job_id": "this_is_a_job_id",
-                "page_offset": "this_is_a_page_offset",
-                "start_date": "this_is_a_start_date",
-                "end_date": "this_is_an_end_date"
-            },
-        ]
+
+def test_handle_job_empty_json():
+    assert job_translator.handle_jobs({}) == {}
+
+
+def test_throw_invalid_job_type_exception():
+    json_example = {
+        "job_type": "invalid",
+        "job_id": "this_is_a_job_id"
     }
-JSON_RESULT_EXAMPLE = json.dumps(JSON_RESULT_EXAMPLE)
+    with pytest.raises(job_translator_errors.UnrecognizedJobTypeException):
+        job_translator.json_to_job(json_example)
 
 
-def test_job_is_json():
+def test_documents_job_to_json():
     job_example = DocumentsJob("this_is_a_job_id",
                                "this_is_a_page_offset",
                                "this_is_a_start_date",
@@ -44,20 +36,46 @@ def test_job_is_json():
     assert job_json == job_json_expected
 
 
-def test_handle_job_empty_json():
-    assert job_translator.handle_jobs({}) == {}
+def test_document_job_to_json():
+    job_example = DocumentJob("this_is_a_job_id",
+                              "this_is_a_document_id")
+
+    job_json = job_translator.job_to_json(job_example)
+
+    job_json_expected = {"job_id": "this_is_a_job_id",
+                         "document_id": "this_is_a_document_id",
+                         "job_type": "document"}
+    job_json_expected = json.dumps(job_json_expected)
+    assert job_json == job_json_expected
 
 
-def test_throw_invalid_job_type_exception():
-    json_example = {
-        "job_type": "invalid",
-        "job_id": "this_is_a_job_id"
-    }
-    with pytest.raises(job_translator_errors.UnrecognizedJobTypeException):
-        job_translator.json_to_job(json_example)
+def test_docket_job_to_json():
+    job_example = DocketJob("this_is_a_job_id",
+                            "this_is_a_docket_id")
+
+    job_json = job_translator.job_to_json(job_example)
+
+    job_json_expected = {"job_id": "this_is_a_job_id",
+                         "docket_id": "this_is_a_docket_id",
+                         "job_type": "docket"}
+    job_json_expected = json.dumps(job_json_expected)
+    assert job_json == job_json_expected
 
 
-def test_single_job():
+def test_download_job_to_json():
+    job_example = DownloadJob("this_is_a_job_id",
+                              "this_is_a_url")
+
+    job_json = job_translator.job_to_json(job_example)
+
+    job_json_expected = {"job_id": "this_is_a_job_id",
+                         "url": "this_is_a_url",
+                         "job_type": "download"}
+    job_json_expected = json.dumps(job_json_expected)
+    assert job_json == job_json_expected
+
+
+def test_single_documents_json_to_job():
     json_example = {
         "job_type": "documents",
         "job_id": "this_is_a_job_id",
@@ -66,21 +84,137 @@ def test_single_job():
         "end_date": "this_is_an_end_date"
     }
     test_job = job_translator.json_to_job(json_example)
-    print(test_job[0])
-    document_job = job.DocumentsJob(test_job[0],
-                                    "this_is_a_page_offset",
-                                    "this_is_a_start_date",
-                                    "this_is_an_end_date")
+    documents_job = job.DocumentsJob(test_job[0],
+                                     "this_is_a_page_offset",
+                                     "this_is_a_start_date",
+                                     "this_is_an_end_date")
+    assert test_job == documents_job
+
+
+def test_single_document_json_to_job():
+    json_example = {
+        "job_type": "document",
+        "job_id": "this_is_a_job_id",
+        "document_id": "this_is_a_document_id"
+    }
+    test_job = job_translator.json_to_job(json_example)
+    document_job = job.DocumentJob(test_job[0],
+                                   "this_is_a_document_id")
     assert test_job == document_job
 
 
+def test_single_docket_json_to_job():
+    json_example = {
+        "job_type": "docket",
+        "job_id": "this_is_a_job_id",
+        "docket_id": "this_is_a_docket_id"
+    }
+    test_job = job_translator.json_to_job(json_example)
+    docket_job = job.DocketJob(test_job[0],
+                               "this_is_a_docket_id")
+    assert test_job == docket_job
+
+
+def test_single_download_json_to_job():
+    json_example = {
+        "job_type": "download",
+        "job_id": "this_is_a_job_id",
+        "url": "this_is_a_url"
+    }
+    test_job = job_translator.json_to_job(json_example)
+    download_job = job.DownloadJob(test_job[0],
+                                   "this_is_a_url")
+    assert test_job == download_job
+
+
 def test_handle_single_job():
-    test_job = job_translator.handle_jobs(JSON_RESULT_EXAMPLE)
+    json_result_sample = \
+        {
+            "Data": [
+                {
+                    "folder_name": "this_is_a_folder_name",
+                    "file_name": "this_is_a_file_name",
+                    "contents": {}
+                }
+            ],
+            "jobs": [
+                {
+                    "job_type": "documents",
+                    "job_id": "this_is_a_job_id",
+                    "page_offset": "this_is_a_page_offset",
+                    "start_date": "this_is_a_start_date",
+                    "end_date": "this_is_an_end_date"
+                },
+            ]
+        }
+    json_result_sample = json.dumps(json_result_sample)
+
+    test_job = job_translator.handle_jobs(json_result_sample)
+
     job_list = [
         job.DocumentsJob(
             job_id=test_job[0][0],
             page_offset="this_is_a_page_offset",
             start_date="this_is_a_start_date",
             end_date="this_is_an_end_date")
+    ]
+    assert test_job == job_list
+
+
+def test_handle_many_jobs():
+    json_result_sample_many = \
+        {
+            "Data": [
+                {
+                    "folder_name": "this_is_a_folder_name",
+                    "file_name": "this_is_a_file_name",
+                    "contents": {}
+                }
+            ],
+            "jobs": [
+                {
+                    "job_type": "documents",
+                    "job_id": "this_is_a_job_id",
+                    "page_offset": "this_is_a_page_offset",
+                    "start_date": "this_is_a_start_date",
+                    "end_date": "this_is_an_end_date"
+                },
+                {
+                    "job_type": "document",
+                    "job_id": "this_is_a_job_id",
+                    "document_id": "this_is_a_document_id"
+                },
+                {
+                    "job_type": "docket",
+                    "job_id": "this_is_a_job_id",
+                    "docket_id": "this_is_a_docket_id"
+                },
+                {
+                    "job_type": "download",
+                    "job_id": "this_is_a_job_id",
+                    "url": "this_is_a_url"
+                },
+
+            ]
+        }
+    json_result_sample_many = json.dumps(json_result_sample_many)
+
+    test_job = job_translator.handle_jobs(json_result_sample_many)
+
+    job_list = [
+        job.DocumentsJob(
+            job_id=test_job[0][0],
+            page_offset="this_is_a_page_offset",
+            start_date="this_is_a_start_date",
+            end_date="this_is_an_end_date"),
+        job.DocumentJob(
+            job_id=test_job[1][0],
+            document_id="this_is_a_document_id"),
+        job.DocketJob(
+            job_id=test_job[2][0],
+            docket_id="this_is_a_docket_id"),
+        job.DownloadJob(
+            job_id=test_job[3][0],
+            url="this_is_a_url")
     ]
     assert test_job == job_list
