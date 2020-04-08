@@ -3,6 +3,7 @@ import pytest
 from c20_server import job
 from c20_server import job_translator
 from c20_server import job_translator_errors
+from c20_server.job import DocumentsJob
 
 JSON_RESULT_EXAMPLE = \
     {
@@ -26,7 +27,22 @@ JSON_RESULT_EXAMPLE = \
 JSON_RESULT_EXAMPLE = json.dumps(JSON_RESULT_EXAMPLE)
 
 
-def test_empty_return():
+def test_job_is_json():
+    job_example = DocumentsJob("this_is_a_job_id",
+                               "this_is_a_page_offset",
+                               "this_is_a_start_date",
+                               "this_is_an_end_date")
+
+    job_json = job_translator.job_to_json(job_example)
+
+    job_json_expected = {"job_id": "this_is_a_job_id",
+                         "page_offset": "this_is_a_page_offset",
+                         "start_date": "this_is_a_start_date",
+                         "end_date": "this_is_an_end_date"}
+    assert job_json == job_json_expected
+
+
+def test_handle_job_empty_json():
     assert job_translator.handle_jobs({}) == {}
 
 
