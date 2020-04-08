@@ -10,13 +10,17 @@ DOCKET = 'docket'
 DOWNLOAD = 'download'
 NONE = 'none'
 
-"""
-handle_jobs will take the return result json from client and split it up
-into multiple json objects that get sent to json_to_job
-"""
+
+def job_to_json(job_object):
+    return job_object._asdict()
 
 
 def handle_jobs(json_data):
+    """
+    handle_jobs will take the return result json from client and split it up
+    into multiple json objects that get sent to json_to_job
+    """
+
     job_list = []
 
     try:
