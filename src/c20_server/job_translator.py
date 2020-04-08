@@ -1,7 +1,8 @@
 import json
 import uuid
+from collections import namedtuple
 from c20_server import job_translator_errors
-from c20_server.job import DocumentsJob
+from c20_server.job import DocumentsJob, DocumentJob, DocketJob, DownloadJob
 
 DOCUMENTS = "documents"
 DOCUMENT = "document"
@@ -11,9 +12,17 @@ NONE = "none"
 
 
 def job_to_json(job_object):
-    job_type = "none"
+    job_type = ""
+
     if isinstance(job_object, DocumentsJob):
         job_type = DOCUMENTS
+    elif isinstance(job_object, DocumentJob):
+        job_type = DOCUMENT
+    elif isinstance(job_object, DocketJob):
+        job_type = DOCKET
+    elif isinstance(job_object, DownloadJob):
+        job_type = DOWNLOAD
+
     return encode_job(job_type, job_object)
 
 
@@ -51,11 +60,30 @@ def json_to_job(json_job):
     job_id = str(uuid.uuid4())
     json_job["job_id"] = job_id
     job_type = json_job["job_type"]
+    Record = namedtuple('Record', 'job_id job_type')
+    input_array_line = [job_id, job_type]
+    record = Record(*input_array_line)
 
-    if job_type == DOCUMENTS:
+    return add_specific_job_data(record, json_job)
+
+
+def add_specific_job_data(record, json_job):
+    if record.job_type == DOCUMENTS:
         page_offset = json_job["page_offset"]
         start_date = json_job["start_date"]
         end_date = json_job["end_date"]
-        return DocumentsJob(job_id, page_offset, start_date, end_date)
+        return DocumentsJob(record.job_id, page_offset, start_date, end_date)
+
+    if record.job_type == DOCUMENT:
+        document_id = json_job["document_id"]
+        return DocumentJob(record.job_id, document_id)
+
+    if record.job_type == DOCKET:
+        docket_id = json_job["docket_id"]
+        return DocketJob(record.job_id, docket_id)
+
+    if record.job_type == DOWNLOAD:
+        url = json_job["url"]
+        return DownloadJob(record.job_id, url)
 
     raise job_translator_errors.UnrecognizedJobTypeException
