@@ -3,9 +3,9 @@ Compute Jobs from regulations.api
 '''
 import requests
 from c20_client import reggov_api_doc_error
+from c20_server.job import DocumentsJob
 
 URL = "https://api.data.gov:443/regulations/v3/documents.json?api_key="
-RESULTS_PER_PAGE = 1000
 
 
 def get_number_of_docs(response):
@@ -42,7 +42,7 @@ def compute_jobs(api_key, start_date, end_date):
     jobs = []
 
     for page_offset in range(0, number_of_docs, 1000):
-        job = page_offset  # Line will be used to create DocsJob object
-        jobs.append(job)
+        job_id = "DocsJob" + str(page_offset)
+        jobs.append(DocumentsJob(job_id, page_offset, start_date, end_date))
 
     return jobs
