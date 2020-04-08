@@ -38,7 +38,9 @@ def test_job_is_json():
     job_json_expected = {"job_id": "this_is_a_job_id",
                          "page_offset": "this_is_a_page_offset",
                          "start_date": "this_is_a_start_date",
-                         "end_date": "this_is_an_end_date"}
+                         "end_date": "this_is_an_end_date",
+                         "job_type": "documents"}
+    job_json_expected = json.dumps(job_json_expected)
     assert job_json == job_json_expected
 
 
@@ -77,8 +79,8 @@ def test_handle_single_job():
     job_list = [
         job.DocumentsJob(
             job_id=test_job[0][0],
-            page_offset='this_is_a_page_offset',
-            start_date='this_is_a_start_date',
-            end_date='this_is_an_end_date')
+            page_offset="this_is_a_page_offset",
+            start_date="this_is_a_start_date",
+            end_date="this_is_an_end_date")
     ]
     assert test_job == job_list
