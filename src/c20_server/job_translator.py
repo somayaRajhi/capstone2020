@@ -19,8 +19,7 @@ def job_to_json(job_object):
 
 def encode_job(job_type, job_object):
     json_data = job_object._asdict()
-    if job_type == DOCUMENTS:
-        json_data["job_type"] = DOCUMENTS
+    json_data["job_type"] = job_type
     json_job = json.dumps(json_data)
     return json_job
 
