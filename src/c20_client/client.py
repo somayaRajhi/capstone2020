@@ -7,10 +7,12 @@ from c20_client.connection_error import NoConnectionError
 from c20_client.get_documents import get_documents
 from c20_client.get_document import download_document
 from c20_client.retrieve_docket import get_docket
+from c20_client.get_download import download_file
 
 from c20_client.documents_packager import package_documents
 from c20_client.docket_packager import package_docket
 from c20_client.document_packager import package_document
+from c20_client.download_packager import package_downloads
 
 CLIENT_ID = 1
 API_KEY = ""
@@ -59,4 +61,10 @@ def get_result_for_job(job):
         )
         results = package_docket(data, CLIENT_ID, job_id)
 
+    elif job_type == 'download':
+        data = download_file(
+            API_KEY,
+            job['url']
+        )
+        results = package_downloads(data, CLIENT_ID, job_id)
     requests.post('http://capstone.cs.moravian.edu', results)
