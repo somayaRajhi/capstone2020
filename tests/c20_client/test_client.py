@@ -132,14 +132,13 @@ def test_do_job_download_endpoint_call():
         mock.get('http://capstone.cs.moravian.edu/get_job',
                  json={'job_type': 'download', 'job_id': JOB_ID,
                        'url': URL})
-        mock.get('https://api.data.gov:443/regulations/v3/download' +
-                 "&documentId=NBA-ABC-123"+
-                 '&attachmentNumber=1&contentType=pdf'+'&api_key=' + API_KEY ,
-
+        mock.get('https://api.data.gov/regulations/v3/download?'
+                 'documentId=NBA-ABC-123&contentType=pdf'
+                 '&api_key=' + API_KEY,
                  json={
                      "agencyAcronym": {'value': 'NBA'},
-                     'fileFormats': 'url',
-                     'docketId': {'value': 'NBA-ABC'},
+                     'fileContent': 'some data',
+                     'docketId': 'NBA-ABC',
                      'documentId': {'value': 'NBA-ABC-123'}})
         data = [{
             'folder_name': {'agency':'NBA',
@@ -147,7 +146,7 @@ def test_do_job_download_endpoint_call():
                             'documentid':'NBA-ABC-123/'},
             'file_name': {'documentid':'NBA-ABC-123','.''file_type':'pdf'},
             'data': {"agencyAcronym": 'NBA',
-                     'fileFormats': 'url'}
+                    'fileContent': 'some data'}
         }]
         mock.post('http://capstone.cs.moravian.edu',
                   json={'client_id': CLIENT_ID,
