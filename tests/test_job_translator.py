@@ -161,8 +161,8 @@ def test_handle_single_job():
     assert test_job == job_list
 
 
-def test_handle_many_jobs():
-    json_result_sample_many = \
+def test_handle_documents_return_data():
+    json_documents_return_data = \
         {
             "Data": [
                 {
@@ -172,13 +172,6 @@ def test_handle_many_jobs():
                 }
             ],
             "jobs": [
-                {
-                    "job_type": "documents",
-                    "job_id": "this_is_a_job_id",
-                    "page_offset": "this_is_a_page_offset",
-                    "start_date": "this_is_a_start_date",
-                    "end_date": "this_is_an_end_date"
-                },
                 {
                     "job_type": "document",
                     "job_id": "this_is_a_job_id",
@@ -190,31 +183,81 @@ def test_handle_many_jobs():
                     "docket_id": "this_is_a_docket_id"
                 },
                 {
+                    "job_type": "document",
+                    "job_id": "this_is_a_job_id",
+                    "document_id": "this_is_a_second_document_id"
+                },
+                {
+                    "job_type": "docket",
+                    "job_id": "this_is_a_job_id",
+                    "docket_id": "this_is_a_second_docket_id"
+                }
+            ]
+        }
+    json_documents_return_data = json.dumps(json_documents_return_data)
+
+    test_job = job_translator.handle_jobs(json_documents_return_data)
+
+    job_list = [
+        job.DocumentJob(
+            job_id=test_job[0][0],
+            document_id="this_is_a_document_id"),
+        job.DocketJob(
+            job_id=test_job[1][0],
+            docket_id="this_is_a_docket_id"),
+        job.DocumentJob(
+            job_id=test_job[2][0],
+            document_id="this_is_a_second_document_id"),
+        job.DocketJob(
+            job_id=test_job[3][0],
+            docket_id="this_is_a_second_docket_id")
+    ]
+
+    assert test_job == job_list
+
+
+def test_handle_document_return_data():
+    json_document_return_data = \
+        {
+            "Data": [
+                {
+                    "folder_name": "this_is_a_folder_name",
+                    "file_name": "this_is_a_file_name",
+                    "contents": {}
+                }
+            ],
+            "jobs": [
+                {
                     "job_type": "download",
                     "job_id": "this_is_a_job_id",
                     "url": "this_is_a_url"
                 },
+                {
+                    "job_type": "download",
+                    "job_id": "this_is_a_second_job_id",
+                    "url": "this_is_a_second_url"
+                },
+                {
+                    "job_type": "download",
+                    "job_id": "this_is_a_third_job_id",
+                    "url": "this_is_a_third_url"
+                },
 
             ]
         }
-    json_result_sample_many = json.dumps(json_result_sample_many)
+    json_document_return_data = json.dumps(json_document_return_data)
 
-    test_job = job_translator.handle_jobs(json_result_sample_many)
+    test_job = job_translator.handle_jobs(json_document_return_data)
 
     job_list = [
-        job.DocumentsJob(
-            job_id=test_job[0][0],
-            page_offset="this_is_a_page_offset",
-            start_date="this_is_a_start_date",
-            end_date="this_is_an_end_date"),
-        job.DocumentJob(
-            job_id=test_job[1][0],
-            document_id="this_is_a_document_id"),
-        job.DocketJob(
-            job_id=test_job[2][0],
-            docket_id="this_is_a_docket_id"),
         job.DownloadJob(
-            job_id=test_job[3][0],
-            url="this_is_a_url")
+            job_id=test_job[0][0],
+            url="this_is_a_url"),
+        job.DownloadJob(
+            job_id=test_job[1][0],
+            url="this_is_a_second_url"),
+        job.DownloadJob(
+            job_id=test_job[2][0],
+            url="this_is_a_third_url")
     ]
     assert test_job == job_list
