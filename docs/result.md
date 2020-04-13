@@ -206,7 +206,7 @@ File: document.json
   'data': 
     {
       'folder_name': 'CMS/CMS-2005-0001/CMS-2005-0001-0001/'
-      'file_name': 'CMS-2005-0001-0001.pdf'
+      'file_name': 'test_file.pdf'
       'data': {
         <file_data>
       }
