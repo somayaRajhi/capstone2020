@@ -8,7 +8,6 @@ DOCUMENTS = "documents"
 DOCUMENT = "document"
 DOCKET = "docket"
 DOWNLOAD = "download"
-NONE = "none"
 
 
 def job_to_json(job_object):
