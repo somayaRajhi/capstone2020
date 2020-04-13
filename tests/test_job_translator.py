@@ -13,64 +13,66 @@ def test_handle_job_empty_json():
 def test_throw_invalid_job_type_exception():
     json_example = {
         "job_type": "invalid",
-        "job_id": "this_is_a_job_id"
+        "job_id": "ab0ebb71-d669-4386-b6b3-9bc0c51d6513"
     }
     with pytest.raises(job_translator_errors.UnrecognizedJobTypeException):
         job_translator.json_to_job(json_example)
 
 
 def test_documents_job_to_json():
-    job_example = DocumentsJob("this_is_a_job_id",
-                               "this_is_a_page_offset",
-                               "this_is_a_start_date",
-                               "this_is_an_end_date")
+    job_example = DocumentsJob("d022c3f5-6d69-4cbe-9330-b2a5cc8e6ff5",
+                               "1000",
+                               "2005-08-04T00:00:00-04:00",
+                               "2005-10-03T23:59:59-04:00")
 
     job_json = job_translator.job_to_json(job_example)
 
-    job_json_expected = {"job_id": "this_is_a_job_id",
-                         "page_offset": "this_is_a_page_offset",
-                         "start_date": "this_is_a_start_date",
-                         "end_date": "this_is_an_end_date",
+    job_json_expected = {"job_id": "d022c3f5-6d69-4cbe-9330-b2a5cc8e6ff5",
+                         "page_offset": "1000",
+                         "start_date": "2005-08-04T00:00:00-04:00",
+                         "end_date": "2005-10-03T23:59:59-04:00",
                          "job_type": "documents"}
     job_json_expected = json.dumps(job_json_expected)
     assert job_json == job_json_expected
 
 
 def test_document_job_to_json():
-    job_example = DocumentJob("this_is_a_job_id",
-                              "this_is_a_document_id")
+    job_example = DocumentJob("bfcadfea-db21-44aa-a234-9833291cbbc9",
+                              "CMS-2005-0001-0001")
 
     job_json = job_translator.job_to_json(job_example)
 
-    job_json_expected = {"job_id": "this_is_a_job_id",
-                         "document_id": "this_is_a_document_id",
+    job_json_expected = {"job_id": "bfcadfea-db21-44aa-a234-9833291cbbc9",
+                         "document_id": "CMS-2005-0001-0001",
                          "job_type": "document"}
     job_json_expected = json.dumps(job_json_expected)
     assert job_json == job_json_expected
 
 
 def test_docket_job_to_json():
-    job_example = DocketJob("this_is_a_job_id",
-                            "this_is_a_docket_id")
+    job_example = DocketJob("172dc679-c2d7-4a84-b766-8cd5ee138057",
+                            "CMS-2005-0001")
 
     job_json = job_translator.job_to_json(job_example)
 
-    job_json_expected = {"job_id": "this_is_a_job_id",
-                         "docket_id": "this_is_a_docket_id",
+    job_json_expected = {"job_id": "172dc679-c2d7-4a84-b766-8cd5ee138057",
+                         "docket_id": "CMS-2005-0001",
                          "job_type": "docket"}
     job_json_expected = json.dumps(job_json_expected)
     assert job_json == job_json_expected
 
 
 def test_download_job_to_json():
-    job_example = DownloadJob("this_is_a_job_id",
-                              "this_is_a_url")
+    job_example = \
+        DownloadJob("2aae0fca-bf7d-4444-ab9b-0120414aa0b5",
+                    "https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf")
 
     job_json = job_translator.job_to_json(job_example)
 
-    job_json_expected = {"job_id": "this_is_a_job_id",
-                         "url": "this_is_a_url",
-                         "job_type": "download"}
+    job_json_expected = \
+        {"job_id": "2aae0fca-bf7d-4444-ab9b-0120414aa0b5",
+         "url": "https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf",
+         "job_type": "download"}
     job_json_expected = json.dumps(job_json_expected)
     assert job_json == job_json_expected
 
@@ -78,52 +80,50 @@ def test_download_job_to_json():
 def test_single_documents_json_to_job():
     json_example = {
         "job_type": "documents",
-        "job_id": "this_is_a_job_id",
-        "page_offset": "this_is_a_page_offset",
-        "start_date": "this_is_a_start_date",
-        "end_date": "this_is_an_end_date"
+        "page_offset": "2000",
+        "start_date": "2017-11-09T00:00:00-05:00",
+        "end_date": "2017-11-29T23:59:59-05:00"
     }
     test_job = job_translator.json_to_job(json_example)
     documents_job = job.DocumentsJob(test_job[0],
-                                     "this_is_a_page_offset",
-                                     "this_is_a_start_date",
-                                     "this_is_an_end_date")
+                                     "2000",
+                                     "2017-11-09T00:00:00-05:00",
+                                     "2017-11-29T23:59:59-05:00")
     assert test_job == documents_job
 
 
 def test_single_document_json_to_job():
     json_example = {
         "job_type": "document",
-        "job_id": "this_is_a_job_id",
-        "document_id": "this_is_a_document_id"
+        "document_id": "FAA-2012-1137-0017"
     }
     test_job = job_translator.json_to_job(json_example)
     document_job = job.DocumentJob(test_job[0],
-                                   "this_is_a_document_id")
+                                   "FAA-2012-1137-0017")
     assert test_job == document_job
 
 
 def test_single_docket_json_to_job():
     json_example = {
         "job_type": "docket",
-        "job_id": "this_is_a_job_id",
-        "docket_id": "this_is_a_docket_id"
+        "docket_id": "FAA-2012-1137"
     }
     test_job = job_translator.json_to_job(json_example)
     docket_job = job.DocketJob(test_job[0],
-                               "this_is_a_docket_id")
+                               "FAA-2012-1137")
     assert test_job == docket_job
 
 
 def test_single_download_json_to_job():
-    json_example = {
-        "job_type": "download",
-        "job_id": "this_is_a_job_id",
-        "url": "this_is_a_url"
-    }
+    json_example = \
+        {
+            "job_type": "download",
+            "url": "https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf"
+        }
     test_job = job_translator.json_to_job(json_example)
-    download_job = job.DownloadJob(test_job[0],
-                                   "this_is_a_url")
+    download_job = \
+        job.DownloadJob(test_job[0],
+                        "https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf")
     assert test_job == download_job
 
 
@@ -132,18 +132,18 @@ def test_handle_single_job():
         {
             "Data": [
                 {
-                    "folder_name": "this_is_a_folder_name",
-                    "file_name": "this_is_a_file_name",
+                    "folder_name": "CMS/CMS-2005-0001/CMS-2005-0001-0001/",
+                    "file_name": "basic_document.json",
                     "contents": {}
                 }
             ],
             "jobs": [
                 {
                     "job_type": "documents",
-                    "job_id": "this_is_a_job_id",
-                    "page_offset": "this_is_a_page_offset",
-                    "start_date": "this_is_a_start_date",
-                    "end_date": "this_is_an_end_date"
+                    "job_id": "c08d740a-6fde-47d9-a0f1-addfba271342",
+                    "page_offset": "3000",
+                    "start_date": "2005-08-04T00:00:00-04:00",
+                    "end_date": "2005-10-03T23:59:59-04:00"
                 },
             ]
         }
@@ -154,9 +154,9 @@ def test_handle_single_job():
     job_list = [
         job.DocumentsJob(
             job_id=test_job[0][0],
-            page_offset="this_is_a_page_offset",
-            start_date="this_is_a_start_date",
-            end_date="this_is_an_end_date")
+            page_offset="3000",
+            start_date="2005-08-04T00:00:00-04:00",
+            end_date="2005-10-03T23:59:59-04:00")
     ]
     assert test_job == job_list
 
@@ -166,31 +166,27 @@ def test_handle_documents_return_data():
         {
             "Data": [
                 {
-                    "folder_name": "this_is_a_folder_name",
-                    "file_name": "this_is_a_file_name",
+                    "folder_name": "CMS/CMS-2005-0001/CMS-2005-0001-0001/",
+                    "file_name": "basic_document.json",
                     "contents": {}
                 }
             ],
             "jobs": [
                 {
                     "job_type": "document",
-                    "job_id": "this_is_a_job_id",
-                    "document_id": "this_is_a_document_id"
+                    "document_id": "CMS-2005-0001-0001"
                 },
                 {
                     "job_type": "docket",
-                    "job_id": "this_is_a_job_id",
-                    "docket_id": "this_is_a_docket_id"
+                    "docket_id": "CMS-2005-0001"
                 },
                 {
                     "job_type": "document",
-                    "job_id": "this_is_a_job_id",
-                    "document_id": "this_is_a_second_document_id"
+                    "document_id": "FAA-2012-1137-0017"
                 },
                 {
                     "job_type": "docket",
-                    "job_id": "this_is_a_job_id",
-                    "docket_id": "this_is_a_second_docket_id"
+                    "docket_id": "FAA-2012-1137"
                 }
             ]
         }
@@ -201,16 +197,16 @@ def test_handle_documents_return_data():
     job_list = [
         job.DocumentJob(
             job_id=test_job[0][0],
-            document_id="this_is_a_document_id"),
+            document_id="CMS-2005-0001-0001"),
         job.DocketJob(
             job_id=test_job[1][0],
-            docket_id="this_is_a_docket_id"),
+            docket_id="CMS-2005-0001"),
         job.DocumentJob(
             job_id=test_job[2][0],
-            document_id="this_is_a_second_document_id"),
+            document_id="FAA-2012-1137-0017"),
         job.DocketJob(
             job_id=test_job[3][0],
-            docket_id="this_is_a_second_docket_id")
+            docket_id="FAA-2012-1137")
     ]
 
     assert test_job == job_list
@@ -221,26 +217,23 @@ def test_handle_document_return_data():
         {
             "Data": [
                 {
-                    "folder_name": "this_is_a_folder_name",
-                    "file_name": "this_is_a_file_name",
+                    "folder_name": "CMS/CMS-2005-0001/CMS-2005-0001-0001/",
+                    "file_name": "basic_document.json",
                     "contents": {}
                 }
             ],
             "jobs": [
                 {
                     "job_type": "download",
-                    "job_id": "this_is_a_job_id",
-                    "url": "this_is_a_url"
+                    "url": "https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf"
                 },
                 {
                     "job_type": "download",
-                    "job_id": "this_is_a_second_job_id",
-                    "url": "this_is_a_second_url"
+                    "url": "https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf"
                 },
                 {
                     "job_type": "download",
-                    "job_id": "this_is_a_third_job_id",
-                    "url": "this_is_a_third_url"
+                    "url": "https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf"
                 },
 
             ]
@@ -252,12 +245,12 @@ def test_handle_document_return_data():
     job_list = [
         job.DownloadJob(
             job_id=test_job[0][0],
-            url="this_is_a_url"),
+            url="https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf"),
         job.DownloadJob(
             job_id=test_job[1][0],
-            url="this_is_a_second_url"),
+            url="https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf"),
         job.DownloadJob(
             job_id=test_job[2][0],
-            url="this_is_a_third_url")
+            url="https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf")
     ]
     assert test_job == job_list
