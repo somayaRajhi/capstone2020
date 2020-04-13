@@ -5,7 +5,7 @@ import requests
 from c20_client.connection_error import NoConnectionError
 
 from c20_client.get_documents import get_documents
-from c20_client.document_download import download_document
+from c20_client.get_document import download_document
 from c20_client.retrieve_docket import get_docket
 
 from c20_client.documents_packager import package_documents

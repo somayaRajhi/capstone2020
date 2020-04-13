@@ -2,6 +2,7 @@
 import pytest
 import requests_mock
 
+from c20_server.job import DocumentsJob
 from c20_server.compute_jobs import (
     reggov_api_doc_error,
     compute_jobs,
@@ -30,10 +31,11 @@ def test_valid_jobs_list():
     with requests_mock.Mocker() as mock:
         mock.get(URL + API_KEY,
                  json={"result": "The test is successful",
-                       "totalNumRecords": 2000})
+                       "totalNumRecords": 1000})
         job_list = compute_jobs(API_KEY, START_DATE, END_DATE)
+        job = DocumentsJob("DocsJob0", 0, START_DATE, END_DATE)
 
-        assert job_list == [0, 1000]
+        assert job_list == [job]
 
 
 def test_response_with_num_records():
