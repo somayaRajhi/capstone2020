@@ -25,15 +25,19 @@ def package_document(document, client_id, job_id):
 
 def get_jobs_list(document):
     jobs_list = []
-    if 'fileFormats' in document:
-        for files in document['fileFormats']:
-            jobs_list.append(
-                json_jobs_helper.get_download_from_document(files))
+    jobs_list += find_file_formats(document)
 
     if 'attachments' in document:
         for attachment in document['attachments']:
-            for files in attachment['fileFormats']:
-                jobs_list.append(
-                    json_jobs_helper.get_download_from_document(files))
+            jobs_list += find_file_formats(attachment)
 
     return jobs_list
+
+
+def find_file_formats(attachment):
+    file_formats = []
+    if 'fileFormats' in attachment:
+        for files in attachment['fileFormats']:
+            file_formats.append(
+                json_jobs_helper.get_download_from_document(files))
+    return file_formats

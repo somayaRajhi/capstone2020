@@ -13,7 +13,8 @@ def extract_attachments(document):
     attachments = []
     if 'attachments' in document:
         for i in document['attachments']:
-            attachments += i['fileFormats']
+            if 'fileFormats' in i:
+                attachments += i['fileFormats']
         return attachments
     return None
 
