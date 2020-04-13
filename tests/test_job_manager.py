@@ -81,4 +81,8 @@ def test_multiple_jobs_move_to_assigned(job_manager, job1, user1, user2):
     assert job_manager.num_unassigned() == 0
 
 
+def test_empty_job_queue_gives_none(job_manager, user1):
+    job = job_manager.request_job(user1)
+    assert job.job_id == -1
+
 # stale job
