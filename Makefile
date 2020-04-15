@@ -4,15 +4,17 @@
 #
 # In PyCharm, you can install a plugin for Makefile support that
 # will use tabs
+export PATH:=${PWD}/.venv/bin:${PATH};
+
 all: test static
 
 test:
-	pytest
+	pytest;
 
 static:
-	flake8 src tests
-	pycodestyle src tests
-	pylint src tests
+	flake8 src tests;
+	pycodestyle src tests;
+	pylint src tests;
 
 clean:
 	rm -rf htmlcov
