@@ -1,7 +1,6 @@
 import json
 import pytest
 from c20_server.flask_server import create_app
-from c20_server.job_manager import JobManager
 from c20_server.mock_job_manager import MockJobManager
 from c20_server.job import DocumentsJob
 
@@ -22,8 +21,12 @@ def client_fixture(manager):
     return app.test_client()
 
 
-@pytest.mark.skip()
-def test_return_result_success(client):
+def test_return_result_success():
+    mock_job_manager = MockJobManager()
+    app = create_app(mock_job_manager)
+    app.config['TESTING'] = True
+    client = app.test_client()
+
     json_data = {
         'client_id': 'client1',
         'job_id': 'job1',
@@ -47,6 +50,8 @@ def test_return_result_success(client):
     result = client.post('/return_result', data=json.dumps(json_data),
                          content_type='application/json')
     assert result.status_code == 200
+    assert mock_job_manager.add_job_called
+    assert mock_job_manager.num_unassigned() == 1
 
 
 def test_return_result_empty_data(client):
@@ -64,9 +69,11 @@ def test_single_job_return():
     client = app.test_client()
     result = client.get('/get_job')
     assert mock_job_manager.request_job_called
-    assert result.data == b'{"end_date":"04-01-2020",' \
-                          b'"job_id":1,"page_offset":0,' \
-                          b'"start_date":"03-01-2020"}\n'
+    assert result.data == b'{"job_id": 1,' \
+                          b' "page_offset": 0,' \
+                          b' "start_date": "03-01-2020",' \
+                          b' "end_date": "04-01-2020",' \
+                          b' "job_type": "documents"}'
 
 
 def test_none_job_return_when_no_job():
