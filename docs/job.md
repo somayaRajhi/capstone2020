@@ -38,6 +38,7 @@ Download jobs represent work to download attachments or file formats, both of wh
   "job_type": "download"
   "folder_name": "abc/abc-123/abc-123-xyz/"
   "file_name": "title_of_file.pdf"
+  "file_type": "pdf"
   "url": 
       "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf"
 }
