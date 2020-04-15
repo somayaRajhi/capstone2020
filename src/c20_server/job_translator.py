@@ -82,7 +82,9 @@ def add_specific_job_data(record, json_job):
         return DocketJob(record.job_id, docket_id)
 
     if record.job_type == DOWNLOAD:
+        folder_name = json_job["folder_name"]
+        file_name = json_job["file_name"]
         url = json_job["url"]
-        return DownloadJob(record.job_id, url)
+        return DownloadJob(record.job_id, folder_name, file_name, url)
 
     raise job_translator_errors.UnrecognizedJobTypeException
