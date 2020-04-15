@@ -31,7 +31,7 @@ def make_first_docket_job():
 @pytest.fixture(name='download_job')
 def make_first_download_job():
     url = "https://.../download?documentId=...&contentType=pdf"
-    return DownloadJob('job01', url)
+    return DownloadJob('job01', "CMS/CMS-2005/", "title_of_file.pdf", url)
 
 
 def test_one_job_added_is_returned_by_get(job_queue):
