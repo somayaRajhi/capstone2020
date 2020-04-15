@@ -102,5 +102,6 @@ def create_docket_job(record, json_job):
 def create_download_job(record, json_job):
     folder_name = json_job["folder_name"]
     file_name = json_job["file_name"]
+    file_type = json_job["file_type"]
     url = json_job["url"]
-    return DownloadJob(record.job_id, folder_name, file_name, url)
+    return DownloadJob(record.job_id, folder_name, file_name, file_type, url)
