@@ -30,6 +30,8 @@ class DocketJob(namedtuple('DocketJob',
 
 class DownloadJob(namedtuple('DownloadJob',
                              ['job_id',
+                              'folder_name',
+                              'file_name',
                               'url']
                              )):
     pass
