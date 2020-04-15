@@ -76,6 +76,8 @@ File: document.json
   * Returns data concerning a document
   * Placed as a json file in the DocumentID folder
   * `jobs` field can contain a list of download jobs
+  * Note: `file_name` are retrieved from regulations.gov, not always the document_id 
+
 ```
 {
   'client_id': 'client23',
@@ -110,11 +112,17 @@ File: document.json
   'jobs': [
     {
       'job_type': 'download',
-      'url': 'https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf'
+      'folder_name': 'CMS/CMS-2005-0001/',
+      'file_name': 'CMS-2005-0001-0001',
+      'file_type': 'pdf',
+      'url': 'https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0001-0001&contentType=pdf'
     },
     {
       'job_type': 'download',
-      'url':  'https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=html'
+      'folder_name': 'CMS/CMS-2005-0002/',
+      'file_name': 'CMS-2005-0002-0001',
+      'file_type': 'html',
+      'url':  'https://api.data.gov/regulations/v3/download?documentId=CMS-2005-0002-00018&contentType=html'
     }
   ]
 }
@@ -198,6 +206,8 @@ File: document.json
   * Returns basic data concerning a download
   * Placed as a json file in the DocumentID folder
   * `<file_data>` is the actual binary data of the file
+  * Note: `file_name` are retrieved from regulations.gov, not always the document_id 
+
  
 ```
 {
@@ -205,8 +215,9 @@ File: document.json
   'job_id': 'job1',
   'data': 
     {
-      'folder_name': 'CMS/CMS-2005-0001/CMS-2005-0001-0001/'
-      'file_name': 'test_file.pdf'
+      'folder_name': 'CMS/CMS-2005-0001/CMS-2005-0001-0001/',
+      'file_name': 'test_file',
+      'file_type': 'pdf,
       'data': {
         <file_data>
       }
