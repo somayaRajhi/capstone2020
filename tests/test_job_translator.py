@@ -68,7 +68,7 @@ def test_download_job_to_json():
     job_example = \
         DownloadJob("2aae0fca-bf7d-4444-ab9b-0120414aa0b5",
                     "CMS/CMS-2005/",
-                    "title_of_file.pdf",
+                    "title_of_file",
                     "pdf",
                     url)
 
@@ -77,7 +77,7 @@ def test_download_job_to_json():
     job_json_expected = \
         {"job_id": "2aae0fca-bf7d-4444-ab9b-0120414aa0b5",
          "folder_name": "CMS/CMS-2005/",
-         "file_name": "title_of_file.pdf",
+         "file_name": "title_of_file",
          "file_type": "pdf",
          "url": url,
          "job_type": "download"}
@@ -129,7 +129,7 @@ def test_single_download_json_to_job():
         {
             "job_type": "download",
             "folder_name": "CMS/CMS-2005/",
-            "file_name": "title_of_file.pdf",
+            "file_name": "title_of_file",
             "file_type": "pdf",
             "url": url
         }
@@ -137,7 +137,7 @@ def test_single_download_json_to_job():
     download_job = \
         job.DownloadJob(test_job[0],
                         "CMS/CMS-2005/",
-                        "title_of_file.pdf",
+                        "title_of_file",
                         "pdf",
                         url)
     assert test_job == download_job
@@ -248,21 +248,21 @@ def test_handle_document_return_data():
                 {
                     "job_type": "download",
                     "folder_name": "CMS/CMS-2005/",
-                    "file_name": "CMS_file.pdf",
+                    "file_name": "CMS_file",
                     "file_type": "pdf",
                     "url": url1
                 },
                 {
                     "job_type": "download",
                     "folder_name": "DMS/DMS-2050/",
-                    "file_name": "DMS_file.html",
+                    "file_name": "DMS_file",
                     "file_type": "html",
                     "url": url2
                 },
                 {
                     "job_type": "download",
                     "folder_name": "LAO/LAO-1450/",
-                    "file_name": "LAO_file.excel",
+                    "file_name": "LAO_file",
                     "file_type": "excel",
                     "url": url3
                 },
@@ -277,19 +277,19 @@ def test_handle_document_return_data():
         job.DownloadJob(
             job_id=test_job[0][0],
             folder_name="CMS/CMS-2005/",
-            file_name="CMS_file.pdf",
+            file_name="CMS_file",
             file_type="pdf",
             url=url1),
         job.DownloadJob(
             job_id=test_job[1][0],
             folder_name="DMS/DMS-2050/",
-            file_name="DMS_file.html",
+            file_name="DMS_file",
             file_type="html",
             url=url2),
         job.DownloadJob(
             job_id=test_job[2][0],
             folder_name="LAO/LAO-1450/",
-            file_name="LAO_file.excel",
+            file_name="LAO_file",
             file_type="excel",
             url=url3)
     ]
