@@ -181,14 +181,17 @@ def test_one_attachment(one_attachment_document):
 
 
 def test_one_attachment_many_fileformats(one_attachment_many_file_document):
-    assert one_attachment_many_file_document['jobs'][0]['url'] == 'URL&contentType=pdf'
+    assert one_attachment_many_file_document['jobs'][0]['url'] == \
+        'URL&contentType=pdf'
     assert one_attachment_many_file_document['jobs'][1]['url'] == \
         'URL2&contentType=html'
 
 
 def test_many_attachments(many_attachments_document):
-    assert many_attachments_document['jobs'][0]['url'] == 'URL&contentType=pdf'
-    assert many_attachments_document['jobs'][1]['url'] == 'URL2&contentType=html'
+    assert many_attachments_document['jobs'][0]['url'] == \
+        'URL&contentType=pdf'
+    assert many_attachments_document['jobs'][1]['url'] == \
+        'URL2&contentType=html'
 
 
 def test_attachment_with_no_url(no_attachment_document):
