@@ -1,12 +1,10 @@
 def package_downloads(download_job, client_id, job_id):
-    docketid = download_job['docketid']
-    documentid = download_job['documentid']
-    folder_name = (download_job['agency'] + "/" + docketid + "/"
-                   + documentid + "/")
+    folder_name = download_job['folder_name']
+    file_name = download_job['file_name'].replace(" ", "_") +\
+        '.' + download_job['file_type']
     data = [{
         'folder_name': folder_name,
-        # may need to change this
-        'file_name': documentid + '.' + download_job['file_type'],
+        'file_name': file_name,
         'data': download_job['data']
     }]
 

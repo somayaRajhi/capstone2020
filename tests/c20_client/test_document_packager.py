@@ -103,7 +103,7 @@ MANY_ATTACHMENTS_JSON = {
     }, {
         "attachmentOrderNumber": 2,
         'fileFormats': [
-            'URL2',
+            'URL2'
         ]
     }],
     'agencyAcronym': {'value': 'test'},
@@ -115,6 +115,23 @@ MANY_ATTACHMENTS_JSON = {
 @pytest.fixture(name='many_attachments_document')
 def fixture_many_attachments_document():
     response = document_packager.package_document(ATTACHMENT_MANY_FILES_JSON,
+                                                  CLIENT_ID, JOB_ID)
+    return response
+
+
+NO_ATTACHMENT_JSON = {
+    "attachments": [{
+        "attachmentOrderNumber": 1
+    }],
+    'agencyAcronym': {'value': 'test'},
+    'docketId': {'value': 'docket-number-5'},
+    'documentId': {'value': 'document-number-10'}
+}
+
+
+@pytest.fixture(name='no_attachment_document')
+def fixture_no_attachment_document():
+    response = document_packager.package_document(NO_ATTACHMENT_JSON,
                                                   CLIENT_ID, JOB_ID)
     return response
 
@@ -163,3 +180,7 @@ def test_one_attachment_many_fileformats(one_attachment_many_file_document):
 def test_many_attachments(many_attachments_document):
     assert many_attachments_document['jobs'][0]['url'] == 'URL'
     assert many_attachments_document['jobs'][1]['url'] == 'URL2'
+
+
+def test_attachment_with_no_url(no_attachment_document):
+    assert len(no_attachment_document['jobs']) == 0
