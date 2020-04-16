@@ -30,14 +30,20 @@ def get_document_from_documents(document):
     return job
 
 
-def get_download_from_document(file):
+def get_download_from_document(file, folder_name, file_name):
     """
     Get the download job from the data in the document endpoint
     """
+    url = file.split('contentType=')
+
     jobs = {
         'job_type': 'download',
+        'file_name': file_name,
+        'file_type': url[1],
+        'folder_name': folder_name,
         'url': file
     }
+
     return jobs
 
 
