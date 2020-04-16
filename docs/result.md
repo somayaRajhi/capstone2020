@@ -11,7 +11,7 @@ A job is communicated as a simple JSON object where key names and values are low
 * `data`: A list of JSON objects. This object consists of a folder name, file name, and data
   * `folder_name`: The path to the location of where the data should be placed. Check data storage section to see the hierarchy of the path.
   * `file_name`: Name of the file to which the data will be stored. Named after the type of data it is storing.
-  * `data`: The raw JSON data recieved from querying regulations.gov.
+  * `data`: The raw JSON data received from querying regulations.gov.
 * `jobs`: A list of new job objects. These job objects omit the job_id field. Jobs are retrieved through the JSON data collected from the regulations server.
 
 ## Data Storage
@@ -193,3 +193,22 @@ File: document.json
   ]
 }
 ```
+
+* Downloads
+  * Returns basic data concerning a download
+  * Placed as a json file in the DocumentID folder
+  * `<file_data>` is the actual binary data of the file
+ 
+```
+{
+  'client_id': 'client1',
+  'job_id': 'job1',
+  'data': 
+    {
+      'folder_name': 'CMS/CMS-2005-0001/CMS-2005-0001-0001/'
+      'file_name': 'test_file.pdf'
+      'data': {
+        <file_data>
+      }
+    }
+}

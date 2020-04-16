@@ -11,8 +11,10 @@ OFFSET = '1000'
 START_DATE = '11/06/13'
 END_DATE = '03/06/14'
 DATE = START_DATE + '-' + END_DATE
-URL = "https://api.data.gov:443/regulations/v3/download.json?" \
-      "documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf"
+URL = "https://api.data.gov/regulations/v3/download?" \
+      "documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf&" \
+      "api_key=" + API_KEY
+
 
 def test_do_job_documents_endpoint_call():
     with requests_mock.Mocker() as mock:
@@ -133,7 +135,7 @@ def test_do_job_download_endpoint_call():
                  json={'job_type': 'download', 'job_id': JOB_ID,
                        'url': URL})
         mock.get('https://api.data.gov/regulations/v3/download?'
-                 'documentId=NBA-ABC-123&contentType=pdf'
+                 'documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf' +
                  '&api_key=' + API_KEY,
                  json={
                      "agencyAcronym": {'value': 'NBA'},
