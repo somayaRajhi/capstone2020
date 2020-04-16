@@ -35,9 +35,10 @@ def get_jobs_list_from_attachments(document, folder_name):
     jobs_list = []
 
     for attachment in document['attachments']:
-        title = attachment['title']
-        jobs_list += get_jobs_list_from_file_format(attachment,
-                                                    folder_name, title)
+        if 'fileFormats' in attachment:
+            title = attachment['title']
+            jobs_list += get_jobs_list_from_file_format(attachment,
+                                                        folder_name, title)
 
     return jobs_list
 
