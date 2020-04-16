@@ -38,7 +38,7 @@ def make_first_download_job():
     url = "https://.../download?documentId=...&contentType=pdf"
     return DownloadJob('job01',
                        "CMS/CMS-2005/",
-                       "title_of_file.pdf",
+                       "title_of_file",
                        "pdf",
                        url)
 
