@@ -7,8 +7,11 @@ from c20_server.job_translator import job_to_json, handle_jobs
 def create_app(job_manager):
     app = Flask(__name__)
 
+    # Note: endpoint names begin with an "_" so that Pylint does not complain
+    # about unused functions.
+
     @app.route('/get_job')
-    def get_job():
+    def _get_job():
         requested_job = job_manager.request_job(User(100))
         if requested_job.job_id < 0:
             return {'job_type': 'none'}
@@ -16,7 +19,7 @@ def create_app(job_manager):
         return job
 
     @app.route('/return_result', methods=['POST'])
-    def return_result():
+    def _return_result():
         client_data = request.json
         if client_data is None:
             return {}, 400
