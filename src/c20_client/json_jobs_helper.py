@@ -45,13 +45,3 @@ def get_download_from_document(file, folder_name, file_name):
     }
 
     return jobs
-
-
-def find_formats(document):
-    if 'attachments' in document:
-        file_formats = []
-        for formats in document['attachments']:
-            file_formats += formats['fileFormats']
-    else:
-        file_formats = document['fileFormats']
-    return file_formats
