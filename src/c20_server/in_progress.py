@@ -1,23 +1,26 @@
 """
 Implementation of In-Progress class
 """
+import pickle
 from c20_server import job_queue_errors
 
 
 class InProgress:
 
-    def __init__(self):
-        self.assigned_jobs = {}
+    def __init__(self, database):
+        self.r_database = database
 
     def assign(self, job, user_id):
-        self.assigned_jobs[user_id] = job
+        job = pickle.dumps(job)
+        self.r_database.hset('assigned_jobs', user_id, job)
 
     def unassign(self, user_id):
-        if user_id not in self.assigned_jobs.keys():
+        if not self.r_database.hexists('assigned_jobs', user_id):
             raise job_queue_errors.UnassignInvalidDataException
-        job = self.assigned_jobs[user_id]
-        del self.assigned_jobs[user_id]
+        job = self.r_database.hget('assigned_jobs', user_id)
+        self.r_database.hdel('assigned_jobs', user_id)
+        job = pickle.loads(job)
         return job
 
     def get_num_assigned_jobs(self):
-        return len(self.assigned_jobs)
+        return self.r_database.hlen('assigned_jobs')
