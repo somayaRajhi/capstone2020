@@ -18,8 +18,8 @@ def create_app(job_manager):
         requested_job = job_manager.request_job(User(100))
         if int(requested_job.job_id) < 0:
             return {'job_type': 'none'}
-        else:
-            job = job_to_json(requested_job)
+
+        job = job_to_json(requested_job)
         print('Server: Sending Job to client...\n')
         print('Job being sent: ', job, '\n')
         return job
@@ -42,8 +42,9 @@ def create_app(job_manager):
         return {}, 200
     return app
 
+
 if __name__ == '__main__':
-    job_manager = JobManager()
-    job_manager.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
-    app = create_app(job_manager)
-    app.run()
+    JOB_MANAGER = JobManager()
+    JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
+    APP = create_app(JOB_MANAGER)
+    APP.run()
