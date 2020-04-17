@@ -25,18 +25,24 @@ In the application, each job is represented as an object.  Regardless of type, a
 
 ### `DownloadJob`
 
-Download jobs represent work to download attachments or file formats, both of which are specified in the results of a query to the `document` endpoint.  For example:
-
-```
-"fileFormats": [
-    "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf",
-    "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=html"
-  ],
-```
-
-Because these URLs are already formed, a `downloadJob` simply holds that URL
-
+Download jobs represent work to download attachments or file formats, both of which are specified in the results of a query to the `document` endpoint. As the information of the files location can not be retrieved from the endpoint itself, it is stored in the job from when it comes from the document endpoint.
 * `url` - the URL of the attachment or file format
+* `folder_name` - the full name of the path to where the file will be placed
+* `file_name` - the name of the file in which is will be placed
+  * Can be a variety of file types: html, pdf, etc.
+
+# Example Download job
+```
+{
+  "job_id": "123abc"
+  "job_type": "download"
+  "folder_name": "abc/abc-123/abc-123-xyz/"
+  "file_name": "title_of_file.pdf"
+  "file_type": "pdf"
+  "url": 
+      "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf"
+}
+```
 
 
 ## JSON definition
