@@ -2,15 +2,22 @@
 Test class for Job-Queue Class.
 """
 import pytest
+import fakeredis
 from c20_server.job_queue import JobQueue
 from c20_server.job \
     import Job, DocumentsJob, DocumentJob, DocketJob, DownloadJob
 from c20_server import job_queue_errors
 
 
+def make_database():
+    r_database = fakeredis.FakeStrictRedis()
+    return r_database
+
+
 @pytest.fixture(name='job_queue')
 def make_job_queue():
-    return JobQueue()
+    r_database = make_database()
+    return JobQueue(r_database)
 
 
 @pytest.fixture(name='documents_job')
@@ -40,7 +47,8 @@ def test_one_job_added_is_returned_by_get(job_queue):
     assert job_queue.get_num_unassigned_jobs() == 0
     job_queue.add_job(job)
     assert job_queue.get_num_unassigned_jobs() == 1
-    assert job_queue.get_job() == job
+    returned_job = job_queue.get_job()
+    assert returned_job.job_id == 1234
     assert job_queue.get_num_unassigned_jobs() == 0
 
 
@@ -52,8 +60,10 @@ def test_add_two_jobs_then_remove_them(job_queue):
     job_queue.add_job(job2)
     assert job_queue.get_num_unassigned_jobs() == 2
 
-    assert job_queue.get_job() == job1
-    assert job_queue.get_job() == job2
+    first_returned_job = job_queue.get_job()
+    second_returned_job = job_queue.get_job()
+    assert first_returned_job.job_id == job1.job_id
+    assert second_returned_job.job_id == job2.job_id
     assert job_queue.get_num_unassigned_jobs() == 0
 
 
