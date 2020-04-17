@@ -33,6 +33,14 @@ def test_when_job_unassigned_it_is_removed_from_assigned_jobs(in_progress):
     assert in_progress.get_num_assigned_jobs() == 0
 
 
+def test_when_job_unassigned_it_returned_from_assigned_jobs(in_progress):
+    in_progress.assign(Job('job01'), User(100).user_id)
+    assert in_progress.get_num_assigned_jobs() == 1
+    returned_job = in_progress.unassign(User(100).user_id)
+    assert returned_job.job_id == 'job01'
+    assert in_progress.get_num_assigned_jobs() == 0
+
+
 def test_unassign_job_with_invalid_user(in_progress):
     assert in_progress.get_num_assigned_jobs() == 0
     in_progress.assign(Job(1), User(100).user_id)
