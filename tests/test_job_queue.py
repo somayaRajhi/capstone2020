@@ -22,23 +22,32 @@ def make_job_queue():
 
 @pytest.fixture(name='documents_job')
 def make_first_documents_job():
-    return DocumentsJob('job01', 1000, '2020-1-28', '2020-5-6')
+    return DocumentsJob('job01',
+                        1000,
+                        '2020-1-28',
+                        '2020-5-6')
 
 
 @pytest.fixture(name='document_job')
 def make_first_document_job():
-    return DocumentJob('job01', 'EPA-HQ-OAR-2011-0028-0108')
+    return DocumentJob('job01',
+                       'EPA-HQ-OAR-2011-0028-0108')
 
 
 @pytest.fixture(name='docket_job')
 def make_first_docket_job():
-    return DocketJob('job01', 'EPA-HQ-OAR-2011-0028')
+    return DocketJob('job01',
+                     'EPA-HQ-OAR-2011-0028')
 
 
 @pytest.fixture(name='download_job')
 def make_first_download_job():
     url = "https://.../download?documentId=...&contentType=pdf"
-    return DownloadJob('job01', url)
+    return DownloadJob('job01',
+                       "CMS/CMS-2005/",
+                       "title_of_file",
+                       "pdf",
+                       url)
 
 
 def test_one_job_added_is_returned_by_get(job_queue):
