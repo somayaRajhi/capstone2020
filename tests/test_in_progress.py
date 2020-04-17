@@ -3,6 +3,7 @@
 Test class for In-Progress Class.
 """
 import pytest
+import fakeredis
 from c20_server import job_queue_errors
 from c20_server.job import Job
 from c20_server.user import User
@@ -11,7 +12,9 @@ from c20_server.in_progress import InProgress
 
 @pytest.fixture(name='in_progress')
 def make_in_progress():
-    return InProgress()
+    r_database = fakeredis.FakeRedis()
+    r_database.flushall()
+    return InProgress(r_database)
 
 
 def test_new_instance_empty(in_progress):
