@@ -70,7 +70,7 @@ The JSON also includes relevant data, as defined in the "Job Classes" section, a
   'job_type': 'documents',
   'page_offset': 3000,
   'start_date': '12-28-19',
-  'end_date': '1-23-20'
+  'end_date': '01-23-20'
 }  
 ```
 
