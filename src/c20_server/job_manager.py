@@ -4,9 +4,10 @@ from c20_server.in_progress import InProgress
 
 class JobManager:
 
-    def __init__(self):
-        self.job_queue = JobQueue()
-        self.in_progress_jobs = InProgress()
+    def __init__(self, database):
+        self.r_database = database
+        self.job_queue = JobQueue(self.r_database)
+        self.in_progress_jobs = InProgress(self.r_database)
 
     def add_job(self, job):
         self.job_queue.add_job(job)
