@@ -1,4 +1,5 @@
 import pytest
+import fakeredis
 from c20_server.job_manager import JobManager
 from c20_server.job import Job
 from c20_server.user import User
@@ -6,7 +7,9 @@ from c20_server.user import User
 
 @pytest.fixture(name='job_manager')
 def make_job_manager():
-    return JobManager()
+    r_database = fakeredis.FakeRedis()
+    r_database.flushall()
+    return JobManager(r_database)
 
 
 @pytest.fixture(name='job1')
