@@ -31,20 +31,6 @@ Download jobs represent work to download attachments or file formats, both of wh
 * `file_name` - the name of the file in which this will be placed
 * `file_type` - this is the file extension type: html, pdf, etc.
 
-# Example Download job
-```
-{
-  "job_id": "123abc"
-  "job_type": "download"
-  "folder_name": "abc/abc-123/abc-123-xyz/"
-  "file_name": "title_of_file.pdf"
-  "file_type": "pdf"
-  "url": 
-      "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf"
-}
-```
-
-
 ## JSON definition
 
 A job is communicated as a JSON object where key names and values are lower case.  
@@ -98,10 +84,14 @@ The JSON also includes relevant data, as defined in the "Job Classes" section, a
 
 ```
 {
-  'job_id': 'ABC123`
-  'job_type': 'download',
-  'url`: 'https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf`
-}  
+  "job_id": "123abc"
+  "job_type": "download"
+  "folder_name": "abc/abc-123/abc-123-xyz/"
+  "file_name": "title_of_file.pdf"
+  "file_type": "pdf"
+  "url": 
+      "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf"
+}
 ```
 
 ### Example JSON for "None" Job
