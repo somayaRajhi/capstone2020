@@ -25,33 +25,6 @@ In the application, each job is represented as an object.  Regardless of type, a
 
 ### `DownloadJob`
 
-Download jobs represent work to download attachments or file formats,# Job
-
-A job defines work that needs to be done by the client.  Jobs are stored in the server and communicated to a client when the `get_work` endpoint is called.
-
-## Job Classes
-
-In the application, each job is represented as an object.  Regardless of type, all jobs contain
-
-* `job_id` - A unique id for each job.
-
-### `DocumentsJob`
-
-* `page_offset` - The page offset (`po`) parameter in the query.  This name mirrors the name in the API, but these names are misleading!  The value represents the offset as measured in *results*.  Since we will download documents in increments of 1000, the `page_offset` value will be 0, 1000, 2000, ...
-* `start_date` - The start date for the search
-* `end_date` - The ending date for the search
-
-
-### `DocumentJob`
-
-* `document_id` - The ID of the document to fetch
-
-### `DocketJob`
-
-* `docket_id` - The ID of the docket to fetch
-
-### `DownloadJob`
-
 Download jobs represent work to download attachments or file formats, both of which are specified in the results of a query to the `document` endpoint. As the information of the files location can not be retrieved from the endpoint itself, it is stored in the job from when it comes from the document endpoint.
 * `url` - the URL of the attachment or file format
 * `folder_name` - the full name of the path to where the file will be placed
