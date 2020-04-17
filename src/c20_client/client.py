@@ -1,6 +1,7 @@
 """
 Gets a job from the server and handles the job based on the type of job
 """
+import argparse
 import requests
 from c20_client.connection_error import NoConnectionError
 
@@ -12,11 +13,10 @@ from c20_client.documents_packager import package_documents
 from c20_client.docket_packager import package_docket
 from c20_client.document_packager import package_document
 
-CLIENT_ID = 1
-API_KEY = ""
+CLIENT_ID = '1'
 
 
-def do_job():
+def do_job(api_key):
     """
     Gets a job from the server and handles the job based on the type of job
     """
@@ -27,10 +27,10 @@ def do_job():
     except Exception:
         raise NoConnectionError
 
-    get_result_for_job(job)
+    get_result_for_job(job, api_key)
 
 
-def get_result_for_job(job):
+def get_result_for_job(job, api_key):
     """
     Makes request to correct endpoint at reg.gov
     """
@@ -39,7 +39,7 @@ def get_result_for_job(job):
 
     if job_type == 'documents':
         data = get_documents(
-            API_KEY,
+            api_key,
             job["page_offset"],
             job["start_date"],
             job["end_date"])
@@ -47,16 +47,29 @@ def get_result_for_job(job):
 
     elif job_type == 'document':
         data = download_document(
-            API_KEY,
+            api_key,
             job['document_id']
         )
         results = package_document(data, CLIENT_ID, job_id)
 
     elif job_type == 'docket':
         data = get_docket(
-            API_KEY,
+            api_key,
             job['docket_id']
         )
         results = package_docket(data, CLIENT_ID, job_id)
 
-    requests.post('http://capstone.cs.moravian.edu', results)
+    requests.post('http://capstone.cs.moravian.edu/return_result',
+                  json=results)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="get files from regulations.gov")
+    parser.add_argument("API_key", help="api key for regulations.gov")
+    args = parser.parse_args()
+    do_job(args.API_key)
+
+
+if __name__ == '__main__':
+    main()
