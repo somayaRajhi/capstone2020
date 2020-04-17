@@ -69,8 +69,8 @@ The JSON also includes relevant data, as defined in the "Job Classes" section, a
   'job_id': 'ABC123`
   'job_type': 'documents',
   'page_offset': 3000,
-  'start_date': '12-28-19',
-  'end_date': '01-23-20'
+  'start_date': '12/28/19',
+  'end_date': '01/23/20'
 }  
 ```
 
