@@ -8,11 +8,13 @@ A job is communicated as a simple JSON object where key names and values are low
 
 * `client_id`: A unique identifier of the client returning the result.
 * `job_id`: ID of the current job object.
-* `data`: A list of JSON objects. This object consists of a folder name, file name, and data
+* `data`: A list of JSON objects. Each object in the list contains a folder name, file name, and data
   * `folder_name`: The path to the location of where the data should be placed. Check data storage section to see the hierarchy of the path.
   * `file_name`: Name of the file to which the data will be stored. Named after the type of data it is storing.
   * `data`: The raw JSON data received from querying regulations.gov.
-* `jobs`: A list of new job objects. These job objects omit the job_id field. Jobs are retrieved through the JSON data collected from the regulations server.
+* `jobs`: The id of the job being returned. These job objects omit the job_id field. Jobs are retrieved through the JSON data collected from the regulations server.
+
+See `job.md` for the specification of each job
 
 ## Data Storage
 
@@ -25,7 +27,7 @@ Data (folder)
         basic_document.json
         document.json
 ```     
-* Data can be considered the root
+* For example, Data can be considered the root
 
 ```
 EPA/EPA-HQ-OAR-2011-0028/EPA-HQ-OAR-2011-0028-0108/document.json
@@ -37,7 +39,7 @@ File: document.json
 ```
 
 
-## Examples
+## Examples of Result Objects
 
 * Docket
   * Returns data concerning a docket
@@ -76,6 +78,8 @@ File: document.json
   * Returns data concerning a document
   * Placed as a json file in the DocumentID folder
   * `jobs` field can contain a list of download jobs
+  * Note: If there are `attachments` then we can find `fileFormats` in the attachments.
+  If there are no `attachments` then `fileFormats`can be retrieved from the json directly 
 ```
 {
   'client_id': 'client23',
