@@ -16,6 +16,7 @@ A job is communicated as a simple JSON object where key names and values are low
 
 See `job.md` for the specification of each job
 
+
 ## Data Storage
 
 ```
