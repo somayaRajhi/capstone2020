@@ -2,6 +2,7 @@
 Gets a job from the server and handles the job based on the type of job
 """
 import argparse
+import json
 import requests
 from c20_client.connection_error import NoConnectionError
 
@@ -21,8 +22,10 @@ def do_job(api_key):
     Gets a job from the server and handles the job based on the type of job
     """
     try:
+        print("Getting job...\n")
         job = requests.get('http://capstone.cs.moravian.edu/get_job')
         job = job.json()
+        print("Job aquired: " + json.dumps(job) + "\n")
 
     except Exception:
         raise NoConnectionError
@@ -38,6 +41,7 @@ def get_result_for_job(job, api_key):
     job_type = job['job_type']
 
     if job_type == 'documents':
+        print("Getting documents from regulations.gov...\n")
         data = get_documents(
             api_key,
             job["page_offset"],
@@ -46,6 +50,7 @@ def get_result_for_job(job, api_key):
         results = package_documents(data, CLIENT_ID, job_id)
 
     elif job_type == 'document':
+        print("Getting document from regulations.gov...\n")
         data = download_document(
             api_key,
             job['document_id']
@@ -53,14 +58,17 @@ def get_result_for_job(job, api_key):
         results = package_document(data, CLIENT_ID, job_id)
 
     elif job_type == 'docket':
+        print("Getting docket from regulations.gov...\n")
         data = get_docket(
             api_key,
             job['docket_id']
         )
         results = package_docket(data, CLIENT_ID, job_id)
 
+    print("Data received \n")
     requests.post('http://capstone.cs.moravian.edu/return_result',
                   json=results)
+    print("Data posted to server!\n")
 
 
 def main():
