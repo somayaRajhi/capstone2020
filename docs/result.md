@@ -40,7 +40,7 @@ File: document.json
 ```
 
 
-## Examples
+## Examples for Result Objects
 
 * Docket
   * Returns data concerning a docket
