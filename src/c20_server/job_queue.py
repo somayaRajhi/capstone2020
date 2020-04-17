@@ -15,7 +15,7 @@ class JobQueue:
         self.unassigned_jobs_list.append(job)
 
     def get_job(self):
-        if not self.unassigned_jobs_list:
+        if len(self.unassigned_jobs_list) == 0:
             raise job_queue_errors.NoJobsAvailableException
         return self.unassigned_jobs_list.pop(0)
 

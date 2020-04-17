@@ -1,5 +1,6 @@
 from c20_server.job_queue import JobQueue
 from c20_server.in_progress import InProgress
+from c20_server.job import Job
 
 
 class JobManager:
@@ -12,6 +13,8 @@ class JobManager:
         self.job_queue.add_job(job)
 
     def request_job(self, user):
+        if self.num_unassigned() == 0:
+            return Job(-1)
         job = self.job_queue.get_job()
         self.in_progress_jobs.assign(job, user.user_id)
         return job

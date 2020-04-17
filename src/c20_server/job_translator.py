@@ -68,21 +68,40 @@ def json_to_job(json_job):
 
 def add_specific_job_data(record, json_job):
     if record.job_type == DOCUMENTS:
-        page_offset = json_job["page_offset"]
-        start_date = json_job["start_date"]
-        end_date = json_job["end_date"]
-        return DocumentsJob(record.job_id, page_offset, start_date, end_date)
+        return create_documents_job(record, json_job)
 
     if record.job_type == DOCUMENT:
-        document_id = json_job["document_id"]
-        return DocumentJob(record.job_id, document_id)
+        return create_document_job(record, json_job)
 
     if record.job_type == DOCKET:
-        docket_id = json_job["docket_id"]
-        return DocketJob(record.job_id, docket_id)
+        return create_docket_job(record, json_job)
 
     if record.job_type == DOWNLOAD:
-        url = json_job["url"]
-        return DownloadJob(record.job_id, url)
+        return create_download_job(record, json_job)
 
     raise job_translator_errors.UnrecognizedJobTypeException
+
+
+def create_documents_job(record, json_job):
+    page_offset = json_job["page_offset"]
+    start_date = json_job["start_date"]
+    end_date = json_job["end_date"]
+    return DocumentsJob(record.job_id, page_offset, start_date, end_date)
+
+
+def create_document_job(record, json_job):
+    document_id = json_job["document_id"]
+    return DocumentJob(record.job_id, document_id)
+
+
+def create_docket_job(record, json_job):
+    docket_id = json_job["docket_id"]
+    return DocketJob(record.job_id, docket_id)
+
+
+def create_download_job(record, json_job):
+    folder_name = json_job["folder_name"]
+    file_name = json_job["file_name"]
+    file_type = json_job["file_type"]
+    url = json_job["url"]
+    return DownloadJob(record.job_id, folder_name, file_name, file_type, url)

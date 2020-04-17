@@ -67,12 +67,18 @@ def test_download_job_to_json():
            ?documentId=CMS-2005-0001-0001&contentType=pdf"
     job_example = \
         DownloadJob("2aae0fca-bf7d-4444-ab9b-0120414aa0b5",
+                    "CMS/CMS-2005/",
+                    "title_of_file",
+                    "pdf",
                     url)
 
     job_json = job_translator.job_to_json(job_example)
 
     job_json_expected = \
         {"job_id": "2aae0fca-bf7d-4444-ab9b-0120414aa0b5",
+         "folder_name": "CMS/CMS-2005/",
+         "file_name": "title_of_file",
+         "file_type": "pdf",
          "url": url,
          "job_type": "download"}
     job_json_expected = json.dumps(job_json_expected)
@@ -122,11 +128,17 @@ def test_single_download_json_to_job():
     json_example = \
         {
             "job_type": "download",
+            "folder_name": "CMS/CMS-2005/",
+            "file_name": "title_of_file",
+            "file_type": "pdf",
             "url": url
         }
     test_job = job_translator.json_to_job(json_example)
     download_job = \
         job.DownloadJob(test_job[0],
+                        "CMS/CMS-2005/",
+                        "title_of_file",
+                        "pdf",
                         url)
     assert test_job == download_job
 
@@ -235,14 +247,23 @@ def test_handle_document_return_data():
             "jobs": [
                 {
                     "job_type": "download",
+                    "folder_name": "CMS/CMS-2005/",
+                    "file_name": "CMS_file",
+                    "file_type": "pdf",
                     "url": url1
                 },
                 {
                     "job_type": "download",
+                    "folder_name": "DMS/DMS-2050/",
+                    "file_name": "DMS_file",
+                    "file_type": "html",
                     "url": url2
                 },
                 {
                     "job_type": "download",
+                    "folder_name": "LAO/LAO-1450/",
+                    "file_name": "LAO_file",
+                    "file_type": "excel",
                     "url": url3
                 },
 
@@ -255,12 +276,21 @@ def test_handle_document_return_data():
     job_list = [
         job.DownloadJob(
             job_id=test_job[0][0],
+            folder_name="CMS/CMS-2005/",
+            file_name="CMS_file",
+            file_type="pdf",
             url=url1),
         job.DownloadJob(
             job_id=test_job[1][0],
+            folder_name="DMS/DMS-2050/",
+            file_name="DMS_file",
+            file_type="html",
             url=url2),
         job.DownloadJob(
             job_id=test_job[2][0],
+            folder_name="LAO/LAO-1450/",
+            file_name="LAO_file",
+            file_type="excel",
             url=url3)
     ]
     assert test_job == job_list
