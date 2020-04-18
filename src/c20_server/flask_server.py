@@ -13,8 +13,6 @@ def create_app(job_manager):
     @app.route('/get_job')
     def _get_job():
         requested_job = job_manager.request_job(User(100))
-        if requested_job.job_id < 0:
-            return {'job_type': 'none'}
         job = job_to_json(requested_job)
         return job
 
