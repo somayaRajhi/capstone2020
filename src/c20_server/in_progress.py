@@ -2,6 +2,7 @@
 Implementation of In-Progress class
 """
 import pickle
+import time
 from c20_server import job_queue_errors
 
 
@@ -11,7 +12,7 @@ class InProgress:
         self.r_database = database
 
     def assign(self, job, user_id):
-        job = pickle.dumps(job)
+        job = pickle.dumps((self.get_current_time(), job))
         self.r_database.hset('assigned_jobs', user_id, job)
 
     def unassign(self, user_id):
@@ -20,7 +21,17 @@ class InProgress:
         job = self.r_database.hget('assigned_jobs', user_id)
         self.r_database.hdel('assigned_jobs', user_id)
         job = pickle.loads(job)
-        return job
+        return job[1]  # (time_when_assigned, job)
 
     def get_num_assigned_jobs(self):
         return self.r_database.hlen('assigned_jobs')
+
+    def get_all_assigned_jobs(self):
+        return self.r_database.hgetall('assigned_jobs')
+
+    @staticmethod
+    def get_current_time():
+        """
+        Gets the current time.
+        """
+        return float(time.time())
