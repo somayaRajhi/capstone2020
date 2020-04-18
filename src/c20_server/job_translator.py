@@ -23,7 +23,7 @@ def job_to_json(job_object):
         job_type = DOCKET
     elif isinstance(job_object, DownloadJob):
         job_type = DOWNLOAD
-    else:
+    elif isinstance(job_object, NoneJob):
         job_type = NONE_JOB
     return encode_job(job_type, job_object)
 
@@ -81,8 +81,6 @@ def add_specific_job_data(record, json_job):
 
     if record.job_type == DOWNLOAD:
         return create_download_job(record, json_job)
-    if record.job_type == NONE_JOB:
-        return create_none_job(record)
 
     raise job_translator_errors.UnrecognizedJobTypeException
 
