@@ -3,7 +3,8 @@ import pytest
 from c20_server import job
 from c20_server import job_translator
 from c20_server import job_translator_errors
-from c20_server.job import DocumentsJob, DocumentJob, DocketJob, DownloadJob
+from c20_server.job import\
+    DocumentsJob, DocumentJob, DocketJob, DownloadJob, NoneJob
 
 
 def test_handle_job_empty_json():
@@ -81,6 +82,17 @@ def test_download_job_to_json():
          "file_type": "pdf",
          "url": url,
          "job_type": "download"}
+    job_json_expected = json.dumps(job_json_expected)
+    assert job_json == job_json_expected
+
+
+def test_none_job_to_json():
+    job_example = NoneJob("2aae0fca-bf7d-4444-ab9b-0120414aa0b5")
+
+    job_json = job_translator.job_to_json(job_example)
+    job_json_expected = \
+        {"job_id": "2aae0fca-bf7d-4444-ab9b-0120414aa0b5",
+         "job_type": "none"}
     job_json_expected = json.dumps(job_json_expected)
     assert job_json == job_json_expected
 

@@ -1,4 +1,5 @@
 import json
+import fakeredis
 from flask import Flask, request
 from c20_server.user import User
 from c20_server.job import DocumentsJob
@@ -16,12 +17,8 @@ def create_app(job_manager):
     def _get_job():
         print('Server: Requesting Job From Job Queue...\n')
         requested_job = job_manager.request_job(User(100))
-        if int(requested_job.job_id) < 0:
-            return {'job_type': 'none'}
-
         job = job_to_json(requested_job)
         print('Server: Sending Job to client...\n')
-        print('Job being sent: ', job, '\n')
         return job
 
     @app.route('/return_result', methods=['POST'])
@@ -44,7 +41,10 @@ def create_app(job_manager):
 
 
 if __name__ == '__main__':
-    JOB_MANAGER = JobManager()
+    REDIS_SERVER = fakeredis.FakeServer()
+    REDIS_SERVER.connected = True
+    REDIS = fakeredis.FakeStrictRedis(server=REDIS_SERVER)
+    JOB_MANAGER = JobManager(database=REDIS)
     JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
     APP = create_app(JOB_MANAGER)
     APP.run()

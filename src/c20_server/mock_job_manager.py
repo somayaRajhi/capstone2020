@@ -3,8 +3,8 @@ from c20_server.job_manager import JobManager
 
 class MockJobManager(JobManager):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, database):
+        super().__init__(database)
         self.request_job_called = False
         self.add_job_called = False
 
