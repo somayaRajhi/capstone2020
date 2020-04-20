@@ -9,6 +9,9 @@ from c20_client.connection_error import NoConnectionError
 from c20_client.get_documents import get_documents
 from c20_client.get_document import download_document
 from c20_client.retrieve_docket import get_docket
+from c20_client.get_download import download_file
+from c20_client.download_packager import package_downloads
+
 
 from c20_client.documents_packager import package_documents
 from c20_client.docket_packager import package_docket
@@ -64,6 +67,18 @@ def get_result_for_job(job, api_key):
             job['docket_id']
         )
         results = package_docket(data, CLIENT_ID, job_id)
+
+    elif job_type == 'download':
+        print("Getting download from regulations.gov...\n")
+        data = download_file(
+            api_key,
+            job['url']
+        )
+        results = package_downloads(data.json(), CLIENT_ID, job_id)
+
+    elif job_type == 'none':
+        results =  CLIENT_ID, job_id
+
 
     print("Data received \n")
     requests.post('http://capstone.cs.moravian.edu/return_result',
