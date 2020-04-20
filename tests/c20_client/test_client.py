@@ -138,7 +138,11 @@ def test_do_job_download_endpoint_call():
                  json={
                      "agencyAcronym": {'value': 'NBA'},
                      'docketId': 'NBA-ABC',
-                     'documentId': {'value': 'NBA-ABC-123'}})
+                     'documentId': {'value': 'NBA-ABC-123'},
+                     'folder_name':{'agency': 'NBA/',
+                            'docketid': 'NBA-ABC/',
+                            'documentid': 'NBA-ABC-123/'},
+                     'file_name': {'documentid': 'NBA-ABC-123','file_type': 'pdf'}})
         data = {
             'folder_name': {'agency': 'NBA/',
                             'docketid': 'NBA-ABC/',
