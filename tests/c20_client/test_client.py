@@ -44,13 +44,13 @@ def test_do_job_documents_endpoint_call():
                 'document_id': 'NBA-ABC'
             }
         ]
-        mock.post('http://capstone.cs.moravian.edu',
+        mock.post('http://capstone.cs.moravian.edu/return_result',
                   json={'client_id': CLIENT_ID,
                         'job_id': JOB_ID,
                         'data': data,
                         'jobs': job})
 
-        do_job()
+        do_job(API_KEY)
         history = mock.request_history
 
         assert len(history) == 3
@@ -80,13 +80,13 @@ def test_do_job_document_endpoint_call():
         jobs = [
             'url'
         ]
-        mock.post('http://capstone.cs.moravian.edu',
+        mock.post('http://capstone.cs.moravian.edu/return_result',
                   json={'client_id': CLIENT_ID,
                         'job_id': JOB_ID,
                         'data': data,
                         'jobs': jobs})
 
-        do_job()
+        do_job(API_KEY)
         history = mock.request_history
 
         assert len(history) == 3
@@ -113,12 +113,12 @@ def test_do_job_docket_endpoint_call():
             'data': {"agencyAcronym": 'NBA',
                      'information': 'some data'}
             }]
-        mock.post('http://capstone.cs.moravian.edu',
+        mock.post('http://capstone.cs.moravian.edu/return_result',
                   json={'client_id': CLIENT_ID,
                         'job_id': JOB_ID,
                         'data': data})
 
-        do_job()
+        do_job(API_KEY)
         history = mock.request_history
 
         assert len(history) == 3
@@ -133,4 +133,4 @@ def test_no_connection_made_to_server():
                  exc=True)
 
         with pytest.raises(NoConnectionError):
-            do_job()
+            do_job(API_KEY)

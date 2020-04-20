@@ -25,19 +25,11 @@ In the application, each job is represented as an object.  Regardless of type, a
 
 ### `DownloadJob`
 
-Download jobs represent work to download attachments or file formats, both of which are specified in the results of a query to the `document` endpoint.  For example:
-
-```
-"fileFormats": [
-    "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf",
-    "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=html"
-  ],
-```
-
-Because these URLs are already formed, a `downloadJob` simply holds that URL
-
+Download jobs represent work to download attachments or file formats, both of which are specified in the results of a query to the `document` endpoint. As the information of the files location can not be retrieved from the endpoint itself, it is stored in the job from when it comes from the document endpoint.
 * `url` - the URL of the attachment or file format
-
+* `folder_name` - the full name of the path to where the file will be placed
+* `file_name` - the name of the file in which this will be placed
+* `file_type` - this is the file extension type: html, pdf, etc.
 
 ## JSON definition
 
@@ -63,8 +55,8 @@ The JSON also includes relevant data, as defined in the "Job Classes" section, a
   'job_id': 'ABC123`
   'job_type': 'documents',
   'page_offset': 3000,
-  'start_date': '12-28-19',
-  'end_date': '1-23-20'
+  'start_date': '12/28/19',
+  'end_date': '01/23/20'
 }  
 ```
 
@@ -92,10 +84,14 @@ The JSON also includes relevant data, as defined in the "Job Classes" section, a
 
 ```
 {
-  'job_id': 'ABC123`
-  'job_type': 'download',
-  'url`: 'https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf`
-}  
+  "job_id": "123abc"
+  "job_type": "download"
+  "folder_name": "abc/abc-123/abc-123-xyz/"
+  "file_name": "title_of_file.pdf"
+  "file_type": "pdf"
+  "url": 
+      "https://api.data.gov/regulations/v3/download?documentId=EPA-HQ-OAR-2011-0028-0108&contentType=pdf"
+}
 ```
 
 ### Example JSON for "None" Job
@@ -106,4 +102,5 @@ The JSON also includes relevant data, as defined in the "Job Classes" section, a
   'job_type': 'none',
 }  
 ```
+ 
 
