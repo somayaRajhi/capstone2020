@@ -1,5 +1,5 @@
 import requests
-from c20_client import reggov_api_doc_error
+from c20_client import status_code_check
 
 
 def extract_file_formats(document):
@@ -25,18 +25,8 @@ def download_document(api_key, document_id):
     """
     api_key = "&api_key=" + api_key
     document_id = "&documentId=" + document_id
-
     url = "https://api.data.gov:443/regulations/v3/document.json?"
     data = requests.get(url + api_key + document_id)
-
-    if data.status_code == 400:
-        raise reggov_api_doc_error.IncorrectIDPatternException
-    if data.status_code == 403:
-        raise reggov_api_doc_error.IncorrectApiKeyException
-    if data.status_code == 404:
-        raise reggov_api_doc_error.BadDocIDException
-    if data.status_code == 429:
-        raise reggov_api_doc_error.ExceedCallLimitException
+    status_code_check.check_status(data.status_code)
     document = data.json()
-
     return document
