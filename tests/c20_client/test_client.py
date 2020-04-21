@@ -69,17 +69,17 @@ def test_do_job_document_endpoint_call():
                  '&api_key=' + API_KEY + "&documentId=NBA-ABC-123",
                  json={
                      "agencyAcronym": {'value': 'NBA'},
-                     'fileFormats': 'url',
+                     'fileFormats': ['url&contentType=pdf'],
                      'docketId': {'value': 'NBA-ABC'},
                      'documentId': {'value': 'NBA-ABC-123'}})
         data = [{
             'folder_name': 'NBA/NBA-ABC/NBA-ABC-123',
             'file_name': 'document.json',
             'data': {"agencyAcronym": 'NBA',
-                     'fileFormats': 'url'}
+                     'fileFormats': ['url&contentType=pdf']}
             }]
         jobs = [
-            'url'
+            'url&contentType=pdf'
         ]
         mock.post('http://capstone.cs.moravian.edu/return_result',
                   json={'client_id': CLIENT_ID,

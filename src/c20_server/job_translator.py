@@ -2,12 +2,14 @@ import json
 import uuid
 from collections import namedtuple
 from c20_server import job_translator_errors
-from c20_server.job import DocumentsJob, DocumentJob, DocketJob, DownloadJob
+from c20_server.job import\
+    DocumentsJob, DocumentJob, DocketJob, DownloadJob, NoneJob
 
 DOCUMENTS = "documents"
 DOCUMENT = "document"
 DOCKET = "docket"
 DOWNLOAD = "download"
+NONE_JOB = "none"
 
 
 def job_to_json(job_object):
@@ -21,7 +23,8 @@ def job_to_json(job_object):
         job_type = DOCKET
     elif isinstance(job_object, DownloadJob):
         job_type = DOWNLOAD
-
+    elif isinstance(job_object, NoneJob):
+        job_type = NONE_JOB
     return encode_job(job_type, job_object)
 
 
@@ -105,3 +108,7 @@ def create_download_job(record, json_job):
     file_type = json_job["file_type"]
     url = json_job["url"]
     return DownloadJob(record.job_id, folder_name, file_name, file_type, url)
+
+
+def create_none_job(record):
+    return NoneJob(record.job_id)

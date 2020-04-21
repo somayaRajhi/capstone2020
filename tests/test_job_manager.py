@@ -1,12 +1,16 @@
+import time
 import pytest
+import fakeredis
 from c20_server.job_manager import JobManager
-from c20_server.job import Job
+from c20_server.job import Job, NoneJob
 from c20_server.user import User
 
 
 @pytest.fixture(name='job_manager')
 def make_job_manager():
-    return JobManager()
+    r_database = fakeredis.FakeRedis()
+    r_database.flushall()
+    return JobManager(r_database)
 
 
 @pytest.fixture(name='job1')
@@ -83,6 +87,35 @@ def test_multiple_jobs_move_to_assigned(job_manager, job1, user1, user2):
 
 def test_empty_job_queue_gives_none(job_manager, user1):
     job = job_manager.request_job(user1)
-    assert job.job_id == -1
+    assert job.job_id == NoneJob(-1).job_id
 
-# stale job
+
+def test_one_stale_job_is_returned_back_to_unassigned_list(job_manager,
+                                                           job1, user1):
+    job_manager.add_job(job1)
+    job_manager.request_job(user1)
+    time_to_expire = time.time()
+
+    assert job_manager.num_assigned() == 1
+    assert job_manager.num_unassigned() == 0
+
+    job_manager.reset_stale_job(time_to_expire)
+    assert job_manager.num_assigned() == 0
+    assert job_manager.num_unassigned() == 1
+
+
+def test_one_stale_job_of_two_assigned_jobs(job_manager,
+                                            job1, user1, job2):
+    job_manager.add_job(job1)
+    job_manager.add_job(job2)
+
+    job_manager.request_job(user1)
+
+    time_to_expire = time.time()
+    job_manager.request_job(User(2))
+    assert job_manager.num_assigned() == 2
+    assert job_manager.num_unassigned() == 0
+
+    job_manager.reset_stale_job(time_to_expire)
+    assert job_manager.num_assigned() == 1
+    assert job_manager.num_unassigned() == 1
