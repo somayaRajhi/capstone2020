@@ -25,12 +25,27 @@ def do_job(api_key):
         print("Getting job...\n")
         job = requests.get('http://capstone.cs.moravian.edu/get_job')
         job = job.json()
-        print("Job aquired: " + json.dumps(job) + "\n")
+        print("Job acquired: " + json.dumps(job) + "\n")
 
     except Exception:
         raise NoConnectionError
 
     get_result_for_job(job, api_key)
+
+
+def do_multiple_job(api_key):
+    """
+       Gets job from the server and handles the job based on the type of job
+    """
+    try:
+        print("Getting job...\n")
+        for index in range(1000):
+            job = requests.get('http://capstone.cs.moravian.edu/get_job')
+            job = job.json()
+            get_result_for_job(job, api_key)
+
+    except Exception:
+        raise NoConnectionError
 
 
 def get_result_for_job(job, api_key):
