@@ -28,7 +28,7 @@ def do_job(api_key):
         print("Getting job...\n")
         job = requests.get('http://capstone.cs.moravian.edu/get_job')
         job = job.json()
-        print("Job aquired: " + json.dumps(job) + "\n")
+        print("Job acquired: " + json.dumps(job) + "\n")
 
     except Exception:
         raise NoConnectionError
@@ -74,10 +74,14 @@ def get_result_for_job(job, api_key):
             api_key,
             job['url']
         )
-        results = package_downloads(data.json(), CLIENT_ID, job_id)
+        data_json = {'folder_name': job['folder_name'],
+                      'file_name': job['file_name'],
+                      'data': data.content
+                    }
+        results = package_downloads(data_json, CLIENT_ID, job_id)
 
     elif job_type == 'none':
-        results =  CLIENT_ID, job_id
+        results = CLIENT_ID, job_id
 
 
     print("Data received \n")

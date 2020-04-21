@@ -135,14 +135,7 @@ def test_do_job_download_endpoint_call():
         mock.get("https://api.data.gov/regulations/v3/"
                  "download?documentId=NBA-ABC-123"
                  "&contentType=pdf",
-                 json={
-                     "agencyAcronym": {'value': 'NBA'},
-                     'docketId': 'NBA-ABC',
-                     'documentId': {'value': 'NBA-ABC-123'},
-                     'folder_name':{'agency': 'NBA/',
-                            'docketid': 'NBA-ABC/',
-                            'documentid': 'NBA-ABC-123/'},
-                     'file_name': {'documentid': 'NBA-ABC-123','file_type': 'pdf'}})
+                 text='return data')
         data = {
             'folder_name': {'agency': 'NBA/',
                             'docketid': 'NBA-ABC/',
