@@ -36,3 +36,9 @@ class DownloadJob(namedtuple('DownloadJob',
                               'url']
                              )):
     pass
+
+
+class NoneJob(namedtuple('NoneJob',
+                         ['job_id']
+                         )):
+    pass
