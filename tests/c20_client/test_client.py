@@ -1,9 +1,7 @@
 import requests_mock
-
 import pytest
 from c20_client.client import do_job
 from c20_client.connection_error import NoConnectionError
-from mock import Mock
 
 CLIENT_ID = 1
 JOB_ID = 1
@@ -26,8 +24,7 @@ def test_do_job_documents_endpoint_call():
                  json={'documents': [{
                      "agencyAcronym": 'NBA',
                      'docketId': 'NBA-ABC',
-                     'documentId': 'NBA-ABC-123'}]
-                 })
+                     'documentId': 'NBA-ABC-123'}]})
         data = [{
             'folder_name': 'NBA/NBA-ABC/NBA-ABC-123',
             'file_name': 'basic_documents.json',
@@ -135,18 +132,3 @@ def test_no_connection_made_to_server():
 
         with pytest.raises(NoConnectionError):
             do_job(API_KEY)
-
-
-def test_do_multiple_jobs():
-
-    with requests_mock.Mocker() as mock:
-
-        response = mock.get('http://capstone.cs.moravian.edu/get_job', exc=True)
-        json_data = response.json()
-        assert json_data == '{"key1": "value1"}'
-
-
-
-
-
-

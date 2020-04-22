@@ -3,6 +3,7 @@ Gets a job from the server and handles the job based on the type of job
 """
 import argparse
 import json
+import time
 import requests
 from c20_client.connection_error import NoConnectionError
 
@@ -35,14 +36,14 @@ def do_job(api_key):
 
 def do_multiple_job(api_key):
     """
-       Gets job from the server and handles the job based on the type of job
+       Gets multiple job from the server
+       and handles the job based on the type of job
     """
     try:
         print("Getting job...\n")
-        for index in range(1000):
-            job = requests.get('http://capstone.cs.moravian.edu/get_job')
-            job = job.json()
-            get_result_for_job(job, api_key)
+        while True:
+            do_job(api_key)
+            time.sleep(3.66)
 
     except Exception:
         raise NoConnectionError
@@ -91,7 +92,7 @@ def main():
         description="get files from regulations.gov")
     parser.add_argument("API_key", help="api key for regulations.gov")
     args = parser.parse_args()
-    do_job(args.API_key)
+    do_multiple_job(args.API_key)
 
 
 if __name__ == '__main__':

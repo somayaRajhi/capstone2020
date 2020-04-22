@@ -9,4 +9,3 @@ redis
 pycodestyle
 flake8
 flask
-mock
