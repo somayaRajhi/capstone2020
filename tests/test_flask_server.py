@@ -91,3 +91,25 @@ def test_none_job_return_when_no_job(manager):
     assert mock_job_manager.request_job_called
     job = json.loads(result.data)
     assert job['job_type'] == 'none'
+
+
+def test_report_one_job_as_failure(manager):
+    mock_job_manager = manager
+    mock_job_manager.add_job(DocumentsJob(job_id=1, page_offset=0,
+                                          start_date='03-01-2020',
+                                          end_date='04-01-2020'))
+    app = create_app(mock_job_manager)
+    app.config['TESTING'] = True
+    client = app.test_client()
+    client.get('/get_job')
+    assert mock_job_manager.request_job_called
+    assert mock_job_manager.num_unassigned() == 0
+    json_data = {
+        'client_id': 100,
+        'job_id': 0,
+        'client_message': 'Regulations.gov API is not working.'
+    }
+    result = client.post('/report_failure', data=json.dumps(json_data),
+                         content_type='application/json')
+    assert result.status_code == 200
+    assert mock_job_manager.num_unassigned() == 1

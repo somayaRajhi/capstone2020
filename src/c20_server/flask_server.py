@@ -37,6 +37,14 @@ def create_app(job_manager):
             print('Adding Job To Job Manager...')
             print(job, '\n')
         return {}, 200
+
+    @app.route('/report_failure', methods=['POST'])
+    def _report_failure():
+        client_data = request.json
+        user_id = client_data['client_id']
+        user = User(user_id)
+        job_manager.report_failure(user)
+        return {}, 200
     return app
 
 
