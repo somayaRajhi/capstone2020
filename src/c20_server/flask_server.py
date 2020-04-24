@@ -1,5 +1,5 @@
 import json
-import fakeredis
+import redis
 from flask import Flask, request
 from c20_server.user import User
 from c20_server.job import DocumentsJob
@@ -41,10 +41,12 @@ def create_app(job_manager):
 
 
 if __name__ == '__main__':
-    REDIS_SERVER = fakeredis.FakeServer()
-    REDIS_SERVER.connected = True
-    REDIS = fakeredis.FakeStrictRedis(server=REDIS_SERVER)
-    JOB_MANAGER = JobManager(database=REDIS)
-    JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
-    APP = create_app(JOB_MANAGER)
-    APP.run(host='0.0.0.0')
+    try:
+        redis.Redis().ping()
+        JOB_MANAGER = JobManager(redis.Redis())
+        JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
+        APP = create_app(JOB_MANAGER)
+        APP.run()
+        APP.run(host='0.0.0.0')
+    except redis.exceptions.ConnectionError:
+        print('Redis-server is not running!')

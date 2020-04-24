@@ -1,5 +1,4 @@
 import json
-
 import fakeredis
 import pytest
 from c20_server.flask_server import create_app
