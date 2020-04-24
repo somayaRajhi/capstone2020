@@ -1,7 +1,7 @@
 import json
-
 import fakeredis
 import pytest
+from uuid import UUID
 from c20_server.flask_server import create_app
 from c20_server.mock_job_manager import MockJobManager
 from c20_server.job import DocumentsJob
@@ -25,6 +25,17 @@ def client_fixture(manager):
     app = create_app(manager)
     app.config['TESTING'] = True
     return app.test_client()
+
+
+def test_return_user_id_is_uuid(manager):
+    mock_job_manager = manager
+    app = create_app(mock_job_manager)
+    app.config['TESTING'] = True
+    client = app.test_client()
+    result = client.get('/get_user_id')
+    json_ = json.loads(result.data)
+    is_uuid = UUID(json_['user_id'], version=4)
+    assert is_uuid
 
 
 def test_return_result_success(manager):
