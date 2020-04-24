@@ -1,5 +1,6 @@
 import json
 import fakeredis
+import uuid
 from flask import Flask, request
 from c20_server.user import User
 from c20_server.job import DocumentsJob
@@ -12,6 +13,13 @@ def create_app(job_manager):
 
     # Note: endpoint names begin with an "_" so that Pylint does not complain
     # about unused functions.
+
+    @app.route('/get_user_id')
+    def _get_client_id():
+        user_id = str(uuid.uuid4())
+        print('Server: Sending user_id: ' + user_id)
+        user_id_json = {'user_id': user_id}
+        return user_id_json
 
     @app.route('/get_job')
     def _get_job():
