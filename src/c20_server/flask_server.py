@@ -41,7 +41,12 @@ def create_app(job_manager):
 
 
 if __name__ == '__main__':
-    JOB_MANAGER = JobManager(redis.Redis())
-    JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
-    APP = create_app(JOB_MANAGER)
-    APP.run()
+    try:
+        redis.Redis().ping()
+    except redis.exceptions.ConnectionError:
+        print('Redis-server is not running!')
+    else:
+        JOB_MANAGER = JobManager(redis.Redis())
+        JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
+        APP = create_app(JOB_MANAGER)
+        APP.run()
