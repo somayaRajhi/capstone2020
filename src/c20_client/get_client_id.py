@@ -36,5 +36,5 @@ def save_client_env_variable(client_id):
     Will create file if does not already exist
     """
     writer = open('.env', 'a+')
-    writer.append("CLIENT_ID=" + str(client_id) + "\n")
+    writer.write("CLIENT_ID=" + str(client_id) + "\n")
     writer.close()
