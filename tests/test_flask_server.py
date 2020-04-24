@@ -1,5 +1,5 @@
 import json
-
+import redis
 import fakeredis
 import pytest
 from c20_server.flask_server import create_app
@@ -25,6 +25,12 @@ def client_fixture(manager):
     app = create_app(manager)
     app.config['TESTING'] = True
     return app.test_client()
+
+
+@pytest.fixture(name='redis_test')
+def make_redis_ping():
+    r_database = redis.Redis()
+    return r_database
 
 
 def test_return_result_success(manager):
@@ -91,3 +97,8 @@ def test_none_job_return_when_no_job(manager):
     assert mock_job_manager.request_job_called
     job = json.loads(result.data)
     assert job['job_type'] == 'none'
+
+
+def test_running_the_server_without_redis(redis_test):
+    with pytest.raises(redis.exceptions.ConnectionError):
+        redis_test.ping()
