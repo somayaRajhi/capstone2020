@@ -1,4 +1,3 @@
-import time
 import argparse
 import requests
 
@@ -6,9 +5,7 @@ from c20_client.client_logger import LOGGER
 
 from c20_client.connection_error import NoConnectionError
 from c20_client.client import get_result_for_job
-
-# WAITING_TIME_FOR_EACH_CALL = (60 mins * 60 seconds)/1000 = 3.66
-WAITING_TIME_FOR_EACH_CALL = 3.66
+from c20_client.do_wait import wait_between_jobs
 
 
 def do_job(api_key):
@@ -36,7 +33,7 @@ def do_multiple_job(api_key):
         print("Getting job...\n")
         while True:
             do_job(api_key)
-            time.sleep(WAITING_TIME_FOR_EACH_CALL)
+            wait_between_jobs()
 
     except Exception:
         raise NoConnectionError
