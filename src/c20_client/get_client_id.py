@@ -5,6 +5,9 @@ variable if the environment variable does not yet exist
 """
 from os import getenv
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def request_id():
