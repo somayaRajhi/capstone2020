@@ -47,4 +47,4 @@ if __name__ == '__main__':
     JOB_MANAGER = JobManager(database=REDIS)
     JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
     APP = create_app(JOB_MANAGER)
-    APP.run()
+    APP.run(host='0.0.0.0')
