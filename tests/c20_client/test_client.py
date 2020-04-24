@@ -1,6 +1,6 @@
 import requests_mock
 import pytest
-from c20_client.client import do_job
+from c20_client.do_client_job import do_job
 from c20_client.connection_error import NoConnectionError
 
 CLIENT_ID = 1
