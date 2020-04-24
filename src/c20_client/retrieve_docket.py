@@ -18,7 +18,7 @@ def get_docket_data(api_key, docket_id):
                             docket_id)
 
     check_status(response.status_code)
-    LOGGER.info('document has been retrieved')
+    LOGGER.info('docket has been retrieved')
 
     return response.json()
 
