@@ -6,6 +6,7 @@ python-dotenv
 requests
 requests-mock
 redis
+fakeredis
 pycodestyle
 flake8
 flask

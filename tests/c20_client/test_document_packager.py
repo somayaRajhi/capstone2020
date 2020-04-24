@@ -20,7 +20,7 @@ def fixture_document():
 
 ONE_FILE_FORMAT_JSON = {
     'fileFormats': [
-        'URL'
+        'URL&contentType=pdf'
     ],
     'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
@@ -37,8 +37,8 @@ def fixture_one_downloads_document():
 
 MANY_FILE_FORMAT_JSON = {
     'fileFormats': [
-        'URL',
-        'URL2'
+        'URL&contentType=pdf',
+        'URL2&contentType=html'
     ],
     'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
@@ -57,8 +57,9 @@ ONE_ATTACHMENT_JSON = {
     "attachments": [{
         "attachmentOrderNumber": 1,
         'fileFormats': [
-            'URL'
-        ]
+            'URL&contentType=pdf'
+        ],
+        'title': 'stay_in_school'
     }],
     'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
@@ -77,9 +78,15 @@ ATTACHMENT_MANY_FILES_JSON = {
     "attachments": [{
         "attachmentOrderNumber": 1,
         'fileFormats': [
-            'URL',
-            'URL2'
-        ]
+            'URL&contentType=pdf'
+        ],
+        'title': 'stay_in_school'
+    }, {
+        "attachmentOrderNumber": 2,
+        'fileFormats': [
+            'URL2&contentType=html'
+        ],
+        'title': 'read_books'
     }],
     'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
@@ -98,13 +105,15 @@ MANY_ATTACHMENTS_JSON = {
     "attachments": [{
         "attachmentOrderNumber": 1,
         'fileFormats': [
-            'URL'
-        ]
+            'URL&contentType=pdf'
+        ],
+        'title': 'stay_in_school'
     }, {
         "attachmentOrderNumber": 2,
         'fileFormats': [
-            'URL2'
-        ]
+            'URL2&contentType=html'
+        ],
+        'title': 'read_books'
     }],
     'agencyAcronym': {'value': 'test'},
     'docketId': {'value': 'docket-number-5'},
@@ -159,27 +168,30 @@ def test_document_data(document):
 
 
 def test_one_job(one_downloads_document):
-    assert one_downloads_document['jobs'][0]['url'] == 'URL'
+    assert one_downloads_document['jobs'][0]['url'] == 'URL&contentType=pdf'
 
 
 def test_multiple_fileformats(many_downloads_document):
-    assert many_downloads_document['jobs'][0]['url'] == 'URL'
-    assert many_downloads_document['jobs'][1]['url'] == 'URL2'
+    assert many_downloads_document['jobs'][0]['url'] == 'URL&contentType=pdf'
+    assert many_downloads_document['jobs'][1]['url'] == 'URL2&contentType=html'
 
 
 def test_one_attachment(one_attachment_document):
-    assert one_attachment_document['jobs'][0]['url'] == 'URL'
+    assert one_attachment_document['jobs'][0]['url'] == 'URL&contentType=pdf'
 
 
 def test_one_attachment_many_fileformats(one_attachment_many_file_document):
-    assert one_attachment_many_file_document['jobs'][0]['url'] == 'URL'
+    assert one_attachment_many_file_document['jobs'][0]['url'] == \
+        'URL&contentType=pdf'
     assert one_attachment_many_file_document['jobs'][1]['url'] == \
-        'URL2'
+        'URL2&contentType=html'
 
 
 def test_many_attachments(many_attachments_document):
-    assert many_attachments_document['jobs'][0]['url'] == 'URL'
-    assert many_attachments_document['jobs'][1]['url'] == 'URL2'
+    assert many_attachments_document['jobs'][0]['url'] == \
+        'URL&contentType=pdf'
+    assert many_attachments_document['jobs'][1]['url'] == \
+        'URL2&contentType=html'
 
 
 def test_attachment_with_no_url(no_attachment_document):

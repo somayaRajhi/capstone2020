@@ -1,16 +1,21 @@
 import json
+import fakeredis
 import pytest
 from c20_server.flask_server import create_app
 from c20_server.mock_job_manager import MockJobManager
 from c20_server.job import DocumentsJob
 
 
+def make_redis_database():
+    r_database = fakeredis.FakeRedis()
+    r_database.flushall()
+    return r_database
+
+
 @pytest.fixture(name='manager')
 def job_manager_fixture():
-    job_manager = MockJobManager()
-    job = DocumentsJob(job_id=1, page_offset=0, start_date='03-01-2020',
-                       end_date='04-01-2020')
-    job_manager.add_job(job)
+    r_database = make_redis_database()
+    job_manager = MockJobManager(r_database)
     return job_manager
 
 
@@ -21,8 +26,8 @@ def client_fixture(manager):
     return app.test_client()
 
 
-def test_return_result_success():
-    mock_job_manager = MockJobManager()
+def test_return_result_success(manager):
+    mock_job_manager = manager
     app = create_app(mock_job_manager)
     app.config['TESTING'] = True
     client = app.test_client()
@@ -59,8 +64,8 @@ def test_return_result_empty_data(client):
     assert result.status_code == 400
 
 
-def test_single_job_return():
-    mock_job_manager = MockJobManager()
+def test_single_job_return(manager):
+    mock_job_manager = manager
     mock_job_manager.add_job(DocumentsJob(job_id=1, page_offset=0,
                                           start_date='03-01-2020',
                                           end_date='04-01-2020'))
@@ -76,8 +81,8 @@ def test_single_job_return():
                           b' "job_type": "documents"}'
 
 
-def test_none_job_return_when_no_job():
-    mock_job_manager = MockJobManager()
+def test_none_job_return_when_no_job(manager):
+    mock_job_manager = manager
     app = create_app(mock_job_manager)
     app.config['TESTING'] = True
     client = app.test_client()
