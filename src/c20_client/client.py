@@ -26,12 +26,45 @@ def do_job(api_key):
         LOGGER.info('Getting job from server...')
         job = requests.get('http://capstone.cs.moravian.edu/get_job')
         job = job.json()
-        LOGGER.info("Job aquired")
+        LOGGER.info("Job has been aquired")
 
     except Exception:
+        LOGGER.error("A connection error has occurred")
         raise NoConnectionError
 
     get_result_for_job(job, api_key)
+
+
+def documents_handler(job, api_key):
+    job_id = job['job_id']
+    data = get_documents(
+        api_key,
+        job["page_offset"],
+        job["start_date"],
+        job["end_date"])
+    LOGGER.info("Job#%s: Packaging documents...", str(job_id))
+    result = package_documents(data, CLIENT_ID, job_id)
+    return result
+
+
+def document_handler(job, api_key):
+    job_id = job['job_id']
+    data = download_document(
+        api_key,
+        job['document_id'])
+    LOGGER.info("Job#%s: Packaging document...", str(job_id))
+    results = package_document(data, CLIENT_ID, job_id)
+    return results
+
+
+def docket_handler(job, api_key):
+    job_id = job['job_id']
+    data = get_docket(
+        api_key,
+        job['docket_id'])
+    LOGGER.info("Job#%s: Packaging docket..", str(job_id))
+    results = package_docket(data, CLIENT_ID, job_id)
+    return results
 
 
 def get_result_for_job(job, api_key):
@@ -40,37 +73,24 @@ def get_result_for_job(job, api_key):
     """
     job_id = job['job_id']
     job_type = job['job_type']
-
     if job_type == 'documents':
-        data = get_documents(
-            api_key,
-            job["page_offset"],
-            job["start_date"],
-            job["end_date"])
-        LOGGER.info("Packaging documents data")
-        results = package_documents(data, CLIENT_ID, job_id)
+        results = documents_handler(job, api_key)
 
     elif job_type == 'document':
-        data = download_document(
-            api_key,
-            job['document_id']
-        )
-        LOGGER.info("Packaging document data")
-        results = package_document(data, CLIENT_ID, job_id)
+        results = document_handler(job, api_key)
 
     elif job_type == 'docket':
-        data = get_docket(
-            api_key,
-            job['docket_id']
-        )
-        LOGGER.info("Packaging docket data")
-        results = package_docket(data, CLIENT_ID, job_id)
+        results = docket_handler(job, api_key)
 
-    LOGGER.info("Packaging Successful")
-    LOGGER.info("Posting data to server")
+    post_job(job_id, results)
+
+
+def post_job(job_id, results):
+    LOGGER.info("Packaging successful!")
+    LOGGER.info("Posting Job#%s to server", str(job_id))
     requests.post('http://capstone.cs.moravian.edu/return_result',
                   json=results)
-    LOGGER.info("Data successfully posted to server!")
+    LOGGER.info("Job#%s has successfully been posted!", str(job_id))
 
 
 def main():
