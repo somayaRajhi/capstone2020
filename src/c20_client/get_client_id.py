@@ -15,8 +15,8 @@ def request_id():
     Ask Moravian server endpoint for id
     Returns an id
     """
-    response = requests.get('http://capstone.cs.moravian.edu/get_client_id')
-    return response.json()['client_id']
+    response = requests.get('http://capstone.cs.moravian.edu/get_user_id')
+    return response.json()['user_id']
 
 
 def client_has_id():
