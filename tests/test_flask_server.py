@@ -13,7 +13,7 @@ def make_redis_database():
     return r_database
 
 
-@pytest.fixture(name='manager')
+@pytest.fixture(name='job_manager')
 def job_manager_fixture():
     r_database = make_redis_database()
     job_manager = MockJobManager(r_database)
@@ -21,15 +21,14 @@ def job_manager_fixture():
 
 
 @pytest.fixture(name='client')
-def client_fixture(manager):
-    app = create_app(manager)
+def client_fixture(job_manager):
+    app = create_app(job_manager)
     app.config['TESTING'] = True
     return app.test_client()
 
 
-def test_return_result_success(manager):
-    mock_job_manager = manager
-    app = create_app(mock_job_manager)
+def test_return_result_success(job_manager):
+    app = create_app(job_manager)
     app.config['TESTING'] = True
     client = app.test_client()
 
@@ -56,8 +55,8 @@ def test_return_result_success(manager):
     result = client.post('/return_result', data=json.dumps(json_data),
                          content_type='application/json')
     assert result.status_code == 200
-    assert mock_job_manager.add_job_called
-    assert mock_job_manager.num_unassigned() == 1
+    assert job_manager.add_job_called
+    assert job_manager.num_unassigned() == 1
 
 
 def test_return_result_empty_data(client):
@@ -65,16 +64,15 @@ def test_return_result_empty_data(client):
     assert result.status_code == 400
 
 
-def test_single_job_return(manager):
-    mock_job_manager = manager
-    mock_job_manager.add_job(DocumentsJob(job_id=1, page_offset=0,
-                                          start_date='03-01-2020',
-                                          end_date='04-01-2020'))
-    app = create_app(mock_job_manager)
+def test_single_job_return(job_manager):
+    job_manager.add_job(DocumentsJob(job_id=1, page_offset=0,
+                                     start_date='03-01-2020',
+                                     end_date='04-01-2020'))
+    app = create_app(job_manager)
     app.config['TESTING'] = True
     client = app.test_client()
     result = client.get('/get_job')
-    assert mock_job_manager.request_job_called
+    assert job_manager.request_job_called
     assert result.data == b'{"job_id": 1,' \
                           b' "page_offset": 0,' \
                           b' "start_date": "03-01-2020",' \
@@ -82,28 +80,29 @@ def test_single_job_return(manager):
                           b' "job_type": "documents"}'
 
 
-def test_none_job_return_when_no_job(manager):
-    mock_job_manager = manager
-    app = create_app(mock_job_manager)
+def test_none_job_return_when_no_job(job_manager):
+    app = create_app(job_manager)
     app.config['TESTING'] = True
     client = app.test_client()
     result = client.get('/get_job')
-    assert mock_job_manager.request_job_called
+    assert job_manager.request_job_called
     job = json.loads(result.data)
     assert job['job_type'] == 'none'
 
 
-def test_report_one_job_as_failure(manager):
-    mock_job_manager = manager
-    mock_job_manager.add_job(DocumentsJob(job_id=1, page_offset=0,
-                                          start_date='03-01-2020',
-                                          end_date='04-01-2020'))
-    app = create_app(mock_job_manager)
+def test_report_one_job_as_failure(job_manager):
+    job_manager.add_job(DocumentsJob(job_id=1, page_offset=0,
+                                     start_date='03-01-2020',
+                                     end_date='04-01-2020'))
+    app = create_app(job_manager)
     app.config['TESTING'] = True
     client = app.test_client()
+    assert job_manager.num_unassigned() == 1
+
     client.get('/get_job')
-    assert mock_job_manager.request_job_called
-    assert mock_job_manager.num_unassigned() == 0
+    assert job_manager.request_job_called
+    assert job_manager.num_unassigned() == 0
+
     json_data = {
         'client_id': 100,
         'job_id': 0,
@@ -112,4 +111,4 @@ def test_report_one_job_as_failure(manager):
     result = client.post('/report_failure', data=json.dumps(json_data),
                          content_type='application/json')
     assert result.status_code == 200
-    assert mock_job_manager.num_unassigned() == 1
+    assert job_manager.num_unassigned() == 1
