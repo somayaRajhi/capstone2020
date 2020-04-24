@@ -1,6 +1,6 @@
 import json
-import fakeredis
 import uuid
+import fakeredis
 from flask import Flask, request
 from c20_server.user import User
 from c20_server.job import DocumentsJob
