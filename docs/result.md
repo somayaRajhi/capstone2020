@@ -251,7 +251,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
     Incorrect_URL = "https://api.data.gov:443/requlations/v3/download.json?"\"documentID=EPA-HQ-OAR-2011-0000-0108&contentType=pdf"
 
-example of JSON file return to return_failure endpoint 
+Example of JSON file return to return_failure endpoint 
 ```
     {
       'client_id': 'client14',
