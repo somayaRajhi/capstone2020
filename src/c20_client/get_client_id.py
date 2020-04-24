@@ -22,9 +22,19 @@ def client_has_id():
     """
     client_id = getenv("CLIENT_ID")
 
-     # Client does not yet have an id
+    # Client does not yet have an id
     if client_id is None:
         return False
 
     # Client has an id assigned
     return True
+
+
+def save_client_env_variable(client_id):
+    """
+    Append client id to the environment varibale file
+    Will create file if does not already exist
+    """
+    writer = open('.env', 'a+')
+    writer.append("CLIENT_ID=" + str(client_id) + "\n")
+    writer.close()
