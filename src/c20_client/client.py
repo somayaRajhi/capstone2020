@@ -1,11 +1,8 @@
 """
 Gets a job from the server and handles the job based on the type of job
 """
-import argparse
-import time
 
 import requests
-from c20_client.connection_error import NoConnectionError
 
 from c20_client.get_documents import get_documents
 from c20_client.get_document import download_document
@@ -17,38 +14,8 @@ from c20_client.document_packager import package_document
 
 from c20_client.client_logger import LOGGER
 
+
 CLIENT_ID = '1'
-
-
-def do_job(api_key):
-    """
-    Gets a job from the server and handles the job based on the type of job
-    """
-    try:
-        LOGGER.info('Getting job from server...')
-        job = requests.get('http://capstone.cs.moravian.edu/get_job')
-        job = job.json()
-        LOGGER.info("Job acquired")
-
-    except Exception:
-        raise NoConnectionError
-
-    get_result_for_job(job, api_key)
-
-
-def do_multiple_job(api_key):
-    """
-       Gets multiple job from the server
-       and handles the job based on the type of job
-    """
-    try:
-        print("Getting job...\n")
-        while True:
-            do_job(api_key)
-            time.sleep(3.66)
-
-    except Exception:
-        raise NoConnectionError
 
 
 def get_result_for_job(job, api_key):
@@ -88,15 +55,3 @@ def get_result_for_job(job, api_key):
     requests.post('http://capstone.cs.moravian.edu/return_result',
                   json=results)
     LOGGER.info("Data successfully posted to server!")
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="get files from regulations.gov")
-    parser.add_argument("API_key", help="api key for regulations.gov")
-    args = parser.parse_args()
-    do_multiple_job(args.API_key)
-
-
-if __name__ == '__main__':
-    main()
