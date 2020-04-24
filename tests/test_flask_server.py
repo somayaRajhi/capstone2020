@@ -1,7 +1,7 @@
 import json
+from uuid import UUID
 import fakeredis
 import pytest
-from uuid import UUID
 from c20_server.flask_server import create_app
 from c20_server.mock_job_manager import MockJobManager
 from c20_server.job import DocumentsJob
