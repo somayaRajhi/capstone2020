@@ -1,10 +1,14 @@
 from os import environ
-import requests_mock
 from unittest.mock import mock_open
-import pytest
-from c20_client.get_client_id import request_id, save_client_env_variable, client_has_id
+import requests_mock
+from c20_client.get_client_id import (
+    request_id,
+    save_client_env_variable,
+    client_has_id
+)
 
 CLIENT_ID = '1234'
+
 
 def test_request_id_call():
     with requests_mock.Mocker() as mock:
