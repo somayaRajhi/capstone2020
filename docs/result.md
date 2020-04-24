@@ -227,8 +227,8 @@ File: document.json
       }
     }
 }
-
-#Client report failure
+```
+##Client report failure
 
 a POST request is invoked by the client to the server. It returns a JSON file with information like client_id, job_id, and Massages to return failure endpoint in the server. The client can return a failure do to many reasons such as:
 * 400: Bad request
@@ -250,9 +250,10 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
   * Incorrect URL
     Incorrect_URL = "https://api.data.gov:443/requlations/v3/download.json?"\"documentID=EPA-HQ-OAR-2011-0000-0108&contentType=pdf"
 
-
+```
     {
       'client_id': 'client14',
       'job_id': 'job33',
       'Masg': '400: Bad request'
     }
+```
