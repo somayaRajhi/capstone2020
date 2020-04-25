@@ -32,7 +32,34 @@ def test_id_not_exist_in_env():
     assert MANAGER.get_id() is None
 
 
+def tests_check_not_in_environment(mocker):
+    with requests_mock.Mocker() as mock:
+        mock.get('http://capstone.cs.moravian.edu/get_user_id',
+                 json={'user_id': CLIENT_ID})
+        file_mock = mocker.patch('c20_client.get_client_id.open', mock_open())
+
+        MANAGER.check()
+        history = mock.request_history
+
+        assert len(history) == 1
+        assert 'capstone' in history[0].url
+        file_mock.assert_called_once_with('.env', 'a+')
+        file_mock().write.assert_called_once_with(
+            "CLIENT_ID=" + CLIENT_ID + "\n")
+
+
 def test_id_exist_in_environment():
     environ['CLIENT_ID'] = CLIENT_ID
     assert MANAGER.client_has_id()
     assert MANAGER.get_id() == CLIENT_ID
+
+
+def tests_check_in_environment(mocker):
+    with requests_mock.Mocker() as mock:
+        mock.get('http://capstone.cs.moravian.edu/get_user_id',
+                 json={'user_id': CLIENT_ID})
+
+        MANAGER.check()
+        history = mock.request_history
+
+        assert len(history) == 0
