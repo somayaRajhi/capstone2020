@@ -6,6 +6,7 @@ variable if the environment variable does not yet exist
 from os import getenv
 import requests
 from dotenv import load_dotenv
+from c20_client.connection_error import NoConnectionError
 
 load_dotenv()
 
@@ -15,12 +16,12 @@ class IdManager():
     checking the existence of an id
     """
 
-    def __init__(self):
+    def check(self):
         """
-        Initialize the database
         Checks for an id, if not exist the Manager makes
         the request for an id and saves it
         """
+        # If client does not have an id
         if not self.client_has_id():
             self.save_client_env_variable(self.request_id)
 
@@ -30,7 +31,11 @@ class IdManager():
         Ask Moravian server endpoint for id
         Returns an id
         """
-        response = requests.get('http://capstone.cs.moravian.edu/get_user_id')
+        try:
+            response = requests.get('http://capstone.cs.moravian.edu/get_user_id')
+        except Exception:
+            raise NoConnectionError
+
         return response.json()['user_id']
 
 
@@ -38,7 +43,7 @@ class IdManager():
         """
         Checks for the client id as a .env variable called CLIENT_ID
         """
-        client_id = self.get_id
+        client_id = self.get_id()
 
         # Client does not yet have an id
         if client_id is None:
