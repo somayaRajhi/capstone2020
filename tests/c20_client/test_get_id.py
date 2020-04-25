@@ -28,12 +28,11 @@ def test_write_env_variable(mocker):
 
 
 def test_id_not_exist_in_env():
-    print(MANAGER.get_id())
-    assert MANAGER.get_id() is None
     assert not MANAGER.client_has_id()
+    assert MANAGER.get_id() is None
 
 
 def test_id_exist_in_environment():
     environ['CLIENT_ID'] = CLIENT_ID
-    assert MANAGER.get_id() == CLIENT_ID
     assert MANAGER.client_has_id()
+    assert MANAGER.get_id() == CLIENT_ID
