@@ -10,6 +10,7 @@ from c20_client.connection_error import NoConnectionError
 
 load_dotenv()
 
+
 class IdManager():
     """
     Manages id functions for getting, saving, and
@@ -23,8 +24,7 @@ class IdManager():
         """
         # If client does not have an id
         if not self.client_has_id():
-            self.save_client_env_variable(self.request_id)
-
+            self.save_client_env_variable(self.request_id())
 
     def request_id(self):
         """
@@ -32,12 +32,12 @@ class IdManager():
         Returns an id
         """
         try:
-            response = requests.get('http://capstone.cs.moravian.edu/get_user_id')
+            response = requests.get(
+                'http://capstone.cs.moravian.edu/get_user_id')
         except Exception:
             raise NoConnectionError
 
         return response.json()['user_id']
-
 
     def client_has_id(self):
         """
@@ -51,7 +51,6 @@ class IdManager():
 
         # Client has an id assigned
         return True
-
 
     def save_client_env_variable(self, client_id):
         """
