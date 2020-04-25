@@ -54,7 +54,7 @@ def test_id_exist_in_environment():
     assert MANAGER.get_id() == CLIENT_ID
 
 
-def tests_check_in_environment(mocker):
+def tests_check_in_environment():
     with requests_mock.Mocker() as mock:
         mock.get('http://capstone.cs.moravian.edu/get_user_id',
                  json={'user_id': CLIENT_ID})
