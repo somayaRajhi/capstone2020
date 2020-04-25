@@ -43,11 +43,8 @@ class IdManager():
         """
         Checks for the client id as a .env variable called CLIENT_ID
         """
-        print('checking')
         client_id = self.get_id()
-        print('HAS IT')
-        print(client_id)
-        print('^^^^^^^^^^^^^')
+
         # Client does not yet have an id
         if client_id is None:
             return False
@@ -69,5 +66,4 @@ class IdManager():
         """
         Gets the id from the env variable
         """
-        print ('------>' + str(getenv("CLIENT_ID")) + '<---------')
         return getenv("CLIENT_ID")
