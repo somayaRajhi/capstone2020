@@ -1,0 +1,1 @@
+Every Client will have a client id. For a new client, it must get an id by quering the "/get_user_id". The server sends the client a JSON response with the key `user_id` for the id value. The client id must be stored as an environment variable in the .env file with the key `CLIENT_ID`
