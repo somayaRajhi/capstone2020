@@ -242,20 +242,89 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 * `client_id`: A unique identifier of the client returning the result.
 * `job_id`: ID of the current job object.
-* `Massages`: a string list contains description of the error
+* `Massages`: a string list contains the URL of failuer job and the description of the error.
 
 ## Examples for failure jobs
+### Docket:
 
-* 400: Bad request
-  * Incorrect URL:
+1- bad docketID: 
+ 	
+ docketID="EPA-HQ-OAR-2011-0028-0000"
 
-    Incorrect_URL = "https://api.data.gov:443/requlations/v3/download.json?"\"documentID=EPA-HQ-OAR-2011-0000-0108&contentType=pdf"
-
-Example of JSON file return to return_failure endpoint 
 ```
     {
       'client_id': 'client14',
       'job_id': 'job33',
-      'Masg': '400: Bad request'
+      'Message':''URL:https://api.data.gov:443/
+      regulations/v3/docket.json?
+      api_key="VALID KEY"&docketID=
+      EPA-HQ-OAR-2011-0028-0000'
+    :received 404:Not Found'
     }
 ```
+2- missing docketID:
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/
+      regulations/v3/docket.json?
+      api_key="VALID KEY"&docketID='
+      :received 404:Not Found'
+    }
+```
+3-wrong docketID pattern:
+ 
+ docketID=ASD-EPA-HQ-OAR-2011-0028-DDD
+
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/
+      regulations/v3/docket.json?
+      api_key="VALID KEY"&docketID=ASD-EPA-HQ-OAR-2011-0028-DDD'
+      :received 400:Bad request'
+    }
+```
+4- bad api kay :
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/
+      regulations/v3/docket.json?
+      api_key="INVALID"&docketID=ASD-EPA-HQ-OAR-2011-0028-DDD'
+      :received 403:Forbidden'
+    }
+```
+5-No api key
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/
+      regulations/v3/docket.json?
+      api_key=""&docketID=EPA-HQ-OAR-2011-0028'
+      :received 403:Forbidden'
+    }
+```
+6- Overused api key:
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/
+      regulations/v3/docket.json?
+      api_key=""&docketID=EPA-HQ-OAR-2011-0028'
+      :received 403:Forbidden'
+    }
+```
+
+
+
