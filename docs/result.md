@@ -230,7 +230,7 @@ File: document.json
 ```
 ##Client report failure
 
-a POST request is invoked by the client to the server. It returns a JSON file with information like client_id, job_id, and Massages to return failure endpoint in the server. The client can return a failure do to many reasons such as:
+a POST request is invoked by the client to the server. It returns a JSON file with information like client_id, job_id, and Message to return failure endpoint in the server. The client can return a failure do to many reasons such as:
 * 400: Bad request
 * 401: Unauthorized
 * 404: Not found
@@ -242,13 +242,15 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 * `client_id`: A unique identifier of the client returning the result.
 * `job_id`: ID of the current job object.
-* `Massages`: a string list contains the URL of failuer job and the description of the error.
+
+* `Massages`: a string list contains the URL of failure job and the description of the error.
+
 
 ## Examples for failure jobs
 ### Docket:
 
-1- bad docketID: 
- 	
+1- bad docketID:
+
  docketID="EPA-HQ-OAR-2011-0028-0000"
 
 ```
@@ -275,7 +277,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 3-wrong docketID pattern:
- 
+
  docketID=ASD-EPA-HQ-OAR-2011-0028-DDD
 
 
@@ -325,6 +327,3 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
       :received 403:Forbidden'
     }
 ```
-
-
-
