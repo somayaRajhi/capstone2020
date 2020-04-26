@@ -1,17 +1,25 @@
-from c20_client import json_jobs_helper
+from c20_client.json_jobs_helper import get_download_from_document
 
 
 def package_document(document, client_id, job_id):
+    document_id = document['documentId']['value']
     folder_name = (document['agencyAcronym']['value'] + "/" +
                    document['docketId']['value'] + "/" +
-                   document['documentId']['value'] + "/")
+                   document_id + "/")
     data = [{
         'folder_name': folder_name,
         'file_name': 'basic_document.json',
         'data': document
     }]
 
-    jobs_list = get_jobs_list(document)
+    jobs_list = []
+
+    if 'attachments' in document:
+        jobs_list = get_jobs_list_from_attachments(document, folder_name)
+
+    elif 'fileFormats' in document:
+        jobs_list = get_jobs_list_from_file_format(document,
+                                                   folder_name, document_id)
 
     return_document = {
         'client_id': client_id,
@@ -23,21 +31,23 @@ def package_document(document, client_id, job_id):
     return return_document
 
 
-def get_jobs_list(document):
+def get_jobs_list_from_attachments(document, folder_name):
     jobs_list = []
-    jobs_list += find_file_formats(document)
 
-    if 'attachments' in document:
-        for attachment in document['attachments']:
-            jobs_list += find_file_formats(attachment)
+    for attachment in document['attachments']:
+        if 'fileFormats' in attachment:
+            title = attachment['title']
+            jobs_list += get_jobs_list_from_file_format(attachment,
+                                                        folder_name, title)
 
     return jobs_list
 
 
-def find_file_formats(attachment):
+def get_jobs_list_from_file_format(attachment, folder_name, file_name):
     file_formats = []
-    if 'fileFormats' in attachment:
-        for files in attachment['fileFormats']:
-            file_formats.append(
-                json_jobs_helper.get_download_from_document(files))
+
+    for files in attachment['fileFormats']:
+        file_formats.append(
+            get_download_from_document(files, folder_name, file_name))
+
     return file_formats
