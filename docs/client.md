@@ -1,5 +1,5 @@
 # Client Environment
-* Each user is responsible to have a `.env` file
+* Each user is responsible to have a `.env` file in the root directory
 * The `.env` file must contain the api key under the key `API_KEY`
     * `API_KEY=enter_your_api_key`
 * The `.env` will also contain the client id under the key `CLIENT_ID`
