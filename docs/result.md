@@ -324,6 +324,50 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
       'Message':''URL:https://api.data.gov:443/
       regulations/v3/docket.json?
       api_key=""&docketID=EPA-HQ-OAR-2011-0028'
-      :received 403:Forbidden'
+      :received 429:Too Many Requests'
     }
 ```
+### Documents:
+1- Bad URL:
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/regulations/v3/document.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
+    :received 404:Not Found'
+    }
+```
+2- Bad api key :
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=INVALID"&po=1000&crd=11/06/13 - 03/06/14'
+    :received 403:Forbidden'
+    }
+```
+
+3- No api key:
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key="&po=1000&crd=11/06/13 - 03/06/14'
+    :received 403:Forbidden'
+    }
+```
+
+4-Overused api key:
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
+    :received 429:Too Many Requests'
+    }
+```
+
