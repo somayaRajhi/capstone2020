@@ -1,10 +1,11 @@
 import json
-import redis
+import sys
 from flask import Flask, request
 from c20_server.user import User
 from c20_server.job import DocumentsJob
 from c20_server.job_manager import JobManager
 from c20_server.job_translator import job_to_json, handle_jobs
+from c20_server.database import Database
 
 
 def create_app(job_manager):
@@ -40,12 +41,16 @@ def create_app(job_manager):
     return app
 
 
+def redis_connect():
+    database = Database()
+    if not database.connect():
+        sys.exit()
+    return database
+
+
 if __name__ == '__main__':
-    try:
-        redis.Redis().ping()
-        JOB_MANAGER = JobManager(redis.Redis())
-        JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
-        APP = create_app(JOB_MANAGER)
-        APP.run(host='0.0.0.0')
-    except redis.exceptions.ConnectionError:
-        print('Redis-server is not running!')
+    DATABASE = redis_connect()
+    JOB_MANAGER = JobManager(DATABASE)
+    JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
+    APP = create_app(JOB_MANAGER)
+    APP.run(host='0.0.0.0')
