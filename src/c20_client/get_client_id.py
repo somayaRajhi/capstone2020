@@ -46,7 +46,7 @@ class ClientManager():
                 'http://capstone.cs.moravian.edu/get_user_id')
         except Exception:
             raise NoConnectionError
-        
+
         self.client_id = response.json()['user_id']
         return self.client_id
 
@@ -60,6 +60,7 @@ class ClientManager():
 
         # Client has an id assigned
         return True
+
 
 def save_client_env_variable(client_id):
     """
