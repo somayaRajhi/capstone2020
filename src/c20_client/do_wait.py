@@ -16,5 +16,4 @@ def wait():
 
 
 def wait_between_jobs():
-    get_wait_time()
     wait()
