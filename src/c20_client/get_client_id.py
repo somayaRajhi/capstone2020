@@ -8,23 +8,33 @@ import requests
 from dotenv import load_dotenv
 from c20_client.connection_error import NoConnectionError
 
-load_dotenv()
 
-
-class IdManager():
+class ClientManager():
     """
     Manages id functions for getting, saving, and
     checking the existence of an id
     """
+    def __init__(self):
+        load_dotenv()
+        self.client_id = getenv("CLIENT_ID")
+        self.api_key = getenv("API_KEY")
 
-    def check(self):
+    def reset_keys(self):
+        """
+        Function is used mainly for testing purposes.
+        Sets keys to currently loaded enviornment variables.
+        """
+        self.client_id = getenv("CLIENT_ID")
+        self.api_key = getenv("API_KEY")
+
+    def check_for_id(self):
         """
         Checks for an id, if not exist the Manager makes
         the request for an id and saves it
         """
         # If client does not have an id
         if not self.client_has_id():
-            self.save_client_env_variable(self.request_id())
+            save_client_env_variable(self.request_id())
 
     def request_id(self):
         """
@@ -36,33 +46,26 @@ class IdManager():
                 'http://capstone.cs.moravian.edu/get_user_id')
         except Exception:
             raise NoConnectionError
-
-        return response.json()['user_id']
+        
+        self.client_id = response.json()['user_id']
+        return self.client_id
 
     def client_has_id(self):
         """
         Checks for the client id as a .env variable called CLIENT_ID
         """
-        client_id = self.get_id()
-
         # Client does not yet have an id
-        if client_id is None:
+        if self.client_id is None:
             return False
 
         # Client has an id assigned
         return True
 
-    def save_client_env_variable(self, client_id):
-        """
-        Append client id to the environment varibale file
-        Will create file if does not already exist
-        """
-        writer = open('.env', 'a+')
-        writer.write("CLIENT_ID=" + str(client_id) + "\n")
-        writer.close()
-
-    def get_id(self):
-        """
-        Gets the id from the env variable
-        """
-        return getenv("CLIENT_ID")
+def save_client_env_variable(client_id):
+    """
+    Append client id to the environment varibale file
+    Will create file if does not already exist
+    """
+    writer = open('.env', 'a+')
+    writer.write("CLIENT_ID=" + str(client_id) + "\n")
+    writer.close()
