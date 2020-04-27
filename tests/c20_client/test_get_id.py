@@ -13,22 +13,25 @@ API_KEY = 'xxxx-xyz-xxxx'
 
 @pytest.fixture(name="manager")
 def fixture_client_manager_unset(mocker):
-    mocker.patch('c20_client.get_client_id.open', mock_open())
+    with requests_mock.Mocker() as mock:
+        mock.get('http://capstone.cs.moravian.edu/get_user_id',
+                 json={'user_id': CLIENT_ID})
+        mocker.patch('c20_client.get_client_id.open', mock_open())
 
-    manager = ClientManager()
+        manager = ClientManager()
 
-    # Delete the environment variable if it is loaded
-    if getenv('CLIENT_ID') is not None:
-        del environ['CLIENT_ID']
+        # Delete the environment variable if it is loaded
+        if getenv('CLIENT_ID') is not None:
+            del environ['CLIENT_ID']
 
-    # Delete the environment variable if it is loaded
-    if getenv('API_KEY') is not None:
-        del environ['API_KEY']
+        # Delete the environment variable if it is loaded
+        if getenv('API_KEY') is not None:
+            del environ['API_KEY']
 
-    # Start with both keys as None
-    manager.reset_keys()
+        # Start with both keys as None
+        manager.reset_keys()
 
-    return manager
+        return manager
 
 
 def test_request_id_call(manager):

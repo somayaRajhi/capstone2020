@@ -18,6 +18,7 @@ class ClientManager():
         load_dotenv()
         self.client_id = getenv("CLIENT_ID")
         self.api_key = getenv("API_KEY")
+        self.check_for_id()
 
     def reset_keys(self):
         """
@@ -26,6 +27,7 @@ class ClientManager():
         """
         self.client_id = getenv("CLIENT_ID")
         self.api_key = getenv("API_KEY")
+
 
     def check_for_id(self):
         """
