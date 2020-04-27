@@ -31,19 +31,8 @@ def create_app(job_manager, data_repository):
         if client_data is None:
             return {}, 400
 
-        json_data = json.dumps(client_data)
-        job_list = handle_jobs(json_data)
-        print()
-        for job in job_list:
-            job_manager.add_job(job)
-            print('Adding Job To Job Manager...')
-            print(job, '\n')
-
-        list_of_data_dicts = client_data['data']
-        data_items = DataExtractor.extract(list_of_data_dicts)
-        for data_item in data_items:
-            data_repository.save_data(data_item.folder_name,
-                                      data_item.file_name, data_item.contents)
+        update_job_manager(job_manager, client_data)
+        save_data(data_repository, client_data['data'])
 
         return {}, 200
 
@@ -54,7 +43,25 @@ def create_app(job_manager, data_repository):
         user = User(user_id)
         job_manager.report_failure(user)
         return {}, 200
+
     return app
+
+
+def update_job_manager(job_manager, client_data):
+    json_data = json.dumps(client_data)
+    job_list = handle_jobs(json_data)
+    print()
+    for job in job_list:
+        job_manager.add_job(job)
+        print('Adding Job To Job Manager...')
+        print(job, '\n')
+
+
+def save_data(data_repository, list_of_data_dicts):
+    data_items = DataExtractor.extract(list_of_data_dicts)
+    for data_item in data_items:
+        data_repository.save_data(data_item.folder_name,
+                                  data_item.file_name, data_item.contents)
 
 
 def launch():
