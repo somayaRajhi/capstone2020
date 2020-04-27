@@ -5,9 +5,11 @@ from c20_server.user import User
 from c20_server.job import DocumentsJob
 from c20_server.job_manager import JobManager
 from c20_server.job_translator import job_to_json, handle_jobs
+from c20_server.data_extractor import DataExtractor
+from c20_server.data_repository import DataRepository
 
 
-def create_app(job_manager):
+def create_app(job_manager, data_repository):
     app = Flask(__name__)
 
     # Note: endpoint names begin with an "_" so that Pylint does not complain
@@ -36,16 +38,28 @@ def create_app(job_manager):
             job_manager.add_job(job)
             print('Adding Job To Job Manager...')
             print(job, '\n')
+
+        list_of_data_dicts = client_data['data']
+        data_items = DataExtractor.extract(list_of_data_dicts)
+        for data_item in data_items:
+            data_repository.save_data(data_item.folder_name,
+                                      data_item.file_name, data_item.contents)
+
         return {}, 200
     return app
 
 
-if __name__ == '__main__':
+def launch():
     try:
         redis.Redis().ping()
-        JOB_MANAGER = JobManager(redis.Redis())
-        JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
-        APP = create_app(JOB_MANAGER)
-        APP.run(host='0.0.0.0')
+        job_manager = JobManager(redis.Redis())
+        job_manager.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
+        data_repository = DataRepository(base_path='data')
+        app = create_app(job_manager, data_repository)
+        app.run(host='0.0.0.0')
     except redis.exceptions.ConnectionError:
         print('Redis-server is not running!')
+
+
+if __name__ == '__main__':
+    launch()
