@@ -264,19 +264,8 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     :received 404:Not Found'
     }
 ```
-2- missing docketID:
 
-```
-    {
-      'client_id': 'client14',
-      'job_id': 'job33',
-      'Message':''URL:https://api.data.gov:443/
-      regulations/v3/docket.json?
-      api_key="VALID KEY"&docketID='
-      :received 404:Not Found'
-    }
-```
-3-wrong docketID pattern:
+2-wrong docketID pattern:
 
  docketID=ASD-EPA-HQ-OAR-2011-0028-DDD
 
@@ -291,7 +280,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
       :received 400:Bad request'
     }
 ```
-4- bad api kay :
+3- bad api kay :
 
 ```
     {
@@ -303,30 +292,8 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
       :received 403:Forbidden'
     }
 ```
-5-No api key
 
-```
-    {
-      'client_id': 'client14',
-      'job_id': 'job33',
-      'Message':''URL:https://api.data.gov:443/
-      regulations/v3/docket.json?
-      api_key=""&docketID=EPA-HQ-OAR-2011-0028'
-      :received 403:Forbidden'
-    }
-```
-6- Overused api key:
 
-```
-    {
-      'client_id': 'client14',
-      'job_id': 'job33',
-      'Message':''URL:https://api.data.gov:443/
-      regulations/v3/docket.json?
-      api_key=""&docketID=EPA-HQ-OAR-2011-0028'
-      :received 429:Too Many Requests'
-    }
-```
 ### Documents:
 1- Bad URL:
 
@@ -338,18 +305,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     :received 404:Not Found'
     }
 ```
-2- Bad api key :
-
-```
-    {
-      'client_id': 'client14',
-      'job_id': 'job33',
-      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=INVALID"&po=1000&crd=11/06/13 - 03/06/14'
-    :received 403:Forbidden'
-    }
-```
-
-3- No api key:
+2- No api key:
 
 ```
     {
@@ -360,7 +316,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 
-4-Overused api key:
+3-Overused api key:
 
 ```
     {
@@ -371,3 +327,29 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 
+### Errors connections:
+
+######1-  500 Internal Server Error: 
+it happend when the client try conecte to the server but the srever cannot process the request for an unknown reason.
+
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
+    :received 500:Internal Server Error'
+    }
+```
+
+######2-  503 Service Unavailable:
+it happend when the client try to conecte to the server but the server is overloaded or under maintenance.
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
+    :received 500:Internal Server Error'
+    }
+```
