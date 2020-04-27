@@ -1,9 +1,9 @@
-from collections import namedtuple
 import json
 import fakeredis
 import pytest
 from c20_server.flask_server import create_app
 from c20_server.mock_job_manager import MockJobManager
+from c20_server.spy_data_repository import SpyDataRepository
 from c20_server.job import DocumentsJob
 
 
@@ -114,48 +114,9 @@ def test_report_one_job_as_failure(job_manager):
     assert job_manager.num_unassigned() == 1
 
 
-class DummyJobManager:
-    def add_job(self, job):
-        pass
-
-    def request_job(self, user):
-        pass
-
-    def report_success(self, user):
-        pass
-
-    def report_failure(self, user):
-        pass
-
-    def reset_stale_job(self, time_to_expire):
-        pass
-
-    def num_assigned(self):
-        pass
-
-    def num_unassigned(self):
-        pass
-
-
-SavedItem = namedtuple('SavedItem', ['directory_name', 'filename', 'contents'])
-
-
-class SpyDataRepository:
-
-    def __init__(self):
-        self.saved_items = []
-
-    def save_data(self, directory_name, filename, contents):
-        item = SavedItem(directory_name=directory_name,
-                         filename=filename,
-                         contents=contents)
-
-        self.saved_items.append(item)
-
-
-def test_store_single_data_item():
+def test_store_single_data_item(job_manager):
     data_repository_spy = SpyDataRepository()
-    app = create_app(DummyJobManager(), data_repository_spy)
+    app = create_app(job_manager, data_repository_spy)
     app.config['TESTING'] = True
     client = app.test_client()
 
@@ -182,9 +143,9 @@ def test_store_single_data_item():
     assert first_save.contents == {}
 
 
-def test_store_multiple_data_items():
+def test_store_multiple_data_items(job_manager):
     data_repository_spy = SpyDataRepository()
-    app = create_app(DummyJobManager(), data_repository_spy)
+    app = create_app(job_manager, data_repository_spy)
     app.config['TESTING'] = True
     client = app.test_client()
 
