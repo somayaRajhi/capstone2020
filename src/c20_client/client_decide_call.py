@@ -54,28 +54,14 @@ def handle_specific_job(job, api_key):
     return results
 
 
-def find_download_data(api_key, job, job_id):
-    print("Getting download from regulations.gov...\n")
-    data = download_file(
+def find_documents_data(api_key, job, job_id):
+    print("Getting documents from regulations.gov...\n")
+    data = get_documents(
         api_key,
-        job['url']
-    )
-    data_json = {'folder_name': job['folder_name'],
-                 'file_name': job['file_name'],
-                 'file_type': job['file_type'],
-                 'data': data.text
-                 }
-    results = package_downloads(data_json, CLIENT_ID, job_id)
-    return results
-
-
-def find_docket_data(api_key, job, job_id):
-    print("Getting docket from regulations.gov...\n")
-    data = get_docket(
-        api_key,
-        job['docket_id']
-    )
-    results = package_docket(data, CLIENT_ID, job_id)
+        job["page_offset"],
+        job["start_date"],
+        job["end_date"])
+    results = package_documents(data, CLIENT_ID, job_id)
     return results
 
 
@@ -89,12 +75,26 @@ def find_document_data(api_key, job, job_id):
     return results
 
 
-def find_documents_data(api_key, job, job_id):
-    print("Getting documents from regulations.gov...\n")
-    data = get_documents(
+def find_docket_data(api_key, job, job_id):
+    print("Getting docket from regulations.gov...\n")
+    data = get_docket(
         api_key,
-        job["page_offset"],
-        job["start_date"],
-        job["end_date"])
-    results = package_documents(data, CLIENT_ID, job_id)
+        job['docket_id']
+    )
+    results = package_docket(data, CLIENT_ID, job_id)
+    return results
+
+
+def find_download_data(api_key, job, job_id):
+    print("Getting download from regulations.gov...\n")
+    data = download_file(
+        api_key,
+        job['url']
+    )
+    data_json = {'folder_name': job['folder_name'],
+                 'file_name': job['file_name'],
+                 'file_type': job['file_type'],
+                 'data': data.text
+                 }
+    results = package_downloads(data_json, CLIENT_ID, job_id)
     return results
