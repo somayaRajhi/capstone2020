@@ -1,6 +1,5 @@
 import json
 import uuid
-import fakeredis
 import redis
 from flask import Flask, request
 from c20_server.user import User
