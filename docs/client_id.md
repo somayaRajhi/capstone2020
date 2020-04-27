@@ -7,7 +7,7 @@ A simple JSON object will be returned with only one field:
 
 * `user_id`: A unique identifier of the client returning the result.
 
-##Example:
+##Example return value:
 ```
 {'user_id' = user123}
 ```
