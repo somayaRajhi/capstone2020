@@ -53,6 +53,7 @@ def handle_specific_job(job, api_key):
 
     return results
 
+
 def find_documents_data(api_key, job, job_id):
     print("Getting documents from regulations.gov...\n")
     data = get_documents(
@@ -62,6 +63,8 @@ def find_documents_data(api_key, job, job_id):
         job["end_date"])
     results = package_documents(data, CLIENT_ID, job_id)
     return results
+
+
 def find_document_data(api_key, job, job_id):
     print("Getting document from regulations.gov...\n")
     data = download_document(
@@ -71,6 +74,7 @@ def find_document_data(api_key, job, job_id):
     results = package_document(data, CLIENT_ID, job_id)
     return results
 
+
 def find_docket_data(api_key, job, job_id):
     print("Getting docket from regulations.gov...\n")
     data = get_docket(
@@ -79,6 +83,7 @@ def find_docket_data(api_key, job, job_id):
     )
     results = package_docket(data, CLIENT_ID, job_id)
     return results
+
 
 def find_download_data(api_key, job, job_id):
     print("Getting download from regulations.gov...\n")
@@ -93,7 +98,3 @@ def find_download_data(api_key, job, job_id):
                  }
     results = package_downloads(data_json, CLIENT_ID, job_id)
     return results
-
-
-
-
