@@ -28,7 +28,6 @@ class ClientManager():
         self.client_id = getenv("CLIENT_ID")
         self.api_key = getenv("API_KEY")
 
-
     def check_for_id(self):
         """
         Checks for an id, if not exist the Manager makes
