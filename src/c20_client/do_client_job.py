@@ -1,11 +1,11 @@
-import argparse
+import time
 import requests
 
 from c20_client.client_logger import LOGGER
 
 from c20_client.connection_error import NoConnectionError
-from c20_client.client import get_result_for_job
-from c20_client.do_wait import wait_between_jobs
+from c20_client.do_wait import get_wait_time
+from c20_client.client_decide_call import handle_specific_job
 
 
 def do_job(api_key):
@@ -21,7 +21,16 @@ def do_job(api_key):
     except Exception:
         raise NoConnectionError
 
-    get_result_for_job(job, api_key)
+    results = handle_specific_job(job, api_key)
+
+    if results is None:
+        return
+
+    LOGGER.info("Packaging Successful")
+    LOGGER.info("Posting data to server")
+    requests.post('http://capstone.cs.moravian.edu/return_result',
+                  json=results)
+    LOGGER.info("Data successfully posted to server!")
 
 
 def do_multiple_job(api_key):
@@ -33,19 +42,7 @@ def do_multiple_job(api_key):
         print("Getting job...\n")
         while True:
             do_job(api_key)
-            wait_between_jobs()
+            time.sleep(get_wait_time())
 
     except Exception:
         raise NoConnectionError
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="get files from regulations.gov")
-    parser.add_argument("API_key", help="api key for regulations.gov")
-    args = parser.parse_args()
-    do_multiple_job(args.API_key)
-
-
-if __name__ == '__main__':
-    main()
