@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import json
 
 
 class DataRepository:
@@ -11,7 +12,7 @@ class DataRepository:
         self.ensure_directory_exists(directory_name)
         path = os.path.join(self.base_path, directory_name, filename)
         with open(path, 'w') as file:
-            file.write(contents)
+            file.write(json.dumps(contents))
 
     def ensure_directory_exists(self, directory_name):
         Path(os.path.join(self.base_path, directory_name))\

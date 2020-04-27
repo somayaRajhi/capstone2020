@@ -16,7 +16,8 @@ def test_empty_data(extractor):
 def make_dict_item(number):
     return {'folder_name': 'the/directory/{}'.format(number),
             'file_name': 'filename{}.json'.format(number),
-            'data': 'file{}\ncontents\n'.format(number)}
+            'data': {'name': 'name{}'.format(number)}
+            }
 
 
 def test_extract_single_item(extractor):
@@ -27,13 +28,13 @@ def test_extract_single_item(extractor):
     data_item = results[0]
     assert data_item.folder_name == 'the/directory/1'
     assert data_item.file_name == 'filename1.json'
-    assert data_item.contents == 'file1\ncontents\n'
+    assert data_item.contents == {'name': 'name1'}
 
 
 def assert_data_item(data_item, number):
     assert data_item.folder_name == 'the/directory/{}'.format(number)
     assert data_item.file_name == 'filename{}.json'.format(number)
-    assert data_item.contents == 'file{}\ncontents\n'.format(number)
+    assert data_item.contents == {'name': 'name{}'.format(number)}
 
 
 def test_extract_multiple_items(extractor):

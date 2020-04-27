@@ -17,9 +17,9 @@ def test_class_saves_data(mocker):
     data_repo = DummyMakeDirDataRepository('data')
     directory = 'FAA/DOC-ID/'
     filename = 'document.json'
-    contents = 'foo\nbar\n'
+    contents = {'id': 'FAA'}
     data_repo.save_data(directory, filename, contents)
 
     file_mock.assert_called_once_with('data/FAA/DOC-ID/document.json', 'w')
-    file_mock().write.assert_called_once_with(contents)
+    file_mock().write.assert_called_once_with('{"id": "FAA"}')
     assert data_repo.ensure_directory_exists_called
