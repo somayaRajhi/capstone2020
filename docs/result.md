@@ -243,7 +243,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 * `client_id`: A unique identifier of the client returning the result.
 * `job_id`: ID of the current job object.
 
-* `Massages`: a string list contains the URL of failure job and the description of the error.
+* `Massage`: a string list contains the URL of failure job and the description of the error.
 
 
 ## Examples for failure jobs
@@ -292,6 +292,33 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
       :received 403:Forbidden'
     }
 ```
+
+### Document:
+
+1- bad documentID:
+ documentID="EPA-HQ-OAR-2011-0028-0108-0000"
+
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/
+      regulations/v3/docket.json?
+      api_key="VALID KEY"&documentID=
+      EPA-HQ-OAR-2011-0028-0108-0000'
+    :received 404:Not Found'
+    }
+```
+2- Overused api key:
+```
+    {
+      'client_id': 'client14',
+      'job_id': 'job33',
+      'Message':''URL:https://api.data.gov:443/regulations/v3/document.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
+    :received 429:Too Many Requests'
+    }
+```
+
 
 
 ### Documents:
