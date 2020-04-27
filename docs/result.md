@@ -330,7 +330,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 ### Errors connections:
 
 ######1-  500 Internal Server Error: 
-it happend when the client try conecte to the server but the srever cannot process the request for an unknown reason.
+It occurs when the client try connect to the server but the srever cannot process the request for an unknown reason.
 
 
 ```
@@ -343,7 +343,7 @@ it happend when the client try conecte to the server but the srever cannot proce
 ```
 
 ######2-  503 Service Unavailable:
-it happend when the client try to conecte to the server but the server is overloaded or under maintenance.
+It occurs when the client try to connect to the server but the server is overloaded or under maintenance.
 
 ```
     {
