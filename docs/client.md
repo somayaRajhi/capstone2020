@@ -8,6 +8,7 @@
 
 # Client Manager
 * Loads `.env` file into environment variables on instance creation.
+* Calls `check_for_id` function on creation to set `client_id` if it was None.
 * Contains the variables `api_key` and `client_id`.
 * Class contains four functions:
     * `set_keys` sets the `api_key` and `client_id` variables from the environment variables without doing a load. This function is mainly for testing purposes. It is not practical to call this function without doing a load first to get the most up to date variables from the `.env` file.
