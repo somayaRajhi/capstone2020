@@ -10,6 +10,8 @@ OFFSET = '1000'
 START_DATE = '11/06/13'
 END_DATE = '03/06/14'
 DATE = START_DATE + '-' + END_DATE
+URL = 'https://api.data.gov/regulations/v3/download?' \
+      'documentId=NBA-ABC-123&contentType=pdf'
 
 
 def test_do_job_documents_endpoint_call():
@@ -123,6 +125,51 @@ def test_do_job_docket_endpoint_call():
         assert 'capstone' in history[0].url
         assert 'api.data.gov' in history[1].url
         assert 'capstone' in history[2].url
+
+
+def test_do_job_download_endpoint_call():
+    with requests_mock.Mocker() as mock:
+        mock.get('http://capstone.cs.moravian.edu/get_job',
+                 json={'job_type': 'download', 'job_id': JOB_ID,
+                       'folder_name': 'NBA/NBA-ABC/NBA-ABC-123/',
+                       'file_name': 'NBA-ABC-123',
+                       'file_type': 'pdf',
+                       'url': URL})
+        mock.get("https://api.data.gov/regulations/v3/"
+                 "download?documentId=NBA-ABC-123"
+                 "&contentType=pdf",
+                 text='return data')
+        data = {
+            'folder_name': 'NBA/NBA-ABC/NBA-ABC-123/',
+            'file_name': 'NBA-ABC-123',
+            'file_type': 'pdf',
+            'data': {"agencyAcronym": 'NBA',
+                     'fileContent': 'some data'}
+        }
+        mock.post('http://capstone.cs.moravian.edu/return_result',
+                  json={'client_id': CLIENT_ID,
+                        'job_id': JOB_ID,
+                        'data': data})
+
+        do_job(API_KEY)
+        history = mock.request_history
+
+        assert len(history) == 3
+        assert 'capstone' in history[0].url
+        assert 'api.data.gov' in history[1].url
+        assert 'capstone' in history[2].url
+
+
+def test_do_job_none_job():
+    with requests_mock.Mocker() as mock:
+        mock.get('http://capstone.cs.moravian.edu/get_job',
+                 json={'job_type': 'none', 'job_id': JOB_ID,
+                       })
+        do_job(API_KEY)
+        history = mock.request_history
+
+        assert len(history) == 1
+        assert 'capstone' in history[0].url
 
 
 def test_no_connection_made_to_server():
