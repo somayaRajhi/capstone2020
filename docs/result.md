@@ -310,6 +310,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 2- Overused api key:
+
 ```
     {
       'client_id': 'client14',
@@ -332,6 +333,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     :received 404:Not Found'
     }
 ```
+
 2- No api key:
 
 ```
@@ -380,3 +382,4 @@ It occurs when the client try to connect to the server but the server is overloa
     :received 500:Internal Server Error'
     }
 ```
+
