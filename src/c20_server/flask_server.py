@@ -1,14 +1,15 @@
 import json
-import sys
+import redis
 from flask import Flask, request
 from c20_server.user import User
 from c20_server.job import DocumentsJob
 from c20_server.job_manager import JobManager
 from c20_server.job_translator import job_to_json, handle_jobs
-from c20_server.database import Database
+from c20_server.data_extractor import DataExtractor
+from c20_server.data_repository import DataRepository
 
 
-def create_app(job_manager):
+def create_app(job_manager, data_repository):
     app = Flask(__name__)
 
     # Note: endpoint names begin with an "_" so that Pylint does not complain
@@ -30,13 +31,9 @@ def create_app(job_manager):
         if client_data is None:
             return {}, 400
 
-        json_data = json.dumps(client_data)
-        job_list = handle_jobs(json_data)
-        print()
-        for job in job_list:
-            job_manager.add_job(job)
-            print('Adding Job To Job Manager...')
-            print(job, '\n')
+        update_job_manager(job_manager, client_data)
+        save_data(data_repository, client_data['data'])
+
         return {}, 200
 
     @app.route('/report_failure', methods=['POST'])
@@ -46,19 +43,38 @@ def create_app(job_manager):
         user = User(user_id)
         job_manager.report_failure(user)
         return {}, 200
+
     return app
 
 
-def redis_connect():
-    database = Database()
-    if not database.connect():
-        sys.exit()
-    return database
+def update_job_manager(job_manager, client_data):
+    json_data = json.dumps(client_data)
+    job_list = handle_jobs(json_data)
+    print()
+    for job in job_list:
+        job_manager.add_job(job)
+        print('Adding Job To Job Manager...')
+        print(job, '\n')
+
+
+def save_data(data_repository, list_of_data_dicts):
+    data_items = DataExtractor.extract(list_of_data_dicts)
+    for data_item in data_items:
+        data_repository.save_data(data_item.folder_name,
+                                  data_item.file_name, data_item.contents)
+
+
+def launch():
+    try:
+        redis.Redis().ping()
+        job_manager = JobManager(redis.Redis())
+        job_manager.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
+        data_repository = DataRepository(base_path='data')
+        app = create_app(job_manager, data_repository)
+        app.run(host='0.0.0.0')
+    except redis.exceptions.ConnectionError:
+        print('Redis-server is not running!')
 
 
 if __name__ == '__main__':
-    DATABASE = redis_connect()
-    JOB_MANAGER = JobManager(DATABASE)
-    JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
-    APP = create_app(JOB_MANAGER)
-    APP.run(host='0.0.0.0')
+    launch()
