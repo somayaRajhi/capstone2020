@@ -1,7 +1,8 @@
 import json
+from unittest.mock import patch
 import fakeredis
 import pytest
-from c20_server.flask_server import create_app
+from c20_server.flask_server import create_app, redis_connect
 from c20_server.mock_job_manager import MockJobManager
 from c20_server.job import DocumentsJob
 
@@ -111,3 +112,9 @@ def test_report_one_job_as_failure(job_manager):
                          content_type='application/json')
     assert result.status_code == 200
     assert job_manager.num_unassigned() == 1
+
+
+def test_run_server_with_no_redis_connection():
+    with patch('sys.exit') as exit_server:
+        redis_connect()
+        assert exit_server.called
