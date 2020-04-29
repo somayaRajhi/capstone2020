@@ -1,6 +1,5 @@
 import json
 from unittest.mock import patch
-import fakeredis
 import pytest
 from c20_server.flask_server import create_app, redis_connect
 from c20_server.mock_job_manager import MockJobManager
@@ -9,22 +8,16 @@ from c20_server.job import DocumentsJob
 from c20_server.database import MockDatabase
 
 
-def make_redis_database():
-    r_database = fakeredis.FakeRedis()
-    r_database.flushall()
-    return r_database
-
-
 @pytest.fixture(name='job_manager')
 def job_manager_fixture():
-    r_database = make_redis_database()
+    r_database = MockDatabase(True).fake_redis
     job_manager = MockJobManager(r_database)
     return job_manager
 
 
 @pytest.fixture(name='client')
 def client_fixture(job_manager):
-    r_database = make_redis_database()
+    r_database = MockDatabase(True).fake_redis
     app = create_app(job_manager, SpyDataRepository(), r_database)
     app.config['TESTING'] = True
     return app.test_client()
