@@ -14,5 +14,6 @@ class UserManager:
          or not, then it will increment the id # by redis feature using .incr()
         """
         self.initialize_user_ids()
-        new_user_id = self.r_database.incr('user_id')
+        new_user_int = self.r_database.incr('user_id')
+        new_user_id = 'User' + str(new_user_int)
         return new_user_id
