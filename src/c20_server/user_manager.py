@@ -8,9 +8,6 @@ class UserManager:
         if self.r_database.get('user_id') is None:
             self.r_database.set('user_id', 0)
 
-    # def set_new_user_id(self, id_number):
-    #     self.r_database.set('user_id', id_number)
-
     def get_new_user_id(self):
         """
         Calling this method will first check if the 'user_id' has been set
