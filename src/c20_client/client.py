@@ -13,7 +13,7 @@ from c20_client.client_logger import LOGGER
 def post_job(results):
     LOGGER.info("Packaging successful!")
     LOGGER.info("Posting job to server")
-    requests.post('http://capstone.cs.moravian.edu/return_result',
+    requests.post('http://capstone.cs.moravian.edu:5000/return_result',
                   json=results)
     LOGGER.info("Job has successfully been posted!")
 
@@ -24,7 +24,7 @@ def do_job(api_key):
     """
     try:
         LOGGER.info('Getting job from server...')
-        job = requests.get('http://capstone.cs.moravian.edu/get_job')
+        job = requests.get('http://capstone.cs.moravian.edu:5000/get_job')
         job = job.json()
         LOGGER.info("Job has been aquired")
 
