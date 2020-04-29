@@ -77,7 +77,7 @@ def redis_connect():
     database = Database()
     if not database.connect():
         sys.exit()
-    return database
+    return database.r_database
 
 
 def launch():
