@@ -53,7 +53,7 @@ def handling_erorr(url, message_report=list()):
         message_report.append(url, ":received 404:Too Many Requests")
     if result.status_code == 503:
         raise connection_error.ServiceUnavailableError
-        message_report.append(URL, "received 503:Service Unavailable Error")
+        message_report.append(url, "received 503:Service Unavailable Error")
     return result
 
 
