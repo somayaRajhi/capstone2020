@@ -52,7 +52,7 @@ def handling_erorr(URL, message_report=list()):
         raise reggov_api_doc_error.ExceedCallLimitException
         message_report.append(URL, ":received 404:Too Many Requests")
     if result.status_code == 503:
-        raise connection_error.NoConnectionError
+        raise connection_error.ServiceUnavailableError
         message_report.append(URL, "received 503:Service Unavailable Error")
     return result
 

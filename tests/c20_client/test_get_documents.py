@@ -5,7 +5,6 @@ import requests_mock
 import pytest
 from c20_client.get_documents import get_documents
 from c20_client import reggov_api_doc_error
-from c20_client.client import handling_erorr
 
 CLIENT_ID = 1
 JOB_ID = 1
@@ -34,13 +33,6 @@ def test_bad_url():
 
         with pytest.raises(reggov_api_doc_error.BadDocIDException):
             get_documents(API_KEY, OFFSET, START_DATE, END_DATE)
-            result = handling_erorr(URL + API_KEY + "&po=" + OFFSET +
-                                    '&crd=' + START_DATE + '-' + END_DATE,
-                                    message_report=":received 404:Not Found")
-            mock.post('http://capstone.cs.moravian.edu/report_failure',
-                      json={'client_id': CLIENT_ID,
-                            'job_id': JOB_ID,
-                            'message': result})
 
 
 def test_bad_api_key():
@@ -51,13 +43,6 @@ def test_bad_api_key():
 
         with pytest.raises(reggov_api_doc_error.IncorrectApiKeyException):
             get_documents('INVALID', OFFSET, START_DATE, END_DATE)
-            result = handling_erorr(URL + API_KEY + "&po=" + OFFSET +
-                                    '&crd=' + START_DATE + '-' + END_DATE,
-                                    message_report=":received 403:Forbidden")
-            mock.post('http://capstone.cs.moravian.edu/report_failure',
-                      json={'client_id': CLIENT_ID,
-                            'job_id': JOB_ID,
-                            'message': result})
 
 
 def test_no_api_key():
@@ -68,13 +53,6 @@ def test_no_api_key():
 
         with pytest.raises(reggov_api_doc_error.IncorrectApiKeyException):
             get_documents('', OFFSET, START_DATE, END_DATE)
-            result = handling_erorr(URL + '' + "&po=" + OFFSET + '&crd='
-                                    + START_DATE + '-' + END_DATE,
-                                    message_report=":received 403:Forbidden")
-            mock.post('http://capstone.cs.moravian.edu/report_failure',
-                      json={'client_id': CLIENT_ID,
-                            'job_id': JOB_ID,
-                            'message': result})
 
 
 def test_maxed_api_key():
@@ -85,11 +63,3 @@ def test_maxed_api_key():
 
         with pytest.raises(reggov_api_doc_error.ExceedCallLimitException):
             get_documents(API_KEY, OFFSET, START_DATE, END_DATE)
-            result = handling_erorr(URL + API_KEY + "&po=" + OFFSET
-                                    + '&crd=' + START_DATE + '-' + END_DATE,
-                                    message_report=":received 429:"
-                                                   "Too Many Requests")
-            mock.post('http://capstone.cs.moravian.edu/report_failure',
-                      json={'client_id': CLIENT_ID,
-                            'job_id': JOB_ID,
-                            'message': result})
