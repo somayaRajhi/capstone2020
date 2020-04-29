@@ -23,7 +23,6 @@ def create_app(job_manager, data_repository, database):
         user_id = user_manager.get_new_user_id()
         print('Server: Sending user_id: ' + str(user_id))
         user_id_json = {'user_id': user_id}
-        # user_manager.set_new_user_id(user_id)
         return user_id_json
 
     @app.route('/get_job')
@@ -84,7 +83,6 @@ def redis_connect():
 
 def launch():
     database = redis_connect()
-    # database.initialize_user_ids()
     job_manager = JobManager(database)
     job_manager.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
     data_repository = DataRepository(base_path='data')
