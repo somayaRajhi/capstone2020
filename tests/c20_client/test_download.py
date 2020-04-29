@@ -20,7 +20,7 @@ def test_incorrect_api_key():
                  status_code=403)
         with pytest.raises(reggov_api_doc_error.IncorrectApiKeyException):
             get_download.download_file('INVALID', URL)
-            result = handling_erorr('INVALID', URL,massage_report=":received 403:Forbidden")
+            result = handling_erorr('INVALID', URL,message_report=":received 403:Forbidden")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
@@ -34,7 +34,7 @@ def test_exceed_call_limit():
         with pytest.raises(reggov_api_doc_error.ExceedCallLimitException):
             get_download.download_file(API_KEY, URL)
             result = handling_erorr(API_KEY, URL,
-                massage_report=":received 429:Too Many Requests")
+                message_report=":received 429:Too Many Requests")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
@@ -48,7 +48,7 @@ def test_bad_url_id():
         with pytest.raises(reggov_api_doc_error.BadDocIDException):
             get_download.download_file(API_KEY, BAD_URL)
             result = handling_erorr(API_KEY, BAD_URL,
-                massage_report=":received 404:Not Found")
+                message_report=":received 404:Not Found")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
