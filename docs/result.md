@@ -357,29 +357,15 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 ```
 
 ### Errors connections:
-
-######1-  500 Internal Server Error: 
-It occurs when the client try connect to the server but the srever cannot process the request for an unknown reason.
-
-
-```
-    {
-      'client_id': 'client14',
-      'job_id': 'job33',
-      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
-    :received 500:Internal Server Error'
-    }
-```
-
-######2-  503 Service Unavailable:
+ * 503 Service Unavailable:
 It occurs when the client try to connect to the server but the server is overloaded or under maintenance.
 
 ```
     {
       'client_id': 'client14',
       'job_id': 'job33',
-      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
-    :received 500:Internal Server Error'
+      'Message':'URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
+               :received 503: Service Unavailable'
     }
 ```
 
