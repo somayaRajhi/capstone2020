@@ -230,7 +230,7 @@ File: document.json
 ```
 ##Client report failure
 
-a POST request is invoked by the client to the server. It returns a JSON file with information like client_id, job_id, and Message to return failure endpoint in the server. The client can return a failure do to many reasons such as:
+a POST request is invoked by the client to the server. It returns a JSON file with information like client_id, job_id, and Message to return failure endpoint in the server. The client can return a failure due to many reasons such as:
 * 400: Bad request
 * 401: Unauthorized
 * 404: Not found
@@ -243,7 +243,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 * `client_id`: A unique identifier of the client returning the result.
 * `job_id`: ID of the current job object.
 
-* `Massage`: a string list contains the URL of failure job and the description of the error.
+* `Message`: a string list contains the URL of failure job and the description of the error.
 
 
 ## Examples for failure jobs
