@@ -214,7 +214,7 @@ def test_bad_request_error():
                             'message': result})
 
 
-def test_Forbidden_error():
+def test_forbidden_error():
     with requests_mock.Mocker() as mock:
         mock.get(NO_API_KEY_URL,
                  status_code=403)
@@ -229,7 +229,7 @@ def test_Forbidden_error():
                             'message': result})
 
 
-def test_Not_Found_error():
+def test_not_found_error():
     with requests_mock.Mocker() as mock:
         mock.get(BAD_DOCUMENTID_URL,
                  status_code=404)
