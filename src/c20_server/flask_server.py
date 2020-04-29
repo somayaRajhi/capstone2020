@@ -1,5 +1,4 @@
 import json
-import uuid
 import sys
 from flask import Flask, request
 from c20_server.user import User
@@ -11,7 +10,7 @@ from c20_server.data_repository import DataRepository
 from c20_server.database import Database
 
 
-def create_app(job_manager, data_repository):
+def create_app(job_manager, data_repository, database):
     app = Flask(__name__)
 
     # Note: endpoint names begin with an "_" so that Pylint does not complain
@@ -19,9 +18,10 @@ def create_app(job_manager, data_repository):
 
     @app.route('/get_user_id')
     def _get_client_id():
-        user_id = str(uuid.uuid4())
+        user_id = database.get_new_user_id()
         print('Server: Sending user_id: ' + user_id)
         user_id_json = {'user_id': user_id}
+        database.set_new_user_id(user_id)
         return user_id_json
 
     @app.route('/get_job')
@@ -82,10 +82,11 @@ def redis_connect():
 
 def launch():
     database = redis_connect()
+    database.initialize_user_ids()
     job_manager = JobManager(database)
     job_manager.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
     data_repository = DataRepository(base_path='data')
-    app = create_app(job_manager, data_repository)
+    app = create_app(job_manager, data_repository, database)
     app.run(host='0.0.0.0')
 
 

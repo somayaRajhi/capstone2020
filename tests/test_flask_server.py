@@ -1,5 +1,4 @@
 import json
-from uuid import UUID
 from unittest.mock import patch
 import fakeredis
 import pytest
@@ -29,15 +28,14 @@ def client_fixture(job_manager):
     return app.test_client()
 
 
-def test_return_user_id_is_uuid(job_manager):
-    mock_job_manager = job_manager
-    app = create_app(mock_job_manager)
+def test_initialize_user_ids(job_manager):
+    data_repository_spy = SpyDataRepository()
+    app = create_app(job_manager, data_repository_spy)
     app.config['TESTING'] = True
     client = app.test_client()
     result = client.get('/get_user_id')
     json_ = json.loads(result.data)
-    is_uuid = UUID(json_['user_id'], version=4)
-    assert is_uuid
+    assert json_['user_id'] == 0
 
 
 def test_return_result_success(job_manager):
