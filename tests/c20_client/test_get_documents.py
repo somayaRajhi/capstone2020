@@ -36,7 +36,7 @@ def test_bad_url():
             get_documents(API_KEY, OFFSET, START_DATE, END_DATE)
             result = handling_erorr(URL + API_KEY + "&po=" + OFFSET +
                  '&crd=' + START_DATE + '-' + END_DATE
-                                    , massage_report=":received 404:Not Found")
+                                    , message_report=":received 404:Not Found")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
@@ -53,7 +53,7 @@ def test_bad_api_key():
             get_documents('INVALID', OFFSET, START_DATE, END_DATE)
             result = handling_erorr(URL + API_KEY + "&po=" + OFFSET +
                  '&crd=' + START_DATE + '-' + END_DATE
-                                    , massage_report=":received 403:Forbidden")
+                                    , message_report=":received 403:Forbidden")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
@@ -69,7 +69,7 @@ def test_no_api_key():
             get_documents('', OFFSET, START_DATE, END_DATE)
             result = handling_erorr(URL + '' + "&po=" + OFFSET +
                  '&crd=' + START_DATE + '-' + END_DATE
-                                    , massage_report=":received 403:Forbidden")
+                                    , message_report=":received 403:Forbidden")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
@@ -85,7 +85,7 @@ def test_maxed_api_key():
             get_documents(API_KEY, OFFSET, START_DATE, END_DATE)
             result = handling_erorr(URL + API_KEY + "&po=" + OFFSET +
                  '&crd=' + START_DATE + '-' + END_DATE
-                                    , massage_report=":received 429:Too Many Requests")
+                                    , message_report=":received 429:Too Many Requests")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
