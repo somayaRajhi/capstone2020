@@ -3,23 +3,6 @@ from c20_client import status_code_check
 from c20_client.client_logger import LOGGER
 
 
-def extract_file_formats(document):
-    if 'fileFormats' in document:
-        file_formats = document['fileFormats']
-        return file_formats
-    return None
-
-
-def extract_attachments(document):
-    attachments = []
-    if 'attachments' in document:
-        for i in document['attachments']:
-            if 'fileFormats' in i:
-                attachments += i['fileFormats']
-        return attachments
-    return None
-
-
 def download_document(api_key, document_id):
     """
     downloads a file based on a url, api key and document_id (if given)

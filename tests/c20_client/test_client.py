@@ -166,12 +166,6 @@ def test_do_job_none_job():
         mock.get('http://capstone.cs.moravian.edu/get_job',
                  json={'job_type': 'none', 'job_id': JOB_ID,
                        })
-
-        mock.post('http://capstone.cs.moravian.edu/return_result',
-                  json={'client_id': CLIENT_ID,
-                        'job_id': JOB_ID
-                        })
-
         do_job(API_KEY)
         history = mock.request_history
 

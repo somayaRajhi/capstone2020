@@ -295,7 +295,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 ### Document:
 
-* bad documentID:
+* Bad documentID:
  documentID="EPA-HQ-OAR-2011-0028-0108-0000"
 
 ```
@@ -356,10 +356,10 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 
-### Errors connections:
+## Error connections:
 
-######1-  500 Internal Server Error: 
-It occurs when the client try connect to the server but the srever cannot process the request for an unknown reason.
+*  500 Internal Server Error: 
+It occurs when the client try connect to the server but the server cannot process the request for an unknown reason.
 
 
 ```
@@ -371,7 +371,7 @@ It occurs when the client try connect to the server but the srever cannot proces
     }
 ```
 
-######2-  503 Service Unavailable:
+*  503 Service Unavailable:
 It occurs when the client try to connect to the server but the server is overloaded or under maintenance.
 
 ```
