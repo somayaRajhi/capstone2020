@@ -26,7 +26,7 @@ def client_fixture(job_manager):
 def test_initialize_user_ids(client):
     result = client.get('/get_user_id')
     json_ = json.loads(result.data)
-    assert json_['user_id'] == 1
+    assert json_['user_id'] == 'User1'
 
 
 def test_return_result_success(job_manager, client):
