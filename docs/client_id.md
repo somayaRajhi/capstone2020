@@ -13,5 +13,5 @@ A simple JSON object will be returned with only one field:
 
 ## Example return value:
 ```
-{'user_id' = user123}
+{'user_id' = 'User123'}
 ```
