@@ -3,8 +3,7 @@ import requests_mock
 import pytest
 from c20_client.client import do_job, handling_erorr
 from c20_client.connection_error import NoConnectionError
-from c20_client.reggov_api_doc_error import IncorrectIDPatternException,\
-    IncorrectApiKeyException
+
 
 CLIENT_ID = 1
 JOB_ID = 1
@@ -15,12 +14,13 @@ END_DATE = '03/06/14'
 DATE = START_DATE + '-' + END_DATE
 URL = 'https://api.data.gov/regulations/v3/download?' \
       'documentId=NBA-ABC-123&contentType=pdf'
-WRONG_DOCKETID_PATTREN_URL='https://api.data.gov:443/regulations/' \
+WRONG_DOCKETID_PATTREN_URL = 'https://api.data.gov:443/regulations/' \
     'v3/docket.json?api_key="VALID KEY"' \
     '&docketID=ASD-EPA-HQ-OAR-2011-0028-DDD"'
-NO_API_KEY_URL='https://api.data.gov:443/regulations/v3/' \
+NO_API_KEY_URL = 'https://api.data.gov:443/regulations/v3/' \
                'documents.json?api_key=' \
                '"&po=1000&crd=11/06/13 - 03/06/14'
+
 
 def test_do_job_documents_endpoint_call():
     with requests_mock.Mocker() as mock:
@@ -187,8 +187,10 @@ def test_no_connection_made_to_server():
 
         with pytest.raises(NoConnectionError):
             do_job(API_KEY)
-            result = handling_erorr('http://capstone.cs.moravian.edu/get_job'
-                                    , message_report=":received 503: Service Unavailable")
+            result = handling_erorr('http://capstone.cs.'
+                                    'moravian.edu/get_job',
+                                    message_report=":received 503:"
+                                                   " Service Unavailable")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
