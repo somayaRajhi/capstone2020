@@ -249,7 +249,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 ## Examples for failure jobs
 ### Docket:
 
-1- bad docketID:
+* bad docketID:
 
  docketID="EPA-HQ-OAR-2011-0028-0000"
 
@@ -265,7 +265,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 
-2-wrong docketID pattern:
+* wrong docketID pattern:
 
  docketID=ASD-EPA-HQ-OAR-2011-0028-DDD
 
@@ -280,7 +280,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
       :received 400:Bad request'
     }
 ```
-3- bad api kay :
+* bad api kay :
 
 ```
     {
@@ -295,7 +295,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 ### Document:
 
-1- bad documentID:
+* bad documentID:
  documentID="EPA-HQ-OAR-2011-0028-0108-0000"
 
 ```
@@ -309,7 +309,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     :received 404:Not Found'
     }
 ```
-2- Overused api key:
+* Overused api key:
 
 ```
     {
@@ -323,7 +323,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 
 ### Documents:
-1- Bad URL:
+* Bad URL:
 
 ```
     {
@@ -334,7 +334,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 
-2- No api key:
+* No api key:
 
 ```
     {
@@ -345,7 +345,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 
-3-Overused api key:
+* Overused api key:
 
 ```
     {
