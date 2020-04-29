@@ -50,11 +50,9 @@ def handle_jobs(json_data):
 
     json_jobs = json_data["jobs"]
 
-    index = 0
-    while index < len(json_jobs):
-        job = json_to_job(json_jobs[index])
+    for job in json_jobs:
+        job = json_to_job(job)
         job_list.append(job)
-        index += 1
     return job_list
 
 
