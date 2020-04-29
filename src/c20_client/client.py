@@ -37,7 +37,7 @@ def do_job(api_key):
     LOGGER.info("Data successfully posted to server!")
 
 
-def handling_erorr(url, message_report=list()):
+def handling_erorr(url, message_report=[]):
     result = requests.get(url)
     if result.status_code == 400:
         raise reggov_api_doc_error.IncorrectIDPatternException
