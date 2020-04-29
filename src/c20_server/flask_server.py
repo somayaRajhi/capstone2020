@@ -1,5 +1,5 @@
 import json
-import redis
+import sys
 from flask import Flask, request
 from c20_server.user import User
 from c20_server.job import DocumentsJob
@@ -7,6 +7,7 @@ from c20_server.job_manager import JobManager
 from c20_server.job_translator import job_to_json, handle_jobs
 from c20_server.data_extractor import DataExtractor
 from c20_server.data_repository import DataRepository
+from c20_server.database import Database
 
 
 def create_app(job_manager, data_repository):
@@ -64,16 +65,20 @@ def save_data(data_repository, list_of_data_dicts):
                                   data_item.file_name, data_item.contents)
 
 
+def redis_connect():
+    database = Database()
+    if not database.connect():
+        sys.exit()
+    return database
+
+
 def launch():
-    try:
-        redis.Redis().ping()
-        job_manager = JobManager(redis.Redis())
-        job_manager.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
-        data_repository = DataRepository(base_path='data')
-        app = create_app(job_manager, data_repository)
-        app.run(host='0.0.0.0')
-    except redis.exceptions.ConnectionError:
-        print('Redis-server is not running!')
+    database = redis_connect()
+    job_manager = JobManager(database)
+    job_manager.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
+    data_repository = DataRepository(base_path='data')
+    app = create_app(job_manager, data_repository)
+    app.run(host='0.0.0.0')
 
 
 if __name__ == '__main__':

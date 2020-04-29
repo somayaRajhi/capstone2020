@@ -1,7 +1,8 @@
 import json
+from unittest.mock import patch
 import fakeredis
 import pytest
-from c20_server.flask_server import create_app
+from c20_server.flask_server import create_app, redis_connect
 from c20_server.mock_job_manager import MockJobManager
 from c20_server.spy_data_repository import SpyDataRepository
 from c20_server.job import DocumentsJob
@@ -189,3 +190,9 @@ def test_store_multiple_data_items(job_manager):
     assert third_save.directory_name == 'foldername2'
     assert third_save.filename == 'filename3'
     assert third_save.contents == {}
+
+
+def test_run_server_with_no_redis_connection():
+    with patch('sys.exit') as exit_server:
+        redis_connect()
+        assert exit_server.called
