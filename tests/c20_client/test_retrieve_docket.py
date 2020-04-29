@@ -5,7 +5,10 @@ import requests_mock
 import pytest
 from c20_client.retrieve_docket import get_docket
 from c20_client import reggov_api_doc_error
+from c20_client.client import handling_erorr
 
+CLIENT_ID = 1
+JOB_ID = 1
 URL = "https://api.data.gov:443/regulations/v3/docket.json?api_key="
 API_KEY = "VALID KEY"
 DOCKET_ID = "EPA-HQ-OAR-2011-0028"
@@ -29,6 +32,11 @@ def test_bad_docket_id():
 
         with pytest.raises(reggov_api_doc_error.BadDocIDException):
             get_docket(API_KEY, bad_docket)
+            result = handling_erorr(URL + API_KEY + "&docketID=" + bad_docket, massage_report= ":received 404:Not Found")
+            mock.post('http://capstone.cs.moravian.edu/report_failure',
+                      json={'client_id': CLIENT_ID,
+                            'job_id': JOB_ID,
+                            'message': result})
 
 
 def test_no_docket_id():
@@ -38,6 +46,11 @@ def test_no_docket_id():
 
         with pytest.raises(reggov_api_doc_error.BadDocIDException):
             get_docket(API_KEY, '')
+            result = handling_erorr(URL + API_KEY + "&docketID=", massage_report = ":received 404:Not Found")
+            mock.post('http://capstone.cs.moravian.edu/report_failure',
+                      json={'client_id': CLIENT_ID,
+                            'job_id': JOB_ID,
+                            'message': result})
 
 
 def test_bad_docket_id_pattern():
@@ -48,6 +61,11 @@ def test_bad_docket_id_pattern():
 
         with pytest.raises(reggov_api_doc_error.IncorrectIDPatternException):
             get_docket(API_KEY, bad_docket)
+            result = handling_erorr(URL + API_KEY + "&docketID=" + bad_docket, massage_report = ":received 400:Bad request")
+            mock.post('http://capstone.cs.moravian.edu/report_failure',
+                      json={'client_id': CLIENT_ID,
+                            'job_id': JOB_ID,
+                            'message': result})
 
 
 def test_bad_api_key():
@@ -57,6 +75,12 @@ def test_bad_api_key():
 
         with pytest.raises(reggov_api_doc_error.IncorrectApiKeyException):
             get_docket('INVALID', DOCKET_ID)
+            result = handling_erorr(URL + 'INVALID' + "&docketID=" + DOCKET_ID
+                                    , massage_report=":received 403:Forbidden")
+            mock.post('http://capstone.cs.moravian.edu/report_failure',
+                      json={'client_id': CLIENT_ID,
+                            'job_id': JOB_ID,
+                            'message': result})
 
 
 def test_no_api_key():
@@ -66,6 +90,12 @@ def test_no_api_key():
 
         with pytest.raises(reggov_api_doc_error.IncorrectApiKeyException):
             get_docket('', DOCKET_ID)
+            result = handling_erorr(URL + "&docketID=" + DOCKET_ID
+                                    , massage_report=":received 403:Forbidden")
+            mock.post('http://capstone.cs.moravian.edu/report_failure',
+                      json={'client_id': CLIENT_ID,
+                            'job_id': JOB_ID,
+                            'message': result})
 
 
 def test_maxed_api_key():
@@ -75,3 +105,9 @@ def test_maxed_api_key():
 
         with pytest.raises(reggov_api_doc_error.ExceedCallLimitException):
             get_docket(API_KEY, DOCKET_ID)
+            result = handling_erorr(URL + API_KEY + "&docketID=" + DOCKET_ID
+                                    , massage_report=":received 429:Too Many Requests")
+            mock.post('http://capstone.cs.moravian.edu/report_failure',
+                      json={'client_id': CLIENT_ID,
+                            'job_id': JOB_ID,
+                            'message': result})
