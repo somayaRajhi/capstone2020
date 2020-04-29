@@ -37,23 +37,24 @@ def do_job(api_key):
     LOGGER.info("Data successfully posted to server!")
 
 
-def handling_erorr(url, message_report=[]):
+def handling_erorr(url, message_report=None):
+    message_report = []
     result = requests.get(url)
     if result.status_code == 400:
+        message_report.append(url + ":received 400:Bad Requests")
         raise reggov_api_doc_error.IncorrectIDPatternException
-        message_report.append(url, ":received 400:Bad Requests")
     if result.status_code == 403:
+        message_report.append(url + ":received 403:Forbidden")
         raise reggov_api_doc_error.IncorrectApiKeyException
-        message_report.append(url, ":received 403:Forbidden")
     if result.status_code == 404:
+        message_report.append(url + ":received 404:Not Found")
         raise reggov_api_doc_error.BadDocIDException
-        message_report.append(url, ":received 404:Not Found")
     if result.status_code == 429:
+        message_report.append(url + ":received 404:Too Many Requests")
         raise reggov_api_doc_error.ExceedCallLimitException
-        message_report.append(url, ":received 404:Too Many Requests")
     if result.status_code == 503:
+        message_report.append(url + "received 503:Service Unavailable Error")
         raise connection_error.ServiceUnavailableError
-        message_report.append(url, "received 503:Service Unavailable Error")
     return result
 
 
