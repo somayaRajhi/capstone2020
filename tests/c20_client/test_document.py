@@ -4,8 +4,8 @@ from c20_client import get_document
 from c20_client import reggov_api_doc_error
 from c20_client.client import handling_erorr
 
-CLIENT_ID=1
-JOB_ID=1
+CLIENT_ID = 1
+JOB_ID = 1
 URL = "https://api.data.gov:443/regulations/v3/document.json?"
 DOC_ID = "EPA-HQ-OAR-2011-0028-0108"
 API_KEY = "12345"
@@ -25,12 +25,12 @@ def test_incorrect_id_pattern():
         with pytest.raises(reggov_api_doc_error.IncorrectIDPatternException):
             bad_pattern = 'b4d' + DOC_ID + 'b4d'
             get_document.download_document(API_KEY, bad_pattern)
-            result = handling_erorr(URL+API_KEY, bad_pattern
-                                    , massage_report=":received 400:Bad request")
+            result = handling_erorr(URL+API_KEY, bad_pattern, massage_report=":received 400:Bad request")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
                             'message': result})
+
 
 def test_incorrect_api_key():
     with requests_mock.Mocker() as mock:
@@ -44,6 +44,7 @@ def test_incorrect_api_key():
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
                             'message': result})
+
 
 def test_bad_document_id():
     with requests_mock.Mocker() as mock:
@@ -59,6 +60,7 @@ def test_bad_document_id():
                             'job_id': JOB_ID,
                             'message': result})
 
+
 def test_exceed_call_limit():
     with requests_mock.Mocker() as mock:
         mock.get(URL, json={'a': 'b'},
@@ -66,7 +68,8 @@ def test_exceed_call_limit():
         with pytest.raises(reggov_api_doc_error.ExceedCallLimitException):
             get_document.download_document(API_KEY, DOC_ID)
             result = handling_erorr(URL + API_KEY, DOC_ID
-                                    , massage_report=":received 429:Too Many Requests")
+                                    , massage_report=":received 429:"
+                                                     "Too Many Requests")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
