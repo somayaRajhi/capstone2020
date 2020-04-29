@@ -16,7 +16,7 @@ URL = 'https://api.data.gov/regulations/v3/download?' \
 
 def test_do_job_documents_endpoint_call():
     with requests_mock.Mocker() as mock:
-        mock.get('http://capstone.cs.moravian.edu/get_job',
+        mock.get('http://capstone.cs.moravian.edu:5000/get_job',
                  json={'job_type': 'documents', "page_offset": OFFSET,
                        'start_date': START_DATE, 'end_date': END_DATE,
                        'job_id': JOB_ID})
@@ -44,7 +44,7 @@ def test_do_job_documents_endpoint_call():
                 'document_id': 'NBA-ABC'
             }
         ]
-        mock.post('http://capstone.cs.moravian.edu/return_result',
+        mock.post('http://capstone.cs.moravian.edu:5000/return_result',
                   json={'client_id': CLIENT_ID,
                         'job_id': JOB_ID,
                         'data': data,
@@ -61,7 +61,7 @@ def test_do_job_documents_endpoint_call():
 
 def test_do_job_document_endpoint_call():
     with requests_mock.Mocker() as mock:
-        mock.get('http://capstone.cs.moravian.edu/get_job',
+        mock.get('http://capstone.cs.moravian.edu:5000/get_job',
                  json={'job_type': 'document', 'job_id': JOB_ID,
                        'document_id': 'NBA-ABC-123'})
         mock.get('https://api.data.gov:443/regulations/v3/document.json?' +
@@ -80,7 +80,7 @@ def test_do_job_document_endpoint_call():
         jobs = [
             'url&contentType=pdf'
         ]
-        mock.post('http://capstone.cs.moravian.edu/return_result',
+        mock.post('http://capstone.cs.moravian.edu:5000/return_result',
                   json={'client_id': CLIENT_ID,
                         'job_id': JOB_ID,
                         'data': data,
@@ -97,7 +97,7 @@ def test_do_job_document_endpoint_call():
 
 def test_do_job_docket_endpoint_call():
     with requests_mock.Mocker() as mock:
-        mock.get('http://capstone.cs.moravian.edu/get_job',
+        mock.get('http://capstone.cs.moravian.edu:5000/get_job',
                  json={'job_type': 'docket', 'job_id': JOB_ID,
                        'docket_id': 'ABC'})
         mock.get("https://api.data.gov:443/" +
@@ -113,7 +113,7 @@ def test_do_job_docket_endpoint_call():
             'data': {"agencyAcronym": 'NBA',
                      'information': 'some data'}
         }]
-        mock.post('http://capstone.cs.moravian.edu/return_result',
+        mock.post('http://capstone.cs.moravian.edu:5000/return_result',
                   json={'client_id': CLIENT_ID,
                         'job_id': JOB_ID,
                         'data': data})
@@ -129,7 +129,7 @@ def test_do_job_docket_endpoint_call():
 
 def test_do_job_download_endpoint_call():
     with requests_mock.Mocker() as mock:
-        mock.get('http://capstone.cs.moravian.edu/get_job',
+        mock.get('http://capstone.cs.moravian.edu:5000/get_job',
                  json={'job_type': 'download', 'job_id': JOB_ID,
                        'folder_name': 'NBA/NBA-ABC/NBA-ABC-123/',
                        'file_name': 'NBA-ABC-123',
@@ -146,7 +146,7 @@ def test_do_job_download_endpoint_call():
             'data': {"agencyAcronym": 'NBA',
                      'fileContent': 'some data'}
         }
-        mock.post('http://capstone.cs.moravian.edu/return_result',
+        mock.post('http://capstone.cs.moravian.edu:5000/return_result',
                   json={'client_id': CLIENT_ID,
                         'job_id': JOB_ID,
                         'data': data})
@@ -162,7 +162,7 @@ def test_do_job_download_endpoint_call():
 
 def test_do_job_none_job():
     with requests_mock.Mocker() as mock:
-        mock.get('http://capstone.cs.moravian.edu/get_job',
+        mock.get('http://capstone.cs.moravian.edu:5000/get_job',
                  json={'job_type': 'none', 'job_id': JOB_ID,
                        })
         do_job(API_KEY)
@@ -174,7 +174,7 @@ def test_do_job_none_job():
 
 def test_no_connection_made_to_server():
     with requests_mock.Mocker() as mock:
-        mock.get('http://capstone.cs.moravian.edu/get_job',
+        mock.get('http://capstone.cs.moravian.edu:5000/get_job',
                  exc=True)
 
         with pytest.raises(NoConnectionError):
