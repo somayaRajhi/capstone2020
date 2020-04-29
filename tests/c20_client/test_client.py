@@ -188,7 +188,7 @@ def test_no_connection_made_to_server():
         with pytest.raises(NoConnectionError):
             do_job(API_KEY)
             result = handling_erorr('http://capstone.cs.moravian.edu/get_job'
-                                    , massage_report=":received 503: Service Unavailable")
+                                    , message_report=":received 503: Service Unavailable")
             mock.post('http://capstone.cs.moravian.edu/report_failure',
                       json={'client_id': CLIENT_ID,
                             'job_id': JOB_ID,
