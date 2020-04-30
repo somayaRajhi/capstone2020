@@ -208,22 +208,19 @@ File: document.json
 
 * Downloads
   * Returns basic data concerning a download
-  * Placed as a json file in the DocumentID folder
-  * `<file_data>` is the actual binary data of the file
+  * The file is placed as a json file in the DocumentID folder
   * Note: `file_name` are retrieved from regulations.gov, not always the document_id 
+  * The file is sent in parallel with the json data, but separate from the JSON data
 
  
 ```
 {
   'client_id': 'client1',
   'job_id': 'job1',
-  'data': 
+  'data': [
     {
       'folder_name': 'CMS/CMS-2005-0001/CMS-2005-0001-0001/',
-      'file_name': 'test_file',
-      'file_type': 'pdf,
-      'data': {
-        <file_data>
-      }
+      'file_name': 'test_file.pdf'
     }
+  ]
 }
