@@ -55,7 +55,7 @@ def post_job(results):
     LOGGER.info("Job has successfully been posted!")
 
 
-def handling_erorr(url,  message_report=None):
+def handling_erorr(url, message_report=None):
     message_report = []
     result = requests.get(url)
     if result.status_code == 400:
