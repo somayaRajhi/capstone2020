@@ -227,7 +227,7 @@ File: document.json
 ```
 ##Client report failure
 
-a POST request is invoked by the client to the server. It returns a JSON file with information like client_id, job_id, and Message to return failure endpoint in the server. The client can return a failure do to many reasons such as:
+a POST request is invoked by the client to the server. It returns a JSON file with information like client_id, job_id, and Message to return failure endpoint in the server. The client can return a failure due to many reasons such as:
 * 400: Bad request
 * 401: Unauthorized
 * 404: Not found
@@ -240,13 +240,13 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 * `client_id`: A unique identifier of the client returning the result.
 * `job_id`: ID of the current job object.
 
-* `Massage`: a string list contains the URL of failure job and the description of the error.
+* `Message`: a string list contains the URL of failure job and the description of the error.
 
 
 ## Examples for failure jobs
 ### Docket:
 
-1- bad docketID:
+* bad docketID:
 
  docketID="EPA-HQ-OAR-2011-0028-0000"
 
@@ -262,7 +262,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 
-2-wrong docketID pattern:
+* wrong docketID pattern:
 
  docketID=ASD-EPA-HQ-OAR-2011-0028-DDD
 
@@ -277,7 +277,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
       :received 400:Bad request'
     }
 ```
-3- bad api kay :
+* bad api kay :
 
 ```
     {
@@ -292,7 +292,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 ### Document:
 
-1- bad documentID:
+* bad documentID:
  documentID="EPA-HQ-OAR-2011-0028-0108-0000"
 
 ```
@@ -306,7 +306,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     :received 404:Not Found'
     }
 ```
-2- Overused api key:
+* Overused api key:
 
 ```
     {
@@ -320,7 +320,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 
 ### Documents:
-1- Bad URL:
+* Bad URL:
 
 ```
     {
@@ -331,7 +331,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 
-2- No api key:
+* No api key:
 
 ```
     {
@@ -342,7 +342,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
     }
 ```
 
-3-Overused api key:
+* Overused api key:
 
 ```
     {
@@ -355,27 +355,15 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 ### Errors connections:
 
-######1-  500 Internal Server Error:
-It occurs when the client try connect to the server but the srever cannot process the request for an unknown reason.
-
-
-```
-    {
-      'client_id': 'client14',
-      'job_id': 'job33',
-      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
-    :received 500:Internal Server Error'
-    }
-```
-
-######2-  503 Service Unavailable:
+###### 1-  503 Service Unavailable:
+ * 503 Service Unavailable:
 It occurs when the client try to connect to the server but the server is overloaded or under maintenance.
 
 ```
     {
       'client_id': 'client14',
       'job_id': 'job33',
-      'Message':''URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
-    :received 500:Internal Server Error'
+      'Message':'URL:https://api.data.gov:443/regulations/v3/documents.json?api_key=VALID KEY"&po=1000&crd=11/06/13 - 03/06/14'
+               :received 503: Service Unavailable'
     }
 ```
