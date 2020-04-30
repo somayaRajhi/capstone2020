@@ -2,6 +2,7 @@ flask
 pylint
 pytest
 pytest-cov
+pytest-mock
 python-dotenv
 requests
 requests-mock

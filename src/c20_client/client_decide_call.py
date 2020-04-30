@@ -21,29 +21,13 @@ def handle_specific_job(job, api_key):
     job_type = job['job_type']
 
     if job_type == 'documents':
-        data = get_documents(
-            api_key,
-            job["page_offset"],
-            job["start_date"],
-            job["end_date"])
-        LOGGER.info("Packaging documents data")
-        results = package_documents(data, CLIENT_ID, job_id)
+        results = find_documents_data(api_key, job, job_id)
 
     elif job_type == 'document':
-        data = download_document(
-            api_key,
-            job['document_id']
-        )
-        LOGGER.info("Packaging document data")
-        results = package_document(data, CLIENT_ID, job_id)
+        results = find_document_data(api_key, job, job_id)
 
     elif job_type == 'docket':
-        data = get_docket(
-            api_key,
-            job['docket_id']
-        )
-        LOGGER.info("Packaging docket data")
-        results = package_docket(data, CLIENT_ID, job_id)
+        results = find_docket_data(api_key, job, job_id)
 
     elif job_type == 'download':
         results = find_download_data(api_key, job, job_id)
@@ -51,6 +35,40 @@ def handle_specific_job(job, api_key):
     elif job_type == 'none':
         return None
 
+    return results
+
+
+def find_documents_data(api_key, job, job_id):
+    print("Getting documents from regulations.gov...\n")
+    data = get_documents(
+        api_key,
+        job["page_offset"],
+        job["start_date"],
+        job["end_date"])
+    LOGGER.info("Job#%s: Packaging documents...", str(job_id))
+    results = package_documents(data, CLIENT_ID, job_id)
+    return results
+
+
+def find_document_data(api_key, job, job_id):
+    print("Getting document from regulations.gov...\n")
+    data = download_document(
+        api_key,
+        job['document_id']
+    )
+    LOGGER.info("Job#%s: Packaging document...", str(job_id))
+    results = package_document(data, CLIENT_ID, job_id)
+    return results
+
+
+def find_docket_data(api_key, job, job_id):
+    print("Getting docket from regulations.gov...\n")
+    data = get_docket(
+        api_key,
+        job['docket_id']
+    )
+    LOGGER.info("Job#%s: Packaging docket..", str(job_id))
+    results = package_docket(data, CLIENT_ID, job_id)
     return results
 
 
@@ -65,36 +83,6 @@ def find_download_data(api_key, job, job_id):
                  'file_type': job['file_type'],
                  'data': data.text
                  }
+    LOGGER.info("Job#%s: Packaging downloads..", str(job_id))
     results = package_downloads(data_json, CLIENT_ID, job_id)
-    return results
-
-
-def find_docket_data(api_key, job, job_id):
-    print("Getting docket from regulations.gov...\n")
-    data = get_docket(
-        api_key,
-        job['docket_id']
-    )
-    results = package_docket(data, CLIENT_ID, job_id)
-    return results
-
-
-def find_document_data(api_key, job, job_id):
-    print("Getting document from regulations.gov...\n")
-    data = download_document(
-        api_key,
-        job['document_id']
-    )
-    results = package_document(data, CLIENT_ID, job_id)
-    return results
-
-
-def find_documents_data(api_key, job, job_id):
-    print("Getting documents from regulations.gov...\n")
-    data = get_documents(
-        api_key,
-        job["page_offset"],
-        job["start_date"],
-        job["end_date"])
-    results = package_documents(data, CLIENT_ID, job_id)
     return results

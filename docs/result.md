@@ -208,24 +208,21 @@ File: document.json
 
 * Downloads
   * Returns basic data concerning a download
-  * Placed as a json file in the DocumentID folder
-  * `<file_data>` is the actual binary data of the file
+  * The file is placed as a json file in the DocumentID folder
   * Note: `file_name` are retrieved from regulations.gov, not always the document_id
+  * The file is sent in parallel with the json data, but separate from the JSON data
 
 
 ```
 {
   'client_id': 'client1',
   'job_id': 'job1',
-  'data':
+  'data': [
     {
       'folder_name': 'CMS/CMS-2005-0001/CMS-2005-0001-0001/',
-      'file_name': 'test_file',
-      'file_type': 'pdf,
-      'data': {
-        <file_data>
-      }
+      'file_name': 'test_file.pdf'
     }
+  ]
 }
 ```
 ##Client report failure
@@ -358,7 +355,7 @@ a POST request is invoked by the client to the server. It returns a JSON file wi
 
 ### Errors connections:
 
-######1-  500 Internal Server Error: 
+######1-  500 Internal Server Error:
 It occurs when the client try connect to the server but the srever cannot process the request for an unknown reason.
 
 
@@ -382,4 +379,3 @@ It occurs when the client try to connect to the server but the server is overloa
     :received 500:Internal Server Error'
     }
 ```
-
