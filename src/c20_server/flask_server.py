@@ -1,17 +1,29 @@
 import json
-import redis
+import sys
 from flask import Flask, request
 from c20_server.user import User
 from c20_server.job import DocumentsJob
 from c20_server.job_manager import JobManager
 from c20_server.job_translator import job_to_json, handle_jobs
+from c20_server.data_extractor import DataExtractor
+from c20_server.data_repository import DataRepository
+from c20_server.database import Database
+from c20_server.user_manager import UserManager
 
 
-def create_app(job_manager):
+def create_app(job_manager, data_repository, database):
     app = Flask(__name__)
 
     # Note: endpoint names begin with an "_" so that Pylint does not complain
     # about unused functions.
+
+    @app.route('/get_user_id')
+    def _get_client_id():
+        user_manager = UserManager(database)
+        user_id = user_manager.get_new_user_id()
+        print('Server: Sending user_id: ' + user_id)
+        user_id_json = {'user_id': user_id}
+        return user_id_json
 
     @app.route('/get_job')
     def _get_job():
@@ -29,13 +41,9 @@ def create_app(job_manager):
         if client_data is None:
             return {}, 400
 
-        json_data = json.dumps(client_data)
-        job_list = handle_jobs(json_data)
-        print()
-        for job in job_list:
-            job_manager.add_job(job)
-            print('Adding Job To Job Manager...')
-            print(job, '\n')
+        update_job_manager(job_manager, client_data)
+        save_data(data_repository, client_data['data'])
+
         return {}, 200
 
     @app.route('/report_failure', methods=['POST'])
@@ -45,15 +53,42 @@ def create_app(job_manager):
         user = User(user_id)
         job_manager.report_failure(user)
         return {}, 200
+
     return app
 
 
+def update_job_manager(job_manager, client_data):
+    json_data = json.dumps(client_data)
+    job_list = handle_jobs(json_data)
+    print()
+    for job in job_list:
+        job_manager.add_job(job)
+        print('Adding Job To Job Manager...')
+        print(job, '\n')
+
+
+def save_data(data_repository, list_of_data_dicts):
+    data_items = DataExtractor.extract(list_of_data_dicts)
+    for data_item in data_items:
+        data_repository.save_data(data_item.folder_name,
+                                  data_item.file_name, data_item.contents)
+
+
+def redis_connect():
+    database = Database()
+    if not database.connect():
+        sys.exit()
+    return database.r_database
+
+
+def launch():
+    database = redis_connect()
+    job_manager = JobManager(database)
+    job_manager.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
+    data_repository = DataRepository(base_path='data')
+    app = create_app(job_manager, data_repository, database)
+    app.run(host='0.0.0.0')
+
+
 if __name__ == '__main__':
-    try:
-        redis.Redis().ping()
-        JOB_MANAGER = JobManager(redis.Redis())
-        JOB_MANAGER.add_job(DocumentsJob('1', 0, '12/28/19', '1/23/20'))
-        APP = create_app(JOB_MANAGER)
-        APP.run(host='0.0.0.0')
-    except redis.exceptions.ConnectionError:
-        print('Redis-server is not running!')
+    launch()
